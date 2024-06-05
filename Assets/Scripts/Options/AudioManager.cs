@@ -28,17 +28,6 @@ public class AudioManager : MonoBehaviour
     {
         PlayMusic("Theme");
     }
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            PlaySFX("MouseButtonDown");
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            PlaySFX("MouseButtonUp");
-        }
-    }
     public void PlayMusic(string name)
     {
         Sound sound = Array.Find(musicSounds, x=> x.name == name);
