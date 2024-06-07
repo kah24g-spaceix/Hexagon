@@ -21,6 +21,6 @@ public class SoundUIController : MonoBehaviour
     }
     public void SFXVolume()
     {
-        AudioManager.Instance.MusicVolume(_sfxSlider.value);
+        AudioManager.Instance.SFXVolume(_sfxSlider.value);
     }
 }
