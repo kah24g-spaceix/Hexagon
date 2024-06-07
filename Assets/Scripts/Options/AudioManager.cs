@@ -7,16 +7,16 @@ using UnityEngine;
 [System.Serializable]
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager Instance;
 
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -55,5 +55,22 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(sound.clip);
         }
+    }
+    public void ToggleMusic()
+    {
+        musicSource.mute = !musicSource.mute;
+
+    }
+    public void ToggleSFX()
+    {
+        sfxSource.mute = !sfxSource.mute;
+    }
+    public void MusicVolume(float volume)
+    {
+        musicSource.volume = volume;
+    }
+    public void SFXVolume(float volume)
+    {
+        sfxSource.volume = volume;
     }
 }
