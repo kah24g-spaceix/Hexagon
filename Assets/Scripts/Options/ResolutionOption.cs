@@ -27,16 +27,19 @@ public class ResolutionOption : MonoBehaviour
 
     void Start()
     {
-#if !UNITY_EDITOR
-            Invoke("SetResolution", 0.1f);
-#endif
+        resolutionDropdown.onValueChanged.AddListener(DropboxOptionChange);
+        fullScreenToggle.onValueChanged.AddListener(FullScreenButton);
+        Invoke("SetResolution", 0.1f);
+        /*#if !UNITY_EDITOR
+                    Invoke("SetResolution", 0.1f);
+        #endif*/
     }
 
     void SetResolution()
     {
         resolutionDropdown.ClearOptions();
         resolutions.AddRange(Screen.resolutions);
-        
+
         resolutions.Reverse();
 
         // only 16:9
@@ -53,9 +56,9 @@ public class ResolutionOption : MonoBehaviour
             int currentHeight = resolutions[0].height;
 
             tempResolutions.Add(resolutions[0]);
-            foreach (Resolution resolution in resolutions) 
+            foreach (Resolution resolution in resolutions)
             {
-                if(currentWidth != resolution.width || currentHeight != resolution.height)
+                if (currentWidth != resolution.width || currentHeight != resolution.height)
                 {
                     tempResolutions.Add(resolution);
                     currentWidth = resolution.width;

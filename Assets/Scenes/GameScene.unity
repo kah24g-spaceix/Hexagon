@@ -1526,6 +1526,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4606aa75abe86439904decdc301690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _musicButton: {fileID: 993482001}
+  _sfxButton: {fileID: 1252273566}
   _musicSlider: {fileID: 879060398}
   _sfxSlider: {fileID: 1520002271}
 --- !u!1 &829021659

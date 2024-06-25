@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,8 +7,10 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    public Sound[] musicSounds, sfxSounds;
-    public AudioSource musicSource, sfxSource;
+    public Sound[]
+        musicSounds, sfxSounds;
+    public AudioSource
+        musicSource, sfxSource;
 
     private void Awake()
     {
@@ -30,9 +30,9 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMusic(string name)
     {
-        Sound sound = Array.Find(musicSounds, x=> x.name == name);
+        Sound sound = Array.Find(musicSounds, x => x.name == name);
 
-        if(sound == null) 
+        if (sound == null)
         {
             Debug.Log("Sound Not Found");
         }
