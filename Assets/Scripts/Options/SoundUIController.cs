@@ -12,6 +12,9 @@ public class SoundUIController : MonoBehaviour
     {
         _musicButton.onClick.AddListener(ToggleMusic);
         _sfxButton.onClick.AddListener(ToggleSFX);
+
+        _musicSlider.onValueChanged.AddListener(MusicVolume);
+        _sfxSlider.onValueChanged.AddListener(SFXVolume);
     }
     public void ToggleMusic()
     {
@@ -21,12 +24,12 @@ public class SoundUIController : MonoBehaviour
     {
         AudioManager.Instance.ToggleSFX();
     }
-    public void MusicVolume()
+    public void MusicVolume(float volume)
     {
-        AudioManager.Instance.MusicVolume(_musicSlider.value);
+        AudioManager.Instance.MusicVolume(volume);
     }
-    public void SFXVolume()
+    public void SFXVolume(float volume)
     {
-        AudioManager.Instance.SFXVolume(_sfxSlider.value);
+        AudioManager.Instance.SFXVolume(volume);
     }
 }

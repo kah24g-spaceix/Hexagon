@@ -507,19 +507,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985254}
-        m_TargetAssemblyTypeName: ResolutionOption, Assembly-CSharp
-        m_MethodName: set_ResolutionIndex
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &381990374
 MonoBehaviour:
@@ -643,19 +631,7 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985254}
-        m_TargetAssemblyTypeName: ResolutionOption, Assembly-CSharp
-        m_MethodName: FullScreenButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_IsOn: 1
 --- !u!1 &416151301
 GameObject:
@@ -1408,6 +1384,7 @@ GameObject:
   - component: {fileID: 780985250}
   - component: {fileID: 780985254}
   - component: {fileID: 780985255}
+  - component: {fileID: 780985256}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1530,6 +1507,19 @@ MonoBehaviour:
   _sfxButton: {fileID: 1252273566}
   _musicSlider: {fileID: 879060398}
   _sfxSlider: {fileID: 1520002271}
+--- !u!114 &780985256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780985249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea35a77c93c004d41bdfeaf27ca20ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  okButton: {fileID: 1883886920}
 --- !u!1 &829021659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,19 +1684,7 @@ MonoBehaviour:
   m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985255}
-        m_TargetAssemblyTypeName: SoundUIController, Assembly-CSharp
-        m_MethodName: MusicVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &917024098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1983,19 +1961,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 993482002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985255}
-        m_TargetAssemblyTypeName: SoundUIController, Assembly-CSharp
-        m_MethodName: ToggleMusic
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &993482002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2301,19 +2267,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1252273567}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985255}
-        m_TargetAssemblyTypeName: SoundUIController, Assembly-CSharp
-        m_MethodName: ToggleSFX
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1252273567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2716,19 +2670,7 @@ MonoBehaviour:
   m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985255}
-        m_TargetAssemblyTypeName: SoundUIController, Assembly-CSharp
-        m_MethodName: SFXVolume
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1538104824
 GameObject:
   m_ObjectHideFlags: 0
@@ -3311,19 +3253,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1883886921}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 780985254}
-        m_TargetAssemblyTypeName: ResolutionOption, Assembly-CSharp
-        m_MethodName: OkButtonClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1883886921
 MonoBehaviour:
   m_ObjectHideFlags: 0
