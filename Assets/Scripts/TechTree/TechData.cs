@@ -3,19 +3,30 @@ using System.Collections.Generic;
 
 public class TechDataLine
 {
-    public int TechCaps { get; }
-    public int TechCost { get; }
-    public string TechNames { get; }
-    public string TechDescriptions { get; }
 
-    public TechDataLine(int pTechCaps, int pTechCost, string pTechNames, string pTechDescriptions)
+    public int TechCap { get; }
+    public int TechCost { get; }
+    public int CommunityOpinion { get; }
+    public int[] TechList { get; }
+    public string TechName { get; }
+    public string TechDescription { get; }
+
+
+    public TechDataLine(int pTechCaps, int pTechCost, int pCommunityOpinion, int[] pTechList)
     {
-        TechCaps = pTechCaps;
+        TechCap = pTechCaps;
         TechCost = pTechCost;
-        TechNames = pTechNames;
-        TechDescriptions = pTechDescriptions;
+        CommunityOpinion = pCommunityOpinion;
+        TechList = pTechList;
+    }
+
+    public TechDataLine(string pTechNames, string pTechDescriptions)
+    {
+        TechName = pTechNames;
+        TechDescription = pTechDescriptions;
     }
 }
+
 public class TechData : IEnumerable<TechDataLine>
 {
     public TechDataLine[] TechDataLines { get; }

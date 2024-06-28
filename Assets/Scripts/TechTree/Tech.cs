@@ -2,10 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static TechTree;
-public class Tech : MonoBehaviour
+
+public class Tech : MonoBehaviour, IView<TechModel>
 {
     public int id;
-
+    private CanvasGroup m_canvasGroup;
     public TMP_Text LevelText;
     public TMP_Text TitleText;
     public TMP_Text DescriptionText;
@@ -14,21 +15,22 @@ public class Tech : MonoBehaviour
     public int[] ConnectedTechs;
     private void Awake()
     {
+        m_canvasGroup = GetComponent<CanvasGroup>();
         GetComponent<Button>().onClick.AddListener(Buy);
     }
-    public void UpdateUI()
+    public void Bind(TechModel pModel)
     {
         LevelText.text
-            = $"{techTree.TechLevels[id]}/{techTree.TechCaps[id]}";
+    = $"{pModel.TechLevels[id]}/{pModel.TechCaps}";
         TitleText.text
-            = $"{techTree.TechNames[id]}";
+            = $"{pModel.TechName}";
         DescriptionText.text
-            = $"{techTree.TechDescriptions[id]}";
+            = $"{pModel.TechDescription}";
         CostText.text
             = $"Cost: {techTree.TechPoint}/1 TP";
 
         Image sprite = GetComponent<Image>();
-        if (techTree.TechLevels[id] >= techTree.TechCaps[id])
+        if (pModel.TechLevels[id] >= pModel.TechCaps)
         {
             CostText.gameObject.SetActive(false);
             sprite.color = Color.white;
@@ -45,16 +47,16 @@ public class Tech : MonoBehaviour
         foreach (int connectedTech in ConnectedTechs)
         {
             techTree.TechList[connectedTech]
-                .gameObject.SetActive(techTree.TechLevels[id] > 0);
+                .gameObject.SetActive(pModel.TechLevels[id] > 0);
         }
     }
     public void Buy()
     {
         if (techTree.TechPoint < 1 ||
-            techTree.TechLevels[id] >= techTree.TechCaps[id])
+            techTree.m_techModel.TechLevels[id] >= techTree.m_techModel.TechCaps)
             return;
         techTree.TechPoint -= 1;
-        techTree.TechLevels[id]++;
-        techTree.UpdateAllTechUI();
+        techTree.m_techModel.TechLevels[id]++;
+        techTree.UpdateAllTechUI(techTree.m_techModel);
     }
 }

@@ -10,16 +10,11 @@ public class TechTree : MonoBehaviour
     public static TechTree techTree;
     private void Awake() => techTree = this;
 
-    public List<int> TechLevels;
-    public int[] TechCaps;
-    public string[] TechNames;
-    public string[] TechDescriptions;
-    public int[] TechCost;
-
     public GameObject TechPrefab;
     public List<Tech> TechList;
     public GameObject TechHolder;
 
+    public TechModel m_techModel;
 /*    public List<GameObject> ConnectorList;
     public GameObject ConnectorHolder;*/
     public int TechPoint = 20;
@@ -53,11 +48,10 @@ public class TechTree : MonoBehaviour
         TechList[2].ConnectedTechs = new[] { 4, 5 };
 
 
-        UpdateAllTechUI();
+        UpdateAllTechUI(m_techModel);
     }
-
-    public void UpdateAllTechUI()
+    public void UpdateAllTechUI(TechModel pModel)
     {
-        foreach (Tech tech in TechList) tech.UpdateUI();
+        foreach (Tech tech in TechList) tech.Bind(pModel);
     }
 }

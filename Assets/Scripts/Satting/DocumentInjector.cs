@@ -5,20 +5,23 @@ using UnityEngine;
 
 public class DocumentInjector : MonoBehaviour
 {
-    [SerializeField] private TextAsset m_textAsset;
+    [SerializeField] private TextAsset m_techDataTextAsset;
+    [SerializeField] private TextAsset m_techInformationTextAsset;
     [SerializeField] private String m_parserName;
-    private TechTree m_techTree;
+    private TechTreeController m_controller;
 
     private void Awake()
     {
-        m_techTree = GetComponent<TechTree>();
+        m_controller = GetComponent<TechTreeController>();
     }
     private void Start()
     {
         Type parserType = Type.GetType(m_parserName);
+
         if (typeof(IDocumentParser<TechData>).IsAssignableFrom(parserType))
         {
             var parser = (IDocumentParser<TechData>)Activator.CreateInstance(parserType);
+
             BindParser(parser);
         }
         else
@@ -28,7 +31,10 @@ public class DocumentInjector : MonoBehaviour
     }
     public void BindParser(IDocumentParser<TechData> pDocumentParser)
     {
-        TechData data = pDocumentParser.Parse(m_textAsset.text);
-        m_techTree.ShowDialog(data);
+        TechData data;
+        data = pDocumentParser.Parse(m_techDataTextAsset.text);
+        data = pDocumentParser.Parse(m_techInformationTextAsset.text);
+        m_controller.ShowTech(data);
+
     }
 }
