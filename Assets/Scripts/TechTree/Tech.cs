@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +28,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
         DescriptionText.text
             = $"{pModel.TechDescription}";
         CostText.text
-            = $"Cost: {techTree.TechPoint}/1 TP";
+            = $"Cost: {techTree.TechPoint}/{pModel.TechCost} TP";
 
         Image sprite = GetComponent<Image>();
         if (pModel.TechLevels[id] >= pModel.TechCaps)
@@ -35,7 +36,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
             CostText.gameObject.SetActive(false);
             sprite.color = Color.white;
         }
-        else if (techTree.TechPoint >= 1)
+        else if (techTree.TechPoint >= pModel.TechCost)
         {
             sprite.color = Color.yellow;
         }
@@ -46,16 +47,14 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
         foreach (int connectedTech in ConnectedTechs)
         {
-            techTree.TechList[connectedTech]
-                .gameObject.SetActive(pModel.TechLevels[id] > 0);
+            techTree.TechList[connectedTech].gameObject.SetActive(pModel.TechLevels[id] > 0);
         }
     }
     public void Buy()
     {
-        if (techTree.TechPoint < 1 ||
-            techTree.m_techModel.TechLevels[id] >= techTree.m_techModel.TechCaps)
+        if (techTree.TechPoint < techTree.m_techModel.TechCost || techTree.m_techModel.TechLevels[id] >= techTree.m_techModel.TechCaps)
             return;
-        techTree.TechPoint -= 1;
+            techTree.TechPoint -= techTree.m_techModel.TechCost;
         techTree.m_techModel.TechLevels[id]++;
         techTree.UpdateAllTechUI(techTree.m_techModel);
     }

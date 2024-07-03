@@ -1,8 +1,8 @@
 [
     {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1}
+    {"TechCap":2,"TechCost":2,"CommunityOpinion":2},
+    {"TechCap":4,"TechCost":4,"CommunityOpinion":4},
+    {"TechCap":9,"TechCost":9,"CommunityOpinion":-6},
+    {"TechCap":10,"TechCost":10,"CommunityOpinion":10},
+    {"TechCap":3,"TechCost":5,"CommunityOpinion":-1}
 ]

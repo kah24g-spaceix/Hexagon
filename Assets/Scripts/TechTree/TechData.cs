@@ -7,23 +7,24 @@ public class TechDataLine
     public int TechCap { get; }
     public int TechCost { get; }
     public int CommunityOpinion { get; }
-    public int[] TechList { get; }
+
     public string TechName { get; }
     public string TechDescription { get; }
+    public int[] TechOpen { get; }
 
-
-    public TechDataLine(int pTechCaps, int pTechCost, int pCommunityOpinion, int[] pTechList)
+    public TechDataLine(int pTechCaps, int pTechCost, int pCommunityOpinion)
     {
         TechCap = pTechCaps;
         TechCost = pTechCost;
         CommunityOpinion = pCommunityOpinion;
-        TechList = pTechList;
+        
     }
 
-    public TechDataLine(string pTechNames, string pTechDescriptions)
+    public TechDataLine(string pTechNames, string pTechDescriptions, int[] pTechOpen)
     {
         TechName = pTechNames;
         TechDescription = pTechDescriptions;
+        TechOpen = pTechOpen;
     }
 }
 

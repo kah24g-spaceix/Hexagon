@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TechTree;
 
 [RequireComponent(typeof(IView<TechModel>))]
 public class TechTreeController : MonoBehaviour
 {
     private IView<TechModel> m_view;
     private Coroutine m_routine;
+    
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class TechTreeController : MonoBehaviour
             List<int> levels = new List<int>();
             for (int j = pStartIndex; j < pData.Length; j++)
             {
+                Instantiate(techTree.TechPrefab);
                 levels.Add(0);
             }
 
@@ -35,12 +38,13 @@ public class TechTreeController : MonoBehaviour
                 line.TechCap, 
                 line.TechCost, 
                 line.CommunityOpinion,
-                line.TechList,
+                line.TechOpen,
                 line.TechName, 
                 line.TechDescription
                 ));
             
         }
+        techTree.TechTreeStart();
         yield break;
     }
 }

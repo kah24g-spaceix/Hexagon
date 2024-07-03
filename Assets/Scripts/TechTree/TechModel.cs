@@ -8,16 +8,16 @@ public struct TechModel
     public int TechCaps { get; }
     public int TechCost { get; }
     public int CommunityOpinion { get; }
-    public int[] TechList { get; }
+    public int[] TechOpen { get; }
     public string TechName { get; }
     public string TechDescription { get; }
 
-    public TechModel(int[] pTechLevels, int pTechCaps, int pTechCost, int pCommunityOpinion, int[] pTechList, string pTechName, string pTechDescription)
+    public TechModel(int[] pTechLevels, int pTechCaps, int pTechCost, int pCommunityOpinion, int[] pTechOpen, string pTechName, string pTechDescription)
     {
         TechLevels = pTechLevels;
         TechCaps = pTechCaps;
         TechCost = pTechCost;
-        TechList = pTechList;
+        TechOpen = pTechOpen;
         CommunityOpinion = pCommunityOpinion;
         TechName = pTechName;
         TechDescription = pTechDescription;
