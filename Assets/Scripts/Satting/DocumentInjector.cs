@@ -6,35 +6,62 @@ using UnityEngine;
 public class DocumentInjector : MonoBehaviour
 {
     [SerializeField] private TextAsset m_techDataTextAsset;
-    [SerializeField] private TextAsset m_techInformationTextAsset;
-    [SerializeField] private String m_parserName;
+    [SerializeField] private string m_parserName;
     private TechTreeController m_controller;
 
     private void Awake()
     {
         m_controller = GetComponent<TechTreeController>();
     }
+
     private void Start()
     {
         Type parserType = Type.GetType(m_parserName);
+        if (parserType == null)
+        {
+            Debug.LogError($"Parser type {m_parserName} not found.");
+            return;
+        }
 
         if (typeof(IDocumentParser<TechData>).IsAssignableFrom(parserType))
         {
             var parser = (IDocumentParser<TechData>)Activator.CreateInstance(parserType);
-
+            if (parser == null)
+            {
+                Debug.LogError("Failed to create an instance of the parser.");
+                return;
+            }
             BindParser(parser);
         }
         else
         {
-            Debug.LogError($"could not find parser : found [{parserType}] from [{m_parserName}], but not assignable");
+            Debug.LogError($"Type {parserType} is not assignable to IDocumentParser<TechData>.");
         }
     }
+
     public void BindParser(IDocumentParser<TechData> pDocumentParser)
     {
-        TechData data;
-        data = pDocumentParser.Parse(m_techDataTextAsset.text);
-        data = pDocumentParser.Parse(m_techInformationTextAsset.text);
-        m_controller.ShowTech(data);
+        if (m_techDataTextAsset == null)
+        {
+            Debug.LogError("Text asset for tech data is not assigned.");
+            return;
+        }
 
+        TechData data = pDocumentParser.Parse(m_techDataTextAsset.text);
+        if (data == null)
+        {
+            Debug.LogError("Parsed data is null.");
+            return;
+        }
+
+        if (data.TechDataLines == null)
+        {
+            Debug.LogError("Parsed TechDataLines is null.");
+            return;
+        }
+
+        Debug.Log("Parsed data successfully.");
+        TechTree.techTree.InitializeTechModel(data);
+        m_controller.ShowTech(data);
     }
 }

@@ -90,6 +90,7 @@ public class ResolutionOption : MonoBehaviour
     }
     public void FullScreenButton(bool isFull)
     {
+        fullScreenToggle.isOn = isFull;
         screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
     public void OkButtonClick()

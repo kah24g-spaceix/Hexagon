@@ -1,14 +1,27 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 public class TechDataParser : IDocumentParser<TechData>
 {
-    /// <summary>
-    /// 타 클래스에서 데이터 Parse가 호출되면 이 함수가 호출된다.
-    /// </summary>
-    public TechData Parse(String data)
+    public TechData Parse(string data)
     {
-        TechDataLine[] lines = null;
-        lines = JsonConvert.DeserializeObject<TechDataLine[]>(data);
-        return new TechData(lines);
+        try
+        {
+            TechDataLine[] lines = JsonConvert.DeserializeObject<TechDataLine[]>(data);
+            if (lines == null)
+            {
+                Debug.LogError("Deserialized lines are null.");
+                return null;
+            }
+            return new TechData(lines);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Failed to parse data: {ex.Message}");
+            return null;
+        }
     }
+
+    // 두 번째 메서드는 필요 없으므로 제거합니다.
 }

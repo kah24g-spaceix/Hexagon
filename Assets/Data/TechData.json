@@ -1,8 +1,82 @@
 [
-    {"TechCap":1,"TechCost":1,"CommunityOpinion":1},
-    {"TechCap":2,"TechCost":2,"CommunityOpinion":2},
-    {"TechCap":4,"TechCost":4,"CommunityOpinion":4},
-    {"TechCap":9,"TechCost":9,"CommunityOpinion":-6},
-    {"TechCap":10,"TechCost":10,"CommunityOpinion":10},
-    {"TechCap":3,"TechCost":5,"CommunityOpinion":-1}
+    {
+        "TechCap": 5,
+        "TechCost": 10,
+        "CommunityOpinion": 3,
+        "TechName": "Basic Research",
+        "TechDescription": "Basic research increases knowledge.",
+        "TechOpen": ["1", "2"]
+    },
+    {
+        "TechCap": 3,
+        "TechCost": 15,
+        "CommunityOpinion": 2,
+        "TechName": "Advanced Research",
+        "TechDescription": "Advanced research allows more complex studies.",
+        "TechOpen": ["3", "4"]
+    },
+    {
+        "TechCap": 7,
+        "TechCost": 20,
+        "CommunityOpinion": 4,
+        "TechName": "Quantum Computing",
+        "TechDescription": "Quantum computing opens new possibilities.",
+        "TechOpen": ["5"]
+    },
+    {
+        "TechCap": 4,
+        "TechCost": 25,
+        "CommunityOpinion": 5,
+        "TechName": "Artificial Intelligence",
+        "TechDescription": "Artificial intelligence automates complex tasks.",
+        "TechOpen": ["6"]
+    },
+    {
+        "TechCap": 6,
+        "TechCost": 12,
+        "CommunityOpinion": 3,
+        "TechName": "Machine Learning",
+        "TechDescription": "Machine learning enhances pattern recognition.",
+        "TechOpen": ["7"]
+    },
+    {
+        "TechCap": 8,
+        "TechCost": 18,
+        "CommunityOpinion": 4,
+        "TechName": "Data Analysis",
+        "TechDescription": "Data analysis improves decision making.",
+        "TechOpen": ["8"]
+    },
+    {
+        "TechCap": 7,
+        "TechCost": 22,
+        "CommunityOpinion": 5,
+        "TechName": "Cybersecurity",
+        "TechDescription": "Cybersecurity protects digital assets.",
+        "TechOpen": ["9"]
+    },
+    {
+        "TechCap": 3,
+        "TechCost": 14,
+        "CommunityOpinion": 3,
+        "TechName": "Cloud Computing",
+        "TechDescription": "Cloud computing offers scalable resources.",
+        "TechOpen": ["10"]
+    },
+    {
+        "TechCap": 5,
+        "TechCost": 16,
+        "CommunityOpinion": 4,
+        "TechName": "Robotics",
+        "TechDescription": "Robotics enables automation.",
+        "TechOpen": []
+    },
+    {
+        "TechCap": 6,
+        "TechCost": 20,
+        "CommunityOpinion": 5,
+        "TechName": "Nanotechnology",
+        "TechDescription": "Nanotechnology allows precision engineering.",
+        "TechOpen": []
+    }
 ]

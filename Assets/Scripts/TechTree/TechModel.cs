@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public struct TechModel
+﻿public struct TechModel
 {
     public int[] TechLevels { get; }
     public int TechCaps { get; }
     public int TechCost { get; }
     public int CommunityOpinion { get; }
-    public int[] TechOpen { get; }
     public string TechName { get; }
     public string TechDescription { get; }
+    public int[] TechOpen { get; }
 
-    public TechModel(int[] pTechLevels, int pTechCaps, int pTechCost, int pCommunityOpinion, int[] pTechOpen, string pTechName, string pTechDescription)
+    public TechModel(int[] pTechLevels, int pTechCaps, int pTechCost, int pCommunityOpinion, string pTechName, string pTechDescription, int[] pTechOpen)
     {
-        TechLevels = pTechLevels;
+        TechLevels = pTechLevels ?? new int[0];
         TechCaps = pTechCaps;
         TechCost = pTechCost;
-        TechOpen = pTechOpen;
         CommunityOpinion = pCommunityOpinion;
-        TechName = pTechName;
-        TechDescription = pTechDescription;
+        TechName = pTechName ?? string.Empty;
+        TechDescription = pTechDescription ?? string.Empty;
+        TechOpen = pTechOpen ?? new int[0];
     }
 }
