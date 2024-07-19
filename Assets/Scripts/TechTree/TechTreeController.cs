@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static TechTree;
 
@@ -51,6 +52,24 @@ public class TechTreeController : MonoBehaviour
         float radius = 3f; // 중심으로부터의 거리
         Vector3 center = Vector3.zero; // 중심점
 
+        int[] techLevels = new int[pData.Length];
+        int[] techCaps = pData.Select(t => t.TechCap).ToArray();
+        int[] techCosts = pData.Select(t => t.TechCost).ToArray();
+        int[] communityOpinions = pData.Select(t => t.CommunityOpinion).ToArray();
+        string[] techNames = pData.Select(t => t.TechName).ToArray();
+        string[] techDescriptions = pData.Select(t => t.TechDescription).ToArray();
+        int[][] techOpens = pData.Select(t => t.TechOpen).ToArray(); // 2차원 배열로 변환
+
+        TechModel techModel = new TechModel(
+            techLevels,
+            techCaps,
+            techCosts,
+            communityOpinions,
+            techNames,
+            techDescriptions,
+            techOpens
+        );
+
         for (int i = pStartIndex; i < pData.Length; i++)
         {
             TechDataLine line = pData[i];
@@ -84,24 +103,11 @@ public class TechTreeController : MonoBehaviour
                 yield break;
             }
 
-            List<int> levels = new List<int>();
-            for (int j = pStartIndex; j < pData.Length; j++)
-            {
-                levels.Add(0);
-            }
-
-            techComponent.Bind(new TechModel(
-                levels.ToArray(),
-                line.TechCap,
-                line.TechCost,
-                line.CommunityOpinion,
-                line.TechName,
-                line.TechDescription,
-                line.TechOpen
-            ));
+            techComponent.id = i;
+            techComponent.ConnectedTechs = techModel.TechOpens[i];
+            techComponent.Bind(techModel);
         }
 
         yield break;
     }
-
 }

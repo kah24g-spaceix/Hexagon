@@ -22,6 +22,4 @@ public class TechDataParser : IDocumentParser<TechData>
             return null;
         }
     }
-
-    // 두 번째 메서드는 필요 없으므로 제거합니다.
 }

@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +8,7 @@ public class TechTree : MonoBehaviour
     public GameObject TechHolder;
     public GameObject TechPrefab;
     public List<Tech> TechList = new List<Tech>();
-    public Dictionary<int, Tech> TechDictionary; // id를 키로 사용
+    public Dictionary<int, Tech> TechDictionary = new Dictionary<int, Tech>(); // id를 키로 사용
     private TechModel m_techModel; // private으로 변경
 
     public int TechPoint = 20;
@@ -35,22 +32,22 @@ public class TechTree : MonoBehaviour
 
     public void InitializeTechModel(TechData techData)
     {
-        var techLevels = new int[techData.TechDataLines.Length];
-        var techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
-        var techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
-        var communityOpinions = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
-        var techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
-        var techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
-        var techOpens = techData.TechDataLines.Select(t => t.TechOpen).ToArray();
+        int[] techLevels = new int[techData.TechDataLines.Length];
+        int[] techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
+        int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
+        int[] communityOpinions = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
+        string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
+        string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
+        int[][] techOpens = techData.TechDataLines.Select(t => t.TechOpen).ToArray(); // 2차원 배열로 변환
 
         m_techModel = new TechModel(
             techLevels,
-            techCaps.Max(),
-            techCosts.Max(),
-            communityOpinions.Max(),
-            techNames.First(),
-            techDescriptions.First(),
-            techOpens.First()
+            techCaps,
+            techCosts,
+            communityOpinions,
+            techNames,
+            techDescriptions,
+            techOpens
         );
 
         TechTreeStart();
@@ -63,20 +60,14 @@ public class TechTree : MonoBehaviour
             Debug.LogError("TechHolder is not assigned.");
             return;
         }
-
-        TechDictionary = new Dictionary<int, Tech>();
-        TechList = new List<Tech>();
-
         foreach (Tech tech in TechHolder.GetComponentsInChildren<Tech>())
         {
             TechList.Add(tech);
+            Debug.Log($"AddList");
         }
-        for (int i = 0; i < TechList.Count; i++) TechList[i].id = i;
-        foreach (Tech tech in TechList)
-        {
-            tech.ConnectedTechs = m_techModel.TechOpen;
-        }
+
         UpdateAllTechUI(m_techModel);
+        Debug.Log($"Update");
     }
 
     public void UpdateAllTechUI(TechModel pModel)
