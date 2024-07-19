@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,17 +12,32 @@ public class Tech : MonoBehaviour, IView<TechModel>
     public TMP_Text TitleText;
     public TMP_Text DescriptionText;
     public TMP_Text CostText;
-    public int[] ConnectedTechs; // int 배열로 변경
+    public int[] ConnectedTechs;
     private CanvasGroup m_canvasGroup;
 
     private void Awake()
     {
         m_canvasGroup = GetComponent<CanvasGroup>();
-        GetComponent<Button>().onClick.AddListener(Buy);
+        Button button = GetComponent<Button>();
+        if (button != null)
+        {
+            button.onClick.AddListener(Buy);
+            Debug.Log($"Button listener added to Tech with ID {id}");
+        }
+        else
+        {
+            Debug.LogError("Button component not found on Tech object");
+        }
     }
 
     public void Bind(TechModel pModel)
     {
+        if (id < 0 || id >= pModel.TechLevels.Length)
+        {
+            Debug.LogError($"Tech ID {id} is out of range.");
+            return;
+        }
+
         LevelText.text = $"{pModel.TechLevels[id]}/{pModel.TechCaps[id]}";
         TitleText.text = $"{pModel.TechNames[id]}";
         DescriptionText.text = $"{pModel.TechDescriptions[id]}";
@@ -41,8 +57,21 @@ public class Tech : MonoBehaviour, IView<TechModel>
         {
             sprite.color = Color.red;
         }
-        foreach (int connectedTechs in ConnectedTechs)
-            techTree.TechList[connectedTechs].gameObject.SetActive(pModel.TechLevels[id] > 0);
+        UpdateConnectedTechs(pModel);
+    }
+    private void UpdateConnectedTechs(TechModel pModel)
+    {
+        foreach (int connectedTech in ConnectedTechs)
+        {
+            if (connectedTech >= 0 && connectedTech < techTree.TechList.Count)
+            {
+                techTree.TechList[connectedTech].gameObject.SetActive(pModel.TechLevels[id] > 0);
+            }
+            else
+            {
+                Debug.LogError($"Tech with ID {connectedTech} is out of range in TechList");
+            }
+        }
     }
     public void Buy()
     {

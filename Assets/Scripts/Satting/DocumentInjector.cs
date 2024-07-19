@@ -2,18 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Mesh;
 
 public class DocumentInjector : MonoBehaviour
 {
     [SerializeField] private TextAsset m_techDataTextAsset;
     [SerializeField] private string m_parserName;
     private TechTreeController m_controller;
-
     private void Awake()
     {
         m_controller = GetComponent<TechTreeController>();
     }
-
     private void Start()
     {
         Type parserType = Type.GetType(m_parserName);
@@ -61,7 +60,11 @@ public class DocumentInjector : MonoBehaviour
         }
 
         Debug.Log("Parsed data successfully.");
+
+
         TechTree.techTree.InitializeTechModel(data);
         m_controller.ShowTech(data);
+        TechTree.techTree.TechTreeStart();
+
     }
 }

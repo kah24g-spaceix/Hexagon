@@ -8,8 +8,8 @@ public class TechTree : MonoBehaviour
     public GameObject TechHolder;
     public GameObject TechPrefab;
     public List<Tech> TechList = new List<Tech>();
-    public Dictionary<int, Tech> TechDictionary = new Dictionary<int, Tech>(); // id를 키로 사용
     private TechModel m_techModel; // private으로 변경
+
 
     public int TechPoint = 20;
 
@@ -49,10 +49,7 @@ public class TechTree : MonoBehaviour
             techDescriptions,
             techOpens
         );
-
-        TechTreeStart();
     }
-
     public void TechTreeStart()
     {
         if (TechHolder == null)
@@ -66,6 +63,18 @@ public class TechTree : MonoBehaviour
             Debug.Log($"AddList");
         }
 
+        for (int i = 0; i < TechList.Count; i++)
+        {
+            TechList[i].id = i;
+            Debug.Log($"id: {i}");
+        }
+
+        foreach (Tech tech in TechList)
+        {
+            int techId = tech.id;
+            tech.ConnectedTechs = m_techModel.TechOpens[techId];
+            Debug.Log($"ConnectedTechs for Tech ID {techId}");
+        }
         UpdateAllTechUI(m_techModel);
         Debug.Log($"Update");
     }

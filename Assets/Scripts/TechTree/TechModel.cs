@@ -6,7 +6,7 @@
     public int[] CommunityOpinions { get; }
     public string[] TechNames { get; }
     public string[] TechDescriptions { get; }
-    public int[][] TechOpens { get; } // 2차 배열로 변경
+    public int[][] TechOpens { get; }
 
     public TechModel(
         int[] techLevels,

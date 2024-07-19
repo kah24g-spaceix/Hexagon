@@ -102,12 +102,9 @@ public class TechTreeController : MonoBehaviour
                 Debug.LogError("Tech component not found in the instantiated prefab.");
                 yield break;
             }
-
-            techComponent.id = i;
-            techComponent.ConnectedTechs = techModel.TechOpens[i];
-            techComponent.Bind(techModel);
         }
-
         yield break;
     }
+
+
 }
