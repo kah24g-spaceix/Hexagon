@@ -5,30 +5,31 @@ using UnityEngine;
 public class TechTree : MonoBehaviour
 {
     public static TechTree techTree;
-    public GameObject TechHolder;
-    public GameObject TechPrefab;
-    public List<Tech> TechList = new List<Tech>();
-    private TechModel m_techModel; // private으로 변경
 
+    [SerializeField] private GameObject techHolder;
+    [SerializeField] private List<Tech> techList = new List<Tech>();
+    private TechModel techModel;
+    public int techPoint = 20;
 
-    public int TechPoint = 20;
+    public GameObject GetTechHolder() => techHolder;
+    public int TechPoint => techPoint;
+    public TechModel TechModel => techModel;
+    public List<Tech> TechList => techList;
 
     private void Awake()
     {
-        techTree = this;
+        if (techTree == null)
+        {
+            techTree = this;
+        }
+        else if (techTree != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
         Debug.Log("TechTree initialized.");
     }
 
-    // m_techModel에 접근할 수 있는 메서드 추가
-    public TechModel GetTechModel()
-    {
-        return m_techModel;
-    }
-
-    public void SetTechModel(TechModel techModel)
-    {
-        m_techModel = techModel;
-    }
 
     public void InitializeTechModel(TechData techData)
     {
@@ -38,9 +39,9 @@ public class TechTree : MonoBehaviour
         int[] communityOpinions = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
         string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
-        int[][] techOpens = techData.TechDataLines.Select(t => t.TechOpen).ToArray(); // 2차원 배열로 변환
+        int[][] techOpens = techData.TechDataLines.Select(t => t.TechOpen).ToArray();
 
-        m_techModel = new TechModel(
+        techModel = new TechModel(
             techLevels,
             techCaps,
             techCosts,
@@ -49,41 +50,48 @@ public class TechTree : MonoBehaviour
             techDescriptions,
             techOpens
         );
+
+        TechTreeStart();
     }
     public void TechTreeStart()
     {
-        if (TechHolder == null)
+        if (techHolder == null)
         {
             Debug.LogError("TechHolder is not assigned.");
             return;
         }
-        foreach (Tech tech in TechHolder.GetComponentsInChildren<Tech>())
+
+        techList.Clear();
+        Debug.Log("TechList cleared.");
+
+        foreach (Tech tech in techHolder.GetComponentsInChildren<Tech>())
         {
-            TechList.Add(tech);
-            Debug.Log($"AddList");
+            techList.Add(tech);
+            Debug.Log($"Added Tech with ID {tech.Id} to TechList.");
         }
 
-        for (int i = 0; i < TechList.Count; i++)
+        for (int i = 0; i < techList.Count; i++)
         {
-            TechList[i].id = i;
-            Debug.Log($"id: {i}");
+            techList[i].Id = i;
+            Debug.Log($"Set ID for Tech: {techList[i].name} to {i}");
         }
 
-        foreach (Tech tech in TechList)
+        foreach (Tech tech in techList)
         {
-            int techId = tech.id;
-            tech.ConnectedTechs = m_techModel.TechOpens[techId];
-            Debug.Log($"ConnectedTechs for Tech ID {techId}");
+            int techId = tech.Id;
+            tech.ConnectedTechs = techModel.TechOpens[techId];
+            Debug.Log($"ConnectedTechs for Tech ID {techId}: {string.Join(", ", tech.ConnectedTechs)}");
         }
-        UpdateAllTechUI(m_techModel);
-        Debug.Log($"Update");
+
+        UpdateAllTechUI(techModel);
+        Debug.Log("Tech UI updated.");
     }
 
-    public void UpdateAllTechUI(TechModel pModel)
+    public void UpdateAllTechUI(TechModel model)
     {
-        foreach (Tech tech in TechList)
+        foreach (Tech tech in techList)
         {
-            tech.Bind(pModel);
+            tech.Bind(model);
         }
     }
 }

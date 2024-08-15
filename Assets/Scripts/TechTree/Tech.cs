@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,17 +5,29 @@ using static TechTree;
 
 public class Tech : MonoBehaviour, IView<TechModel>
 {
-    public int id;
-    public TMP_Text LevelText;
-    public TMP_Text TitleText;
-    public TMP_Text DescriptionText;
-    public TMP_Text CostText;
-    public int[] ConnectedTechs;
-    private CanvasGroup m_canvasGroup;
+    [SerializeField] private int id;
+    [SerializeField] private TMP_Text levelText;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text costText;
+    [SerializeField] private int[] connectedTechs;
+    private CanvasGroup canvasGroup;
+
+    public int Id
+    {
+        get => id;
+        set => id = value;
+    }
+
+    public int[] ConnectedTechs
+    {
+        get => connectedTechs;
+        set => connectedTechs = value;
+    }
 
     private void Awake()
     {
-        m_canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = GetComponent<CanvasGroup>();
         Button button = GetComponent<Button>();
         if (button != null)
         {
@@ -30,26 +40,26 @@ public class Tech : MonoBehaviour, IView<TechModel>
         }
     }
 
-    public void Bind(TechModel pModel)
+    public void Bind(TechModel model)
     {
-        if (id < 0 || id >= pModel.TechLevels.Length)
+        if (id < 0 || id >= model.TechLevels.Length)
         {
             Debug.LogError($"Tech ID {id} is out of range.");
             return;
         }
 
-        LevelText.text = $"{pModel.TechLevels[id]}/{pModel.TechCaps[id]}";
-        TitleText.text = $"{pModel.TechNames[id]}";
-        DescriptionText.text = $"{pModel.TechDescriptions[id]}";
-        CostText.text = $"Cost: {techTree.TechPoint}/{pModel.TechCosts[id]} TP";
+        levelText.text = $"{model.TechLevels[id]}/{model.TechCaps[id]}";
+        titleText.text = $"{model.TechNames[id]}";
+        descriptionText.text = $"{model.TechDescriptions[id]}";
+        costText.text = $"Cost: {TechTree.techTree.TechPoint}/{model.TechCosts[id]} TP";
 
         Image sprite = GetComponent<Image>();
-        if (pModel.TechLevels[id] >= pModel.TechCaps[id])
+        if (model.TechLevels[id] >= model.TechCaps[id])
         {
-            CostText.gameObject.SetActive(false);
+            costText.gameObject.SetActive(false);
             sprite.color = Color.white;
         }
-        else if (techTree.TechPoint >= pModel.TechCosts[id])
+        else if (TechTree.techTree.TechPoint >= model.TechCosts[id])
         {
             sprite.color = Color.yellow;
         }
@@ -57,15 +67,17 @@ public class Tech : MonoBehaviour, IView<TechModel>
         {
             sprite.color = Color.red;
         }
-        UpdateConnectedTechs(pModel);
+
+        UpdateConnectedTechs(model);
     }
-    private void UpdateConnectedTechs(TechModel pModel)
+
+    private void UpdateConnectedTechs(TechModel model)
     {
-        foreach (int connectedTech in ConnectedTechs)
+        foreach (var connectedTech in connectedTechs)
         {
-            if (connectedTech >= 0 && connectedTech < techTree.TechList.Count)
+            if (connectedTech >= 0 && connectedTech < TechTree.techTree.TechList.Count)
             {
-                techTree.TechList[connectedTech].gameObject.SetActive(pModel.TechLevels[id] > 0);
+                TechTree.techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[id] > 0);
             }
             else
             {
@@ -73,10 +85,11 @@ public class Tech : MonoBehaviour, IView<TechModel>
             }
         }
     }
+
     public void Buy()
     {
         Debug.Log("누름");
-        TechModel currentTechModel = techTree.GetTechModel();
+        TechModel currentTechModel = techTree.TechModel;
 
         if (techTree.TechPoint < currentTechModel.TechCosts[id] || currentTechModel.TechLevels[id] >= currentTechModel.TechCaps[id])
         {
@@ -84,7 +97,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
             return;
         }
 
-        techTree.TechPoint -= currentTechModel.TechCosts[id];
+        techTree.techPoint -= currentTechModel.TechCosts[id];
         currentTechModel.TechLevels[id]++;
         techTree.UpdateAllTechUI(currentTechModel);
         Debug.Log("구매 성공");
