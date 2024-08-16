@@ -5,10 +5,10 @@ public class DocumentInjector : MonoBehaviour
 {
     [SerializeField] private TextAsset m_techDataTextAsset;
     [SerializeField] private string m_parserName;
-    private TechTreeController m_controller;
+    private TechTreeController controller;
     private void Awake()
     {
-        m_controller = GetComponent<TechTreeController>();
+        controller = GetComponent<TechTreeController>();
     }
     private void Start()
     {
@@ -60,8 +60,6 @@ public class DocumentInjector : MonoBehaviour
 
 
         TechTree.techTree.InitializeTechModel(data);
-        m_controller.ShowTech(data);
-        TechTree.techTree.TechTreeStart();
-
+        controller.ShowTech(data);
     }
 }

@@ -22,11 +22,6 @@ public class TechTree : MonoBehaviour
         {
             techTree = this;
         }
-        else if (techTree != this)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
         Debug.Log("TechTree initialized.");
     }
 
@@ -50,7 +45,6 @@ public class TechTree : MonoBehaviour
             techDescriptions,
             techOpens
         );
-
         TechTreeStart();
     }
     public void TechTreeStart()
@@ -61,15 +55,9 @@ public class TechTree : MonoBehaviour
             return;
         }
         techList.Clear();
-        int index = 0;
         foreach (Tech tech in techHolder.GetComponentsInChildren<Tech>())
         {
-            if (index < techHolder.GetComponentsInChildren<Tech>().Length - 1)
-            {
-                techList.Add(tech);
-                index++;
-            }
-            else break;
+            techList.Add(tech);
         }
 
         for (int i = 0; i < techList.Count; i++)

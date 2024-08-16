@@ -49,7 +49,7 @@ public class TechTreeController : MonoBehaviour
 
         if (techTree.TechList.Count < data.Length)
         {
-            Debug.LogError("TechList size is smaller than data length.");
+            Debug.LogError($"TechList size is smaller than data length. / TechList size:{techTree.TechList.Count} / dataLength: {data.Length}");
             yield break;
         }
 

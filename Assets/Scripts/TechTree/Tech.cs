@@ -67,9 +67,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
     {
         foreach (int connectedTech in connectedTechs)
         {
-            Debug.Log(connectedTech);
-            Debug.Log(techTree.TechList.Count);
-            if (connectedTech > 0 && connectedTech < techTree.TechList.Count - 1)
+            if (connectedTech > 0 && connectedTech < techTree.TechList.Count)
             {
                 techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[id] > 0);
             }
