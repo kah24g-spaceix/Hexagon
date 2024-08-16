@@ -29,15 +29,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
     {
         canvasGroup = GetComponent<CanvasGroup>();
         Button button = GetComponent<Button>();
-        if (button != null)
-        {
-            button.onClick.AddListener(Buy);
-            Debug.Log($"Button listener added to Tech with ID {id}");
-        }
-        else
-        {
-            Debug.LogError("Button component not found on Tech object");
-        }
+        button.onClick.AddListener(Buy);
     }
 
     public void Bind(TechModel model)
@@ -51,7 +43,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
         levelText.text = $"{model.TechLevels[id]}/{model.TechCaps[id]}";
         titleText.text = $"{model.TechNames[id]}";
         descriptionText.text = $"{model.TechDescriptions[id]}";
-        costText.text = $"Cost: {TechTree.techTree.TechPoint}/{model.TechCosts[id]} TP";
+        costText.text = $"Cost: {techTree.TechPoint}/{model.TechCosts[id]} TP";
 
         Image sprite = GetComponent<Image>();
         if (model.TechLevels[id] >= model.TechCaps[id])
@@ -59,7 +51,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
             costText.gameObject.SetActive(false);
             sprite.color = Color.white;
         }
-        else if (TechTree.techTree.TechPoint >= model.TechCosts[id])
+        else if (techTree.TechPoint >= model.TechCosts[id])
         {
             sprite.color = Color.yellow;
         }
@@ -73,19 +65,21 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void UpdateConnectedTechs(TechModel model)
     {
-        foreach (var connectedTech in connectedTechs)
+        foreach (int connectedTech in connectedTechs)
         {
-            if (connectedTech >= 0 && connectedTech < TechTree.techTree.TechList.Count)
+            Debug.Log(connectedTech);
+            Debug.Log(techTree.TechList.Count);
+            if (connectedTech > 0 && connectedTech < techTree.TechList.Count - 1)
             {
-                TechTree.techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[id] > 0);
+                techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[id] > 0);
             }
             else
             {
-                Debug.LogError($"Tech with ID {connectedTech} is out of range in TechList");
+                break;
+                //Debug.LogError($"Tech with ID {connectedTech} is out of range in TechList. TechList count: {techTree.TechList.Count}");
             }
         }
     }
-
     public void Buy()
     {
         Debug.Log("´©¸§");

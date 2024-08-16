@@ -60,14 +60,16 @@ public class TechTree : MonoBehaviour
             Debug.LogError("TechHolder is not assigned.");
             return;
         }
-
         techList.Clear();
-        Debug.Log("TechList cleared.");
-
+        int index = 0;
         foreach (Tech tech in techHolder.GetComponentsInChildren<Tech>())
         {
-            techList.Add(tech);
-            Debug.Log($"Added Tech with ID {tech.Id} to TechList.");
+            if (index < techHolder.GetComponentsInChildren<Tech>().Length - 1)
+            {
+                techList.Add(tech);
+                index++;
+            }
+            else break;
         }
 
         for (int i = 0; i < techList.Count; i++)
@@ -79,8 +81,17 @@ public class TechTree : MonoBehaviour
         foreach (Tech tech in techList)
         {
             int techId = tech.Id;
-            tech.ConnectedTechs = techModel.TechOpens[techId];
-            Debug.Log($"ConnectedTechs for Tech ID {techId}: {string.Join(", ", tech.ConnectedTechs)}");
+
+            if (techId >= 0 && techId < techModel.TechOpens.Length)
+            {
+                tech.ConnectedTechs = techModel.TechOpens[techId];
+                Debug.Log($"ConnectedTechs for Tech ID {techId}: {string.Join(", ", tech.ConnectedTechs)}");
+            }
+            else
+            {
+                break;
+                //Debug.LogError($"Tech ID {techId} is out of range in TechOpens array.");
+            }
         }
 
         UpdateAllTechUI(techModel);

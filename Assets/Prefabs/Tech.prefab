@@ -674,8 +674,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  LevelText: {fileID: 1032336310464628745}
-  TitleText: {fileID: 1491400776916411368}
-  DescriptionText: {fileID: 8421139646934880500}
-  CostText: {fileID: 4230709692457324156}
-  ConnectedTechs: 
+  levelText: {fileID: 1032336310464628745}
+  titleText: {fileID: 1491400776916411368}
+  descriptionText: {fileID: 8421139646934880500}
+  costText: {fileID: 4230709692457324156}
+  connectedTechs: 

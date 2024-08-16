@@ -28,9 +28,9 @@ public class TechTreeController : MonoBehaviour
         }
 
         Debug.Log("Starting TechDataRoutine.");
-        Debug.Log($"TechTree reference: {TechTree.techTree}");
+        Debug.Log($"TechTree reference: {techTree}");
 
-        if (TechTree.techTree == null)
+        if (techTree == null)
         {
             Debug.LogError("TechTree is not initialized.");
             return;
@@ -44,6 +44,12 @@ public class TechTreeController : MonoBehaviour
         if (data == null)
         {
             Debug.LogError("TechDataLine array is null.");
+            yield break;
+        }
+
+        if (techTree.TechList.Count < data.Length)
+        {
+            Debug.LogError("TechList size is smaller than data length.");
             yield break;
         }
 
@@ -72,7 +78,7 @@ public class TechTreeController : MonoBehaviour
             Tech techComponent = techTree.TechList[i].GetComponent<Tech>();
             if (techComponent == null)
             {
-                Debug.LogError("Tech component not found in the instantiated prefab.");
+                Debug.LogError($"Tech component not found on TechList element at index {i}");
                 yield break;
             }
 
@@ -83,4 +89,5 @@ public class TechTreeController : MonoBehaviour
 
         yield break;
     }
+
 }
