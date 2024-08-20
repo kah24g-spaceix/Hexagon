@@ -11,7 +11,6 @@ public class Tech : MonoBehaviour, IView<TechModel>
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private int[] connectedTechs;
-    private CanvasGroup canvasGroup;
 
     public int Id
     {
@@ -27,7 +26,6 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
         Button button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
     }

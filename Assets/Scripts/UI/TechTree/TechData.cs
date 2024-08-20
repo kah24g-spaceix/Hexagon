@@ -8,16 +8,16 @@ public class TechDataLine
     public int CommunityOpinion { get; }
     public string TechName { get; }
     public string TechDescription { get; }
-    public int[] TechOpen { get; }
+    public int[] ConnectedTechs { get; }
 
-    public TechDataLine(int techCap, int techCost, int communityOpinion, string techName, string techDescription, int[] techOpen)
+    public TechDataLine(int techCap, int techCost, int communityOpinion, string techName, string techDescription, int[] connectedTechs)
     {
         TechCap = techCap;
         TechCost = techCost;
         CommunityOpinion = communityOpinion;
         TechName = techName;
         TechDescription = techDescription;
-        TechOpen = techOpen;
+        ConnectedTechs = connectedTechs;
     }
 }
 

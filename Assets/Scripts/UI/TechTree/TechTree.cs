@@ -34,7 +34,7 @@ public class TechTree : MonoBehaviour
         int[] communityOpinions = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
         string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
-        int[][] techOpens = techData.TechDataLines.Select(t => t.TechOpen).ToArray();
+        int[][] connectedTechs = techData.TechDataLines.Select(t => t.ConnectedTechs).ToArray();
 
         techModel = new TechModel(
             techLevels,
@@ -43,7 +43,7 @@ public class TechTree : MonoBehaviour
             communityOpinions,
             techNames,
             techDescriptions,
-            techOpens
+            connectedTechs
         );
         TechTreeStart();
     }
@@ -70,9 +70,9 @@ public class TechTree : MonoBehaviour
         {
             int techId = tech.Id;
 
-            if (techId >= 0 && techId < techModel.TechOpens.Length)
+            if (techId >= 0 && techId < techModel.ConnectedTechs.Length)
             {
-                tech.ConnectedTechs = techModel.TechOpens[techId];
+                tech.ConnectedTechs = techModel.ConnectedTechs[techId];
                 Debug.Log($"ConnectedTechs for Tech ID {techId}: {string.Join(", ", tech.ConnectedTechs)}");
             }
             else

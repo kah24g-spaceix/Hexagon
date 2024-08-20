@@ -6,7 +6,7 @@
     public int[] CommunityOpinions { get; }
     public string[] TechNames { get; }
     public string[] TechDescriptions { get; }
-    public int[][] TechOpens { get; }
+    public int[][] ConnectedTechs { get; }
 
     public TechModel(
         int[] techLevels,
@@ -15,7 +15,7 @@
         int[] communityOpinions,
         string[] techNames,
         string[] techDescriptions,
-        int[][] techOpens)
+        int[][] connectedTechs)
     {
         TechLevels = techLevels;
         TechCaps = techCaps;
@@ -23,6 +23,6 @@
         CommunityOpinions = communityOpinions;
         TechNames = techNames;
         TechDescriptions = techDescriptions;
-        TechOpens = techOpens;
+        ConnectedTechs = connectedTechs;
     }
 }

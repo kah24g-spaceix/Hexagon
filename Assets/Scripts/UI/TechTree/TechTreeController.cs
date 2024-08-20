@@ -59,7 +59,7 @@ public class TechTreeController : MonoBehaviour
         int[] communityOpinions = data.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = data.Select(t => t.TechName).ToArray();
         string[] techDescriptions = data.Select(t => t.TechDescription).ToArray();
-        int[][] techOpens = data.Select(t => t.TechOpen).ToArray();
+        int[][] techOpens = data.Select(t => t.ConnectedTechs).ToArray();
 
         TechModel techModel = new TechModel(
             techLevels,
@@ -83,7 +83,7 @@ public class TechTreeController : MonoBehaviour
             }
 
             techComponent.Id = i;
-            techComponent.ConnectedTechs = line.TechOpen;
+            techComponent.ConnectedTechs = line.ConnectedTechs;
             techComponent.Bind(techModel);
         }
 
