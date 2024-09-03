@@ -87,7 +87,8 @@ public class Tech : MonoBehaviour, IView<TechModel>
             return;
         }
 
-        techTree.techPoint -= currentTechModel.TechCosts[id];
+        techTree.TechPoint -= currentTechModel.TechCosts[id];
+        techTree.CommunityOpinion += currentTechModel.CommunityOpinion[id];
         currentTechModel.TechLevels[id]++;
         techTree.UpdateAllTechUI(currentTechModel);
         Debug.Log("구매 성공");

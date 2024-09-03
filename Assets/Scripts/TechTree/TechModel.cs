@@ -3,7 +3,7 @@
     public int[] TechLevels { get; }
     public int[] TechCaps { get; }
     public int[] TechCosts { get; }
-    public int[] CommunityOpinions { get; }
+    public int[] CommunityOpinion { get; }
     public string[] TechNames { get; }
     public string[] TechDescriptions { get; }
     public int[][] ConnectedTechs { get; }
@@ -20,7 +20,7 @@
         TechLevels = techLevels;
         TechCaps = techCaps;
         TechCosts = techCosts;
-        CommunityOpinions = communityOpinions;
+        CommunityOpinion = communityOpinions;
         TechNames = techNames;
         TechDescriptions = techDescriptions;
         ConnectedTechs = connectedTechs;

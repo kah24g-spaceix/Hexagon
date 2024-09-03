@@ -5,19 +5,31 @@ using UnityEngine;
 public class TechTree : MonoBehaviour
 {
     public static TechTree techTree;
-
     [SerializeField] private GameObject techHolder;
     [SerializeField] private List<Tech> techList = new List<Tech>();
+    private GameManager gameManager;
     private TechModel techModel;
-    public int techPoint = 20;
-
+    private int techPoint;
+    private int communityOpinion;
     public GameObject GetTechHolder() => techHolder;
-    public int TechPoint => techPoint;
+    public int TechPoint
+    {
+        get => techPoint;
+        set => techPoint = value;
+    }
+    public int CommunityOpinion
+    {
+        get => communityOpinion;
+        set => communityOpinion = value;
+    }
     public TechModel TechModel => techModel;
     public List<Tech> TechList => techList;
 
     private void Awake()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        techPoint = gameManager.techPoint;
+        communityOpinion = gameManager.communityOpinion;
         if (techTree == null)
         {
             techTree = this;
@@ -31,7 +43,7 @@ public class TechTree : MonoBehaviour
         int[] techLevels = new int[techData.TechDataLines.Length];
         int[] techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
         int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
-        int[] communityOpinions = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
+        int[] communityOpinion = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
         string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
         int[][] connectedTechs = techData.TechDataLines.Select(t => t.ConnectedTechs).ToArray();
@@ -40,7 +52,7 @@ public class TechTree : MonoBehaviour
             techLevels,
             techCaps,
             techCosts,
-            communityOpinions,
+            communityOpinion,
             techNames,
             techDescriptions,
             connectedTechs

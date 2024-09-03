@@ -9,12 +9,14 @@ public class UIView : MonoBehaviour
     private bool option;
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
+    private bool techtree;
     // Start is called before the first frame update
     private void Start()
     {
         HideUI(OptionUI);
         HideUI(TechTreeUI);
         option = false;
+        techtree = false;
     }
 
     // Update is called once per frame
@@ -25,6 +27,11 @@ public class UIView : MonoBehaviour
             option = !option;
             CurrentActive(OptionUI, option);
             Pause(option);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            techtree = !techtree;
+            CurrentActive(TechTreeUI, techtree);
         }
     }
 
