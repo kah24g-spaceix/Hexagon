@@ -56,7 +56,10 @@ public class TechTreeController : MonoBehaviour
         int[] techLevels = new int[data.Length];
         int[] techCaps = data.Select(t => t.TechCap).ToArray();
         int[] techCosts = data.Select(t => t.TechCost).ToArray();
-        int[] communityOpinions = data.Select(t => t.CommunityOpinion).ToArray();
+        int[] revenue = data.Select(t => t.Revenue).ToArray();
+        int[] transportationTime = data.Select(t => t.TransportationTime).ToArray();
+        int[] maxEmployee = data.Select(t => t.MaxEmployee).ToArray();
+        int[] communityOpinion = data.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = data.Select(t => t.TechName).ToArray();
         string[] techDescriptions = data.Select(t => t.TechDescription).ToArray();
         int[][] techOpens = data.Select(t => t.ConnectedTechs).ToArray();
@@ -65,7 +68,10 @@ public class TechTreeController : MonoBehaviour
             techLevels,
             techCaps,
             techCosts,
-            communityOpinions,
+            revenue, 
+            transportationTime, 
+            maxEmployee,
+            communityOpinion,
             techNames,
             techDescriptions,
             techOpens

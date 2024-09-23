@@ -43,6 +43,9 @@ public class TechTree : MonoBehaviour
         int[] techLevels = new int[techData.TechDataLines.Length];
         int[] techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
         int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
+        int[] revenue = techData.TechDataLines.Select(t => t.Revenue).ToArray();
+        int[] transportationTime = techData.TechDataLines.Select(t => t.TransportationTime).ToArray();
+        int[] maxEmployee = techData.TechDataLines.Select(t=> t.MaxEmployee).ToArray();
         int[] communityOpinion = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
         string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
@@ -52,6 +55,9 @@ public class TechTree : MonoBehaviour
             techLevels,
             techCaps,
             techCosts,
+            revenue,
+            transportationTime,
+            maxEmployee,
             communityOpinion,
             techNames,
             techDescriptions,

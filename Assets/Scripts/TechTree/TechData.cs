@@ -5,15 +5,21 @@ public class TechDataLine
 {
     public int TechCap { get; }
     public int TechCost { get; }
+    public int Revenue { get; }
+    public int TransportationTime { get; }
+    public int MaxEmployee { get; }
     public int CommunityOpinion { get; }
     public string TechName { get; }
     public string TechDescription { get; }
     public int[] ConnectedTechs { get; }
 
-    public TechDataLine(int techCap, int techCost, int communityOpinion, string techName, string techDescription, int[] connectedTechs)
+    public TechDataLine(int techCap, int techCost, int revenue, int transportationTime, int maxEmployee, int communityOpinion, string techName, string techDescription, int[] connectedTechs)
     {
         TechCap = techCap;
         TechCost = techCost;
+        Revenue = revenue;
+        TransportationTime = transportationTime;
+        MaxEmployee = maxEmployee;
         CommunityOpinion = communityOpinion;
         TechName = techName;
         TechDescription = techDescription;
