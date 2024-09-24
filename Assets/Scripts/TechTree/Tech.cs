@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static PlayerTechModel;
 using static TechTree;
 
 public class Tech : MonoBehaviour, IView<TechModel>
@@ -12,6 +13,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
     [SerializeField] private TMP_Text costText;
     [SerializeField] private int[] connectedTechs;
 
+    private IGameModel playerModel;
     public int Id
     {
         get => id;
@@ -26,6 +28,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void Awake()
     {
+        playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         Button button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
     }
@@ -80,16 +83,28 @@ public class Tech : MonoBehaviour, IView<TechModel>
     {
         Debug.Log("누름");
         TechModel currentTechModel = techTree.TechModel;
-
+        PlayerTechModel playerData = playerModel.GetPlayerTechModel();
         if (techTree.TechPoint < currentTechModel.TechCosts[id] || currentTechModel.TechLevels[id] >= currentTechModel.TechCaps[id])
         {
             Debug.Log("구매 불가");
             return;
         }
-
-        techTree.TechPoint -= currentTechModel.TechCosts[id];
-        techTree.CommunityOpinion += currentTechModel.CommunityOpinion[id];
         currentTechModel.TechLevels[id]++;
+
+        int techPoint = playerData.TechPoint - currentTechModel.TechCosts[id];
+        int revenueValue = playerData.RevenueValue + currentTechModel.Revenue[id];
+        float communityOpinion = playerData.CommunityOpinion * (1 + (currentTechModel.CommunityOpinion[id] / 100));
+        int maxEmployees = playerData.MaxEmployee + currentTechModel.MaxEmployee[id];
+        int[] techLevels = currentTechModel.TechLevels;
+        PlayerTechModel value = new PlayerTechModel
+            (
+            techPoint,
+            revenueValue,
+            communityOpinion,
+            maxEmployees,
+            techLevels
+            );
+        playerModel.DoTechResult(value);
         techTree.UpdateAllTechUI(currentTechModel);
         Debug.Log("구매 성공");
     }

@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using static PlayerTechModel;
 
-public class SaveModel : MonoBehaviour, IPlayerModel
+public class GameModel : MonoBehaviour, IGameModel
 {
     private PlayerSaveData _playerSaveData;
     private PlayerSaveModel _playerISaveModel;
@@ -25,12 +25,16 @@ public class SaveModel : MonoBehaviour, IPlayerModel
 
     public void DoPlayerInfoResult()
     {
-        throw new NotImplementedException();
+        
     }
 
-    public void DoTechResult()
+    public void DoTechResult(PlayerTechModel model)
     {
-        throw new NotImplementedException();
+        
+    }
+    public void Motivation()
+    {
+
     }
     public void SaveGame()
     {
@@ -49,11 +53,10 @@ public class SaveModel : MonoBehaviour, IPlayerModel
         int commodity = saveData.Commodity;
         int employees = saveData.Employees;
         int resistance = saveData.Resistance;
-        int techPoint = saveData.TechPoint;
         int day = saveData.Day;
+        int techPoint = saveData.TechPoint;
         int revenueValue = saveData.RevenueValue;
         int communityOpinion = saveData.CommunityOpinion;
-        int transportationTimeValue = saveData.TransportationTimeValue;
         int maxEmployees = saveData.MaxEmployee;
         int[] techLevels = saveData.TechLevels;
         _playerSaveData = new PlayerSaveData(
@@ -61,11 +64,10 @@ public class SaveModel : MonoBehaviour, IPlayerModel
             commodity,
             employees,
             resistance,
-            techPoint,
             day,
+            techPoint,
             revenueValue,
             communityOpinion,
-            transportationTimeValue,
             maxEmployees,
             techLevels);
         return true;

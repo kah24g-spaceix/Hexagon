@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static PlayerTechModel;
 
 public class TechTree : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class TechTree : MonoBehaviour
     [SerializeField] private List<Tech> techList = new List<Tech>();
     private GameManager gameManager;
     private TechModel techModel;
+    private IGameModel playerModel;
     private int techPoint;
     private int communityOpinion;
     public GameObject GetTechHolder() => techHolder;
@@ -27,6 +29,7 @@ public class TechTree : MonoBehaviour
 
     private void Awake()
     {
+        playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         techPoint = gameManager.techPoint;
         communityOpinion = gameManager.communityOpinion;
@@ -44,7 +47,6 @@ public class TechTree : MonoBehaviour
         int[] techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
         int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
         int[] revenue = techData.TechDataLines.Select(t => t.Revenue).ToArray();
-        int[] transportationTime = techData.TechDataLines.Select(t => t.TransportationTime).ToArray();
         int[] maxEmployee = techData.TechDataLines.Select(t=> t.MaxEmployee).ToArray();
         int[] communityOpinion = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
@@ -56,7 +58,6 @@ public class TechTree : MonoBehaviour
             techCaps,
             techCosts,
             revenue,
-            transportationTime,
             maxEmployee,
             communityOpinion,
             techNames,

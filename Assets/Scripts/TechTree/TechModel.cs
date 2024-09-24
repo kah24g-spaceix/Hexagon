@@ -4,7 +4,6 @@
     public int[] TechCaps { get; }
     public int[] TechCosts { get; }
     public int[] Revenue { get; }
-    public int[] TransportationTime { get; }
     public int[] MaxEmployee { get; }
     public int[] CommunityOpinion { get; }
     public string[] TechNames { get; }
@@ -16,7 +15,6 @@
         int[] techCaps,
         int[] techCosts,
         int[] revenue,
-        int[] transportationTime,
         int[] maxEmployee,
         int[] communityOpinion,
         string[] techNames,
@@ -27,7 +25,6 @@
         TechCaps = techCaps;
         TechCosts = techCosts;
         Revenue = revenue;
-        TransportationTime = transportationTime;
         MaxEmployee = maxEmployee;
         CommunityOpinion = communityOpinion;
         TechNames = techNames;

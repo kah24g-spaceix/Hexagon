@@ -4,7 +4,6 @@ public struct PlayerSaveModel
     public int Commodity { get; } // 물자
     public int Employees { get; } // 직원
     public int Resistance { get; } // 저항군
-    public int TechPoint { get; } // 테크 포인트
     public int Day { get; }
 
 
@@ -14,7 +13,6 @@ public struct PlayerSaveModel
         int commodity,
         int employees,
         int resistance,
-        int techPoint,
         int day
         )
     {
@@ -22,38 +20,39 @@ public struct PlayerSaveModel
         Commodity = commodity;
         Employees = employees;
         Resistance = resistance;
-        TechPoint = techPoint;
         Day = day;
-
     }
 }
 public struct PlayerTechModel
 {
+    public int TechPoint { get; } // 테크 포인트
     public int RevenueValue { get; } // 수익수치
-    public int CommunityOpinion { get; } // 민심도
-    public int TransportationTimeValue { get; } // 물자 반입 시간
+    public float CommunityOpinion { get; } // 민심도
     public int MaxEmployee { get; } // 최대 직원 수용인원 수
     public int[] TechLevels { get; }
 
     public PlayerTechModel(
+        int techPoint,
         int revenueValue,
-        int communityOpinion,
-        int transportationTimeValue,
+        float communityOpinion,
         int maxEmployees,
         int[] techLevels)
     {
+        TechPoint = techPoint;
         RevenueValue = revenueValue;
         CommunityOpinion = communityOpinion;
-        TransportationTimeValue = transportationTimeValue;
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }
-    public interface IPlayerModel
+    public interface IGameModel
     {
         PlayerSaveModel GetPlayerSaveModel();
         PlayerTechModel GetPlayerTechModel();
+        void BuyCommodity();
+        void BuyTechPoint();
+        void Motivation();
         void DoPlayerInfoResult();
-        void DoTechResult();
+        void DoTechResult(PlayerTechModel model);
         void SaveGame();
         bool LoadGame();
     }

@@ -12,7 +12,6 @@ public class PlayerSaveData
 
     public int RevenueValue { get; set; } // 수익수치
     public int CommunityOpinion { get; set; } // 민심도
-    public int TransportationTimeValue { get; set; } // 물자 반입 시간
     public int MaxEmployee { get; set; } // 최대 직원 수용인원 수
     public int[] TechLevels { get; set; }
 
@@ -22,12 +21,11 @@ public class PlayerSaveData
         int commodity,
         int employees,
         int resistance,
-        int techPoint,
         int day,
 
+        int techPoint,
         int revenueValue,
         int communityOpinion,
-        int transportationTimeValue,
         int maxEmployees,
         int[] techLevels
         )
@@ -36,11 +34,10 @@ public class PlayerSaveData
         Commodity = commodity;
         Employees = employees;
         Resistance = resistance;
-        TechPoint = techPoint;
         Day = day;
+        TechPoint = techPoint;
         RevenueValue = revenueValue;
         CommunityOpinion = communityOpinion;
-        TransportationTimeValue = transportationTimeValue;
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }
