@@ -1,58 +1,48 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static PlayerTechModel;
 using static TechTree;
 
 public class Tech : MonoBehaviour, IView<TechModel>
 {
-    [SerializeField] private int id;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text costText;
-    [SerializeField] private int[] connectedTechs;
 
     private IGameModel playerModel;
-    public int Id
-    {
-        get => id;
-        set => id = value;
-    }
 
-    public int[] ConnectedTechs
-    {
-        get => connectedTechs;
-        set => connectedTechs = value;
-    }
+    public int ID { get; set; }
+    public int[] ConnectedTechs { get; set; }
 
     private void Awake()
     {
         playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
+
         Button button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
     }
 
     public void Bind(TechModel model)
     {
-        if (id < 0 || id >= model.TechLevels.Length)
+        if (ID < 0 || ID >= model.TechLevels.Length)
         {
-            Debug.LogError($"Tech ID {id} is out of range.");
+            Debug.LogError($"Tech ID {ID} is out of range.");
             return;
         }
 
-        levelText.text = $"{model.TechLevels[id]}/{model.TechCaps[id]}";
-        titleText.text = $"{model.TechNames[id]}";
-        descriptionText.text = $"{model.TechDescriptions[id]}";
-        costText.text = $"Cost: {techTree.TechPoint}/{model.TechCosts[id]} TP";
+        levelText.text = $"{model.TechLevels[ID]}/{model.TechCaps[ID]}";
+        titleText.text = $"{model.TechNames[ID]}";
+        descriptionText.text = $"{model.TechDescriptions[ID]}";
+        costText.text = $"Cost: {techTree.TechPoint}/{model.TechCosts[ID]} TP";
 
         Image sprite = GetComponent<Image>();
-        if (model.TechLevels[id] >= model.TechCaps[id])
+        if (model.TechLevels[ID] >= model.TechCaps[ID])
         {
             costText.gameObject.SetActive(false);
             sprite.color = Color.white;
         }
-        else if (techTree.TechPoint >= model.TechCosts[id])
+        else if (techTree.TechPoint >= model.TechCosts[ID])
         {
             sprite.color = Color.yellow;
         }
@@ -66,11 +56,11 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void UpdateConnectedTechs(TechModel model)
     {
-        foreach (int connectedTech in connectedTechs)
+        foreach (int connectedTech in ConnectedTechs)
         {
             if (connectedTech > 0 && connectedTech < techTree.TechList.Count)
             {
-                techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[id] > 0);
+                techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[ID] > 0);
             }
             else
             {
@@ -83,18 +73,19 @@ public class Tech : MonoBehaviour, IView<TechModel>
     {
         Debug.Log("누름");
         TechModel currentTechModel = techTree.TechModel;
-        PlayerTechModel playerData = playerModel.GetPlayerTechModel();
-        if (techTree.TechPoint < currentTechModel.TechCosts[id] || currentTechModel.TechLevels[id] >= currentTechModel.TechCaps[id])
+        PlayerSaveModel playerSaveData = playerModel.GetPlayerSaveModel();
+        PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
+        if (techTree.TechPoint < currentTechModel.TechCosts[ID] || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
         {
             Debug.Log("구매 불가");
             return;
         }
-        currentTechModel.TechLevels[id]++;
+        currentTechModel.TechLevels[ID]++;
 
-        int techPoint = playerData.TechPoint - currentTechModel.TechCosts[id];
-        int revenueValue = playerData.RevenueValue + currentTechModel.Revenue[id];
-        float communityOpinion = playerData.CommunityOpinion * (1 + (currentTechModel.CommunityOpinion[id] / 100));
-        int maxEmployees = playerData.MaxEmployee + currentTechModel.MaxEmployee[id];
+        int techPoint = playerTechData.TechPoint - currentTechModel.TechCosts[ID];
+        int revenueValue = playerTechData.RevenueValue + currentTechModel.Revenue[ID];
+        double communityOpinion = (playerTechData.CommunityOpinionValue + currentTechModel.CommunityOpinion[ID]) / (playerSaveData.Employees * 100);
+        int maxEmployees = playerTechData.MaxEmployee + currentTechModel.MaxEmployee[ID];
         int[] techLevels = currentTechModel.TechLevels;
         PlayerTechModel value = new PlayerTechModel
             (

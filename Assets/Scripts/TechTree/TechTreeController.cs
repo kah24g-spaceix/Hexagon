@@ -86,7 +86,7 @@ public class TechTreeController : MonoBehaviour
                 yield break;
             }
 
-            techComponent.Id = i;
+            techComponent.ID = i;
             techComponent.ConnectedTechs = line.ConnectedTechs;
             techComponent.Bind(techModel);
         }

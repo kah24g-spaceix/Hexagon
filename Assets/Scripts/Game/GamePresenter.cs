@@ -1,16 +1,14 @@
-using Newtonsoft.Json.Bson;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static PlayerTechModel;
 
 public class GamePresenter : MonoBehaviour, IGamePresenter
 {
     private IGameModel _model;
-
+    private IGameView _gameView;
     private PlayerSaveModel _playerSaveModel;
     private PlayerTechModel _playerTechModel;
+
+    GameManager _gameManager;
     private void Awake()
     {
         _model = GetComponent<IGameModel>();
@@ -18,11 +16,14 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private void Start()
     {
         ReloadData();
+        StartCoroutine(MoneyPerSecond());
     }
-    public void MoneyPerSecond()
+    public IEnumerator MoneyPerSecond()
     {
-        IEnumerator MonsterSelectRoutine()
+        while (true)
         {
+            _model.Income();
+            ReloadData();
             yield return new WaitForSeconds(1f);
         }
     }
@@ -34,16 +35,25 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void OnBuyCommodityButton()
     {
         _model.BuyCommodity();
+        ReloadData();
     }
-    public void OnBuyTechPointButton()
+    public void OnExchangeTechPointButton(int value)
     {
-        _model.BuyTechPoint();
+        if (_playerTechModel.TechPoint == 0)
+        {
+            _model.ExchangeTechPoint(value);
+        }
+        else
+        {
+            Debug.Log("Tech points are 0 and cannot be exchanged");
+        }
+        ReloadData();
     }
 
     public void NextDay()
     {
+        StopCoroutine(MoneyPerSecond());
         _model.Motivation();
-
         SaveGame();
     }
     public void LoadGame()

@@ -4,6 +4,7 @@ using UnityEngine;
 public class DocumentInjector : MonoBehaviour
 {
     [SerializeField] private TextAsset m_techDataTextAsset;
+
     [SerializeField] private string m_parserName;
     private TechTreeController controller;
     private void Awake()

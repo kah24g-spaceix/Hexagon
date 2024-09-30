@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameView : MonoBehaviour
+public class GameView : MonoBehaviour, IGameView
 {
     [Header("Option UI")]
     [SerializeField] private GameObject OptionUI;
@@ -10,6 +8,7 @@ public class GameView : MonoBehaviour
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
     private bool techtree;
+    private bool pause;
     // Start is called before the first frame update
     private void Start()
     {
@@ -17,6 +16,7 @@ public class GameView : MonoBehaviour
         HideUI(TechTreeUI);
         option = false;
         techtree = false;
+        pause = false;
     }
 
     // Update is called once per frame
@@ -25,30 +25,34 @@ public class GameView : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             option = !option;
-            CurrentActive(OptionUI, option);
+            ActiveTrigger(OptionUI, option);
             Pause(option);
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) && !pause)
         {
             techtree = !techtree;
-            CurrentActive(TechTreeUI, techtree);
+            ActiveTrigger(TechTreeUI, techtree);
         }
     }
 
-    private void HideUI(GameObject gameObject)
+
+
+
+    public void HideUI(GameObject gameObject)
     {
         gameObject.gameObject.SetActive(false);
     }
-    private void ShowUI(GameObject gameObject)
+    public void ShowUI(GameObject gameObject)
     {
         gameObject.gameObject.SetActive(true);
     }
-    private void CurrentActive(GameObject gameObject, bool active)
+    public void ActiveTrigger(GameObject gameObject, bool active)
     {
         gameObject.gameObject.SetActive(active);
     }
     private void Pause(bool active)
     {
+        pause = active;
         if (active)
         {
             Time.timeScale = 0; // 게임 정지

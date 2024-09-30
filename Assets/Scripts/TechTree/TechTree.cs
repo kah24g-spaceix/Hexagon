@@ -10,20 +10,13 @@ public class TechTree : MonoBehaviour
     [SerializeField] private List<Tech> techList = new List<Tech>();
     private GameManager gameManager;
     private TechModel techModel;
+
     private IGameModel playerModel;
-    private int techPoint;
-    private int communityOpinion;
+    private PlayerTechModel _playerTechModel;
     public GameObject GetTechHolder() => techHolder;
-    public int TechPoint
-    {
-        get => techPoint;
-        set => techPoint = value;
-    }
-    public int CommunityOpinion
-    {
-        get => communityOpinion;
-        set => communityOpinion = value;
-    }
+
+    public int TechPoint { get; set; }
+    public double CommunityOpinionValue { get; set; }
     public TechModel TechModel => techModel;
     public List<Tech> TechList => techList;
 
@@ -31,15 +24,18 @@ public class TechTree : MonoBehaviour
     {
         playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        techPoint = gameManager.techPoint;
-        communityOpinion = gameManager.communityOpinion;
         if (techTree == null)
         {
             techTree = this;
         }
         Debug.Log("TechTree initialized.");
     }
-
+    private void Start()
+    {
+        _playerTechModel = playerModel.GetPlayerTechModel();
+        TechPoint = _playerTechModel.TechPoint;
+        CommunityOpinionValue = _playerTechModel.CommunityOpinionValue;
+    }
 
     public void InitializeTechModel(TechData techData)
     {
@@ -81,13 +77,13 @@ public class TechTree : MonoBehaviour
 
         for (int i = 0; i < techList.Count; i++)
         {
-            techList[i].Id = i;
+            techList[i].ID = i;
             Debug.Log($"Set ID for Tech: {techList[i].name} to {i}");
         }
 
         foreach (Tech tech in techList)
         {
-            int techId = tech.Id;
+            int techId = tech.ID;
 
             if (techId >= 0 && techId < techModel.ConnectedTechs.Length)
             {

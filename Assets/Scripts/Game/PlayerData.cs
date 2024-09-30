@@ -11,8 +11,8 @@ public class PlayerSaveData
     public int Day { get; set; }
 
     public int RevenueValue { get; set; } // 수익수치
-    public int CommunityOpinion { get; set; } // 민심도
-    public int MaxEmployee { get; set; } // 최대 직원 수용인원 수
+    public double CommunityOpinionValue { get; set; } // 민심퍼센트
+    public int MaxEmployee { get; set; } // 최대 수용 인원 수
     public int[] TechLevels { get; set; }
 
     public PlayerSaveData
@@ -25,7 +25,7 @@ public class PlayerSaveData
 
         int techPoint,
         int revenueValue,
-        int communityOpinion,
+        double communityOpinionValue,
         int maxEmployees,
         int[] techLevels
         )
@@ -37,7 +37,7 @@ public class PlayerSaveData
         Day = day;
         TechPoint = techPoint;
         RevenueValue = revenueValue;
-        CommunityOpinion = communityOpinion;
+        CommunityOpinionValue = communityOpinionValue;
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }
