@@ -11,12 +11,17 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     GameManager _gameManager;
     private void Awake()
     {
+        _gameManager = GetComponent<GameManager>();
         _model = GetComponent<IGameModel>();
     }
     private void Start()
     {
         ReloadData();
         StartCoroutine(MoneyPerSecond());
+    }
+    public void GetCurrentInfo(string day, string currentTime)
+    {
+        
     }
     public IEnumerator MoneyPerSecond()
     {
@@ -26,11 +31,6 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
             ReloadData();
             yield return new WaitForSeconds(1f);
         }
-    }
-    private void ReloadData()
-    {
-        _playerSaveModel = _model.GetPlayerSaveModel();
-        _playerTechModel = _model.GetPlayerTechModel();
     }
     public void OnBuyCommodityButton()
     {
@@ -64,5 +64,10 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void SaveGame()
     {
         _model.SaveGame();
+    }
+    private void ReloadData()
+    {
+        _playerSaveModel = _model.GetPlayerSaveModel();
+        _playerTechModel = _model.GetPlayerTechModel();
     }
 }

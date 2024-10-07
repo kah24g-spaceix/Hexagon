@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameView : MonoBehaviour, IGameView
 {
@@ -7,18 +9,26 @@ public class GameView : MonoBehaviour, IGameView
     private bool option;
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
+    [Header("InGame Value UI")]
+    [SerializeField] private TextMeshProUGUI Day;
+    [SerializeField] private TextMeshProUGUI CurrentTime;
+    [SerializeField] private TextMeshProUGUI Money;
+    [SerializeField] private TextMeshProUGUI Commodity;
+
+    IGamePresenter gamePresenter;
     private bool techtree;
     private bool pause;
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
+        gamePresenter = GetComponent<IGamePresenter>();
+
         HideUI(OptionUI);
         HideUI(TechTreeUI);
         option = false;
         techtree = false;
         pause = false;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,7 +46,10 @@ public class GameView : MonoBehaviour, IGameView
     }
 
 
+    public void TextUIUpdate()
+    {
 
+    }
 
     public void HideUI(GameObject gameObject)
     {

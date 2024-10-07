@@ -84,14 +84,12 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
         int techPoint = playerTechData.TechPoint - currentTechModel.TechCosts[ID];
         int revenueValue = playerTechData.RevenueValue + currentTechModel.Revenue[ID];
-        double communityOpinion = (playerTechData.CommunityOpinionValue + currentTechModel.CommunityOpinion[ID]) / (playerSaveData.Employees * 100);
         int maxEmployees = playerTechData.MaxEmployee + currentTechModel.MaxEmployee[ID];
         int[] techLevels = currentTechModel.TechLevels;
         PlayerTechModel value = new PlayerTechModel
             (
             techPoint,
             revenueValue,
-            communityOpinion,
             maxEmployees,
             techLevels
             );

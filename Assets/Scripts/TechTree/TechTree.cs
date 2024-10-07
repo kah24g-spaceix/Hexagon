@@ -34,7 +34,6 @@ public class TechTree : MonoBehaviour
     {
         _playerTechModel = playerModel.GetPlayerTechModel();
         TechPoint = _playerTechModel.TechPoint;
-        CommunityOpinionValue = _playerTechModel.CommunityOpinionValue;
     }
 
     public void InitializeTechModel(TechData techData)
@@ -44,7 +43,6 @@ public class TechTree : MonoBehaviour
         int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
         int[] revenue = techData.TechDataLines.Select(t => t.Revenue).ToArray();
         int[] maxEmployee = techData.TechDataLines.Select(t=> t.MaxEmployee).ToArray();
-        int[] communityOpinion = techData.TechDataLines.Select(t => t.CommunityOpinion).ToArray();
         string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
         string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
         int[][] connectedTechs = techData.TechDataLines.Select(t => t.ConnectedTechs).ToArray();
@@ -55,7 +53,6 @@ public class TechTree : MonoBehaviour
             techCosts,
             revenue,
             maxEmployee,
-            communityOpinion,
             techNames,
             techDescriptions,
             connectedTechs

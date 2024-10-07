@@ -1,12 +1,46 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.VersionControl.Asset;
 
 public class GameModel : MonoBehaviour, IGameModel
 {
+    [SerializeField] private TextAsset _playerDataInit;
     private PlayerSaveData _playerSaveData;
     private PlayerSaveModel _playerSaveModel;
     private PlayerTechModel _playerTechModel;
 
+    private bool newGame;
+    private void Awake()
+    {
+        if (newGame)
+            LoadData();
+    }
+    private void LoadData()
+    {
+        PlayerSaveData saveData = JsonConvert.DeserializeObject<PlayerSaveData>(_playerDataInit.text);
+        int money = saveData.Money;
+        int commodity = saveData.Commodity;
+        int employees = saveData.Employees;
+        int resistance = saveData.Resistance;
+        int day = saveData.Day;
+        int techPoint = saveData.TechPoint;
+        int revenueValue = saveData.RevenueValue;
+        double communityOpinionValue = saveData.CommunityOpinionValue;
+        int maxEmployees = saveData.MaxEmployee;
+        int[] techLevels = saveData.TechLevels;
+        _playerSaveData = new PlayerSaveData(
+            money,
+            commodity,
+            employees,
+            resistance,
+            communityOpinionValue,
+            day,
+            techPoint,
+            revenueValue,
+            maxEmployees,
+            techLevels);
+    }
     public PlayerSaveModel GetPlayerSaveModel()
     {
         return _playerSaveModel;
@@ -24,10 +58,10 @@ public class GameModel : MonoBehaviour, IGameModel
         model.Commodity,
         model.Employees,
         model.Resistance,
+        model.CommunityOpinionValue,
         model.Day,
         _playerTechModel.TechPoint,
         _playerTechModel.RevenueValue,
-        _playerTechModel.CommunityOpinionValue,
         _playerTechModel.MaxEmployee,
         _playerTechModel.TechLevels);
 
@@ -41,10 +75,10 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerSaveModel.Commodity,
         _playerSaveModel.Employees,
         _playerSaveModel.Resistance,
+        _playerSaveModel.CommunityOpinionValue,
         _playerSaveModel.Day,
         model.TechPoint,
         model.RevenueValue,
-        model.CommunityOpinionValue,
         model.MaxEmployee,
         model.TechLevels);
 
@@ -61,10 +95,10 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerSaveModel.Commodity,
             _playerSaveModel.Employees,
             _playerSaveModel.Resistance,
+            _playerSaveModel.CommunityOpinionValue,
             _playerSaveModel.Day,
             _playerTechModel.TechPoint,
             _playerTechModel.RevenueValue,
-            _playerTechModel.CommunityOpinionValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels);
 
@@ -82,10 +116,10 @@ public class GameModel : MonoBehaviour, IGameModel
             commodity,
             _playerSaveModel.Employees,
             _playerSaveModel.Resistance,
+            _playerSaveModel.CommunityOpinionValue,
             _playerSaveModel.Day,
             _playerTechModel.TechPoint,
             _playerTechModel.RevenueValue,
-            _playerTechModel.CommunityOpinionValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels);
 
@@ -107,10 +141,10 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerSaveModel.Commodity,
             _playerSaveModel.Employees,
             _playerSaveModel.Resistance,
+            _playerSaveModel.CommunityOpinionValue,
             _playerSaveModel.Day,
             techPoint,
             _playerTechModel.RevenueValue,
-            _playerTechModel.CommunityOpinionValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
         );
@@ -126,7 +160,7 @@ public class GameModel : MonoBehaviour, IGameModel
 
         int temp = _playerSaveModel.Employees / 10;
         double randomValue = UnityEngine.Random.Range(0f, 100f);
-        if (randomValue <= (100 - _playerTechModel.CommunityOpinionValue))
+        if (randomValue <= (100 - _playerSaveModel.CommunityOpinionValue))
         {
             if (_playerSaveModel.Employees + temp <= _playerTechModel.MaxEmployee)
             {
@@ -144,10 +178,10 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerSaveModel.Commodity,
             employees,
             resistance,
+            _playerSaveModel.CommunityOpinionValue,
             day,
             techPoint,
             _playerTechModel.RevenueValue,
-            _playerTechModel.CommunityOpinionValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
             );
@@ -182,10 +216,10 @@ public class GameModel : MonoBehaviour, IGameModel
             commodity,
             employees,
             resistance,
+            communityOpinionValue,
             day,
             techPoint,
             revenueValue,
-            communityOpinionValue,
             maxEmployees,
             techLevels);
         return true;

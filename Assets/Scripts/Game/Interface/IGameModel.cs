@@ -4,6 +4,7 @@ public struct PlayerSaveModel
     public int Commodity { get; } // 물자
     public int Employees { get; } // 직원
     public int Resistance { get; } // 저항군
+    public double CommunityOpinionValue { get; } // 민심도
     public int Day { get; }
 
 
@@ -13,6 +14,7 @@ public struct PlayerSaveModel
         int commodity,
         int employees,
         int resistance,
+        double communityOpinionValue,
         int day
         )
     {
@@ -20,6 +22,7 @@ public struct PlayerSaveModel
         Commodity = commodity;
         Employees = employees;
         Resistance = resistance;
+        CommunityOpinionValue = communityOpinionValue;
         Day = day;
     }
 }
@@ -27,20 +30,17 @@ public struct PlayerTechModel
 {
     public int TechPoint { get; } // 테크 포인트
     public int RevenueValue { get; } // 수익수치
-    public double CommunityOpinionValue { get; } // 민심도
     public int MaxEmployee { get; } // 최대 직원 수용인원 수
     public int[] TechLevels { get; }
 
     public PlayerTechModel(
         int techPoint,
         int revenueValue,
-        double communityOpinionValue,
         int maxEmployees,
         int[] techLevels)
     {
         TechPoint = techPoint;
         RevenueValue = revenueValue;
-        CommunityOpinionValue = communityOpinionValue;
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }

@@ -4,87 +4,78 @@
         "TechCost": 10,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 3,
         "TechName": "Basic Research",
         "TechDescription": "Basic research increases knowledge.",
-        "ConnectedTechs": ["1", "2"]
+        "ConnectedTechs": [1, 2]
     },
     {
         "TechCap": 3,
         "TechCost": 15,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 2,
         "TechName": "Advanced Research",
         "TechDescription": "Advanced research allows more complex studies.",
-        "ConnectedTechs": ["3", "4"]
+        "ConnectedTechs": [3, 4]
     },
     {
         "TechCap": 7,
         "TechCost": 20,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 4,
         "TechName": "Quantum Computing",
         "TechDescription": "Quantum computing opens new possibilities.",
-        "ConnectedTechs": ["5"]
+        "ConnectedTechs": [5]
     },
     {
         "TechCap": 4,
         "TechCost": 25,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 5,
         "TechName": "Artificial Intelligence",
         "TechDescription": "Artificial intelligence automates complex tasks.",
-        "ConnectedTechs": ["6"]
+        "ConnectedTechs": [6]
     },
     {
         "TechCap": 6,
         "TechCost": 12,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 3,
         "TechName": "Machine Learning",
         "TechDescription": "Machine learning enhances pattern recognition.",
-        "ConnectedTechs": ["7"]
+        "ConnectedTechs": [7]
     },
     {
         "TechCap": 8,
         "TechCost": 18,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 4,
         "TechName": "Data Analysis",
         "TechDescription": "Data analysis improves decision making.",
-        "ConnectedTechs": ["8"]
+        "ConnectedTechs": [8]
     },
     {
         "TechCap": 7,
         "TechCost": 22,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 5,
         "TechName": "Cybersecurity",
         "TechDescription": "Cybersecurity protects digital assets.",
-        "ConnectedTechs": ["9"]
+        "ConnectedTechs": [9]
     },
     {
         "TechCap": 3,
         "TechCost": 14,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 3,
         "TechName": "Cloud Computing",
         "TechDescription": "Cloud computing offers scalable resources.",
-        "ConnectedTechs": ["10"]
+        "ConnectedTechs": [10]
     },
     {
         "TechCap": 5,
         "TechCost": 16,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 4,
         "TechName": "Robotics",
         "TechDescription": "Robotics enables automation.",
         "ConnectedTechs": []
@@ -94,7 +85,6 @@
         "TechCost": 20,
         "Revenue": 1,
         "MaxEmployee": 1,
-        "CommunityOpinion": 5,
         "TechName": "Nanotechnology",
         "TechDescription": "Nanotechnology allows precision engineering.",
         "ConnectedTechs": []

@@ -21,11 +21,11 @@ public class PlayerSaveData
         int commodity,
         int employees,
         int resistance,
+        double communityOpinionValue,
         int day,
 
         int techPoint,
         int revenueValue,
-        double communityOpinionValue,
         int maxEmployees,
         int[] techLevels
         )
@@ -34,10 +34,10 @@ public class PlayerSaveData
         Commodity = commodity;
         Employees = employees;
         Resistance = resistance;
+        CommunityOpinionValue = communityOpinionValue;
         Day = day;
         TechPoint = techPoint;
         RevenueValue = revenueValue;
-        CommunityOpinionValue = communityOpinionValue;
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }
