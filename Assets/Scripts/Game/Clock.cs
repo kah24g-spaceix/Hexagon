@@ -8,14 +8,11 @@ public class Clock : MonoBehaviour
     private float time;
     private float currentTime;
 
-    private int minute;
-    private int second;
-
     private void Awake()
     {
         gameManager = GetComponent<GameManager>();
 
-        time = 60.0f * gameManager.minute;
+        time = gameManager.second;
     }
     IEnumerator StartTimer()
     {
@@ -23,8 +20,6 @@ public class Clock : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            minute = (int)currentTime / 60;
-            minute = (int)currentTime % 60;
             yield return null;
 
             if (currentTime <= 0)

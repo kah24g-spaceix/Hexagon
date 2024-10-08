@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static UnityEditor.VersionControl.Asset;
 
 public class GameModel : MonoBehaviour, IGameModel
@@ -10,36 +11,16 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerSaveModel _playerSaveModel;
     private PlayerTechModel _playerTechModel;
 
-    private bool newGame;
+    
     private void Awake()
     {
-        if (newGame)
-            LoadData();
+        Debug.Log("init data");
+        InitData();
     }
-    private void LoadData()
+    private void InitData()
     {
-        PlayerSaveData saveData = JsonConvert.DeserializeObject<PlayerSaveData>(_playerDataInit.text);
-        int money = saveData.Money;
-        int commodity = saveData.Commodity;
-        int employees = saveData.Employees;
-        int resistance = saveData.Resistance;
-        int day = saveData.Day;
-        int techPoint = saveData.TechPoint;
-        int revenueValue = saveData.RevenueValue;
-        double communityOpinionValue = saveData.CommunityOpinionValue;
-        int maxEmployees = saveData.MaxEmployee;
-        int[] techLevels = saveData.TechLevels;
-        _playerSaveData = new PlayerSaveData(
-            money,
-            commodity,
-            employees,
-            resistance,
-            communityOpinionValue,
-            day,
-            techPoint,
-            revenueValue,
-            maxEmployees,
-            techLevels);
+        PlayerSaveData initData = JsonConvert.DeserializeObject<PlayerSaveData>(_playerDataInit.text);
+        SetData(initData);
     }
     public PlayerSaveModel GetPlayerSaveModel()
     {
@@ -90,19 +71,14 @@ public class GameModel : MonoBehaviour, IGameModel
             + _playerSaveModel.Employees
             * (UnityEngine.Random.Range(_playerSaveModel.Employees, _playerTechModel.MaxEmployee)
             * 100000);
-        PlayerSaveData newData = new PlayerSaveData(
-            money,
+        PlayerSaveModel model = new PlayerSaveModel(
+            money, 
             _playerSaveModel.Commodity,
             _playerSaveModel.Employees,
             _playerSaveModel.Resistance,
             _playerSaveModel.CommunityOpinionValue,
-            _playerSaveModel.Day,
-            _playerTechModel.TechPoint,
-            _playerTechModel.RevenueValue,
-            _playerTechModel.MaxEmployee,
-            _playerTechModel.TechLevels);
-
-        _playerSaveData = newData;
+            _playerSaveModel.Day);
+        DoPlayerInfoResult(model);
     }
     public void BuyCommodity()
     {
@@ -111,19 +87,14 @@ public class GameModel : MonoBehaviour, IGameModel
         {
             int money = _playerSaveModel.Money - cost;
             int commodity = _playerSaveModel.Employees * 100;
-            PlayerSaveData newData = new PlayerSaveData(
-            money,
-            commodity,
-            _playerSaveModel.Employees,
-            _playerSaveModel.Resistance,
-            _playerSaveModel.CommunityOpinionValue,
-            _playerSaveModel.Day,
-            _playerTechModel.TechPoint,
-            _playerTechModel.RevenueValue,
-            _playerTechModel.MaxEmployee,
-            _playerTechModel.TechLevels);
-
-            _playerSaveData = newData;
+            PlayerSaveModel model = new PlayerSaveModel(
+                money,
+                commodity,
+                _playerSaveModel.Employees,
+                _playerSaveModel.Resistance,
+                _playerSaveModel.CommunityOpinionValue,
+                _playerSaveModel.Day);
+            DoPlayerInfoResult(model);
         }
         else
         {
@@ -201,17 +172,22 @@ public class GameModel : MonoBehaviour, IGameModel
             return false;
         string value = PlayerPrefs.GetString("Save");
         PlayerSaveData saveData = JsonConvert.DeserializeObject<PlayerSaveData>(value);
-        int money = saveData.Money;
-        int commodity = saveData.Commodity;
-        int employees = saveData.Employees;
-        int resistance = saveData.Resistance;
-        int day = saveData.Day;
-        int techPoint = saveData.TechPoint;
-        int revenueValue = saveData.RevenueValue;
-        double communityOpinionValue = saveData.CommunityOpinionValue;
-        int maxEmployees = saveData.MaxEmployee;
-        int[] techLevels = saveData.TechLevels;
-        _playerSaveData = new PlayerSaveData(
+        SetData(saveData);
+        return true;
+    }
+    private void SetData(PlayerSaveData data) 
+    {
+        int money = data.Money;
+        int commodity = data.Commodity;
+        int employees = data.Employees;
+        int resistance = data.Resistance;
+        int day = data.Day;
+        int techPoint = data.TechPoint;
+        int revenueValue = data.RevenueValue;
+        double communityOpinionValue = data.CommunityOpinionValue;
+        int maxEmployees = data.MaxEmployee;
+        int[] techLevels = data.TechLevels;
+        PlayerSaveData newData = new PlayerSaveData(
             money,
             commodity,
             employees,
@@ -222,6 +198,9 @@ public class GameModel : MonoBehaviour, IGameModel
             revenueValue,
             maxEmployees,
             techLevels);
-        return true;
+
+        _playerSaveData = newData;
+
+        Debug.Log($"{money}{commodity}{employees}{resistance}{day}{techPoint}{revenueValue}{maxEmployees}{techLevels}");
     }
 }
