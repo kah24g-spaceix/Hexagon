@@ -18,13 +18,13 @@ public class Tech : MonoBehaviour, IView<TechModel>
     private void Awake()
     {
         playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
-
         Button button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
     }
 
     public void Bind(TechModel model)
     {
+        PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
         if (ID < 0 || ID >= model.TechLevels.Length)
         {
             Debug.LogError($"Tech ID {ID} is out of range.");
@@ -34,7 +34,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
         levelText.text = $"{model.TechLevels[ID]}/{model.TechCaps[ID]}";
         titleText.text = $"{model.TechNames[ID]}";
         descriptionText.text = $"{model.TechDescriptions[ID]}";
-        costText.text = $"Cost: {techTree.TechPoint}/{model.TechCosts[ID]} TP";
+        costText.text = $"Cost: {playerTechData.TechPoint}/{model.TechCosts[ID]} TP";
 
         Image sprite = GetComponent<Image>();
         if (model.TechLevels[ID] >= model.TechCaps[ID])
@@ -42,7 +42,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
             costText.gameObject.SetActive(false);
             sprite.color = Color.white;
         }
-        else if (techTree.TechPoint >= model.TechCosts[ID])
+        else if (playerTechData.TechPoint >= model.TechCosts[ID])
         {
             sprite.color = Color.yellow;
         }
@@ -73,9 +73,9 @@ public class Tech : MonoBehaviour, IView<TechModel>
     {
         Debug.Log("누름");
         TechModel currentTechModel = techTree.TechModel;
-        PlayerSaveModel playerSaveData = playerModel.GetPlayerSaveModel();
         PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
-        if (techTree.TechPoint < currentTechModel.TechCosts[ID] || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
+        Debug.Log($"{playerTechData.TechPoint}");
+        if (playerTechData.TechPoint < currentTechModel.TechCosts[ID] || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
         {
             Debug.Log("구매 불가");
             return;

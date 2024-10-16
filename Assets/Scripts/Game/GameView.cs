@@ -6,7 +6,6 @@ public class GameView : MonoBehaviour, IGameView
 {
     [Header("Option UI")]
     [SerializeField] private GameObject OptionUI;
-    private bool option;
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
     [Header("InGame Value UI")]
@@ -16,13 +15,14 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI Commodity;
 
     IGamePresenter gamePresenter;
+    private bool option;
     private bool techtree;
     private bool pause;
     // Start is called before the first frame update
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
-
+        TextUIUpdate();
         HideUI(OptionUI);
         HideUI(TechTreeUI);
         option = false;
@@ -48,9 +48,13 @@ public class GameView : MonoBehaviour, IGameView
 
     public void TextUIUpdate()
     {
-
+        Day.text = gamePresenter.GetDay();
+        Money.text = gamePresenter.GetMoney();
     }
-
+    public void ClockUpdate(string currentTime)
+    {
+        CurrentTime.text = currentTime;
+    }
     public void HideUI(GameObject gameObject)
     {
         gameObject.gameObject.SetActive(false);

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 public class GamePresenter : MonoBehaviour, IGamePresenter
 {
@@ -9,19 +10,27 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private PlayerTechModel _playerTechModel;
 
     GameManager _gameManager;
+    Clock _clock;
     private void Awake()
     {
-        _gameManager = GetComponent<GameManager>();
         _model = GetComponent<IGameModel>();
+        _gameView = GetComponent<IGameView>();
+        _gameManager = GetComponent<GameManager>();
+        _clock = GetComponent<Clock>();
     }
     private void Start()
     {
         ReloadData();
+        StartCoroutine(_clock.StartTimer());
         StartCoroutine(MoneyPerSecond());
     }
-    public void GetCurrentInfo(string day, string currentTime)
+    public string GetDay()
     {
-        
+        return $"Day {_playerSaveModel.Day}";
+    }
+    public string GetMoney()
+    {
+        return $"{_playerSaveModel.Money} H$";
     }
     public IEnumerator MoneyPerSecond()
     {
@@ -69,5 +78,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         _playerSaveModel = _model.GetPlayerSaveModel();
         _playerTechModel = _model.GetPlayerTechModel();
+
+        _gameView.TextUIUpdate();
     }
 }

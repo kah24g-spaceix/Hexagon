@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -11,7 +12,6 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerSaveModel _playerSaveModel;
     private PlayerTechModel _playerTechModel;
 
-    
     private void Awake()
     {
         Debug.Log("init data");
@@ -21,6 +21,22 @@ public class GameModel : MonoBehaviour, IGameModel
     {
         PlayerSaveData initData = JsonConvert.DeserializeObject<PlayerSaveData>(_playerDataInit.text);
         SetData(initData);
+
+        PlayerSaveModel saveModel = new PlayerSaveModel(
+        initData.Money,
+        initData.Commodity,
+        initData.Employees,
+        initData.Resistance,
+        initData.CommunityOpinionValue,
+        initData.Day);
+        _playerSaveModel = saveModel;
+        PlayerTechModel techModel = new PlayerTechModel(
+        initData.TechPoint,
+        initData.RevenueValue,
+        initData.MaxEmployee,
+        initData.TechLevels
+            );
+        _playerTechModel = techModel;
     }
     public PlayerSaveModel GetPlayerSaveModel()
     {
@@ -46,6 +62,7 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerTechModel.MaxEmployee,
         _playerTechModel.TechLevels);
 
+        _playerSaveModel = model;
         _playerSaveData = newData;
     }
 
@@ -62,7 +79,9 @@ public class GameModel : MonoBehaviour, IGameModel
         model.RevenueValue,
         model.MaxEmployee,
         model.TechLevels);
+        Debug.Log($"point {model.TechPoint}");
 
+        _playerTechModel = model;
         _playerSaveData = newData;
     }
     public void Income()
@@ -201,6 +220,6 @@ public class GameModel : MonoBehaviour, IGameModel
 
         _playerSaveData = newData;
 
-        Debug.Log($"{money}{commodity}{employees}{resistance}{day}{techPoint}{revenueValue}{maxEmployees}{techLevels}");
+        Debug.Log($"Money:{money}commodity:{commodity}employees:{employees}resistance:{resistance}day:{day}tech point:{techPoint}revenueValue{revenueValue}maxEmployees{maxEmployees}techLevels{techLevels}");
     }
 }

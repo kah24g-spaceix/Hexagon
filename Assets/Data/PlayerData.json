@@ -1,12 +1,11 @@
 {
-    "Money": "10000000",
+    "Money": 10000000,
     "Commodity": 1,
     "Employees": 0,
     "Resistance": 0,
-    "TechPoint": 0,
+    "TechPoint": 100,
     "Day": 0,
     "RevenueValue": 0,
     "CommunityOpinionValue": 0,
-    "MaxEmployee": 0,
-    "TechLevels": []
+    "MaxEmployee": 0
 }
