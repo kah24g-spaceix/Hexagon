@@ -1,11 +1,22 @@
 {
-    "Money": 10000000,
-    "Commodity": 1,
-    "Employees": 0,
-    "Resistance": 0,
-    "TechPoint": 100,
-    "Day": 0,
-    "RevenueValue": 0,
-    "CommunityOpinionValue": 0,
-    "MaxEmployee": 0
-}
+    "SystemData": {
+      "Money": 10000,
+      "Employees": 50,
+      "Resistance": 20,
+      "CommunityOpinionValue": 75.5,
+      "Day": 1
+    },
+    "MaterialData": {
+      "Alloy": 200,
+      "Microchip": 150,
+      "CarbonFiber": 100,
+      "ConductiveFiber": 75,
+      "Pump": 10
+    },
+    "TechData": {
+      "TechPoint": 120,
+      "RevenueValue": 5000,
+      "MaxEmployee": 100,
+      "TechLevels": []
+    }
+  }

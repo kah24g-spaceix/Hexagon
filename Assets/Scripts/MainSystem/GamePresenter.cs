@@ -6,22 +6,22 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
 {
     private IGameModel _model;
     private IGameView _gameView;
-    private PlayerSaveModel _playerSaveModel;
+    private PlayerSystemModel _playerSaveModel;
     private PlayerTechModel _playerTechModel;
 
     GameManager _gameManager;
-    Clock _clock;
+    DayCycle _dayCycle;
     private void Awake()
     {
         _model = GetComponent<IGameModel>();
         _gameView = GetComponent<IGameView>();
         _gameManager = GetComponent<GameManager>();
-        _clock = GetComponent<Clock>();
+        _dayCycle = GetComponent<DayCycle>();
     }
     private void Start()
     {
         ReloadData();
-        StartCoroutine(_clock.StartTimer());
+        StartCoroutine(_dayCycle.StartDayCycle());
         StartCoroutine(MoneyPerSecond());
     }
     public string GetDay()
@@ -34,17 +34,18 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public IEnumerator MoneyPerSecond()
     {
-        while (true)
+        while(_dayCycle.currentTime > 0)
         {
             _model.Income();
             ReloadData();
             yield return new WaitForSeconds(1f);
+
+            if (_dayCycle.currentTime <= 0)
+            {
+                yield break;
+            }
         }
-    }
-    public void OnBuyCommodityButton()
-    {
-        _model.BuyCommodity();
-        ReloadData();
+
     }
     public void OnExchangeTechPointButton(int value)
     {
@@ -59,11 +60,19 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         ReloadData();
     }
 
-    public void NextDay()
+    public void DoTodayResult()
     {
-        StopCoroutine(MoneyPerSecond());
-        _model.Motivation();
+        _model.TodayResult();
+        LoadGame();
+    }
+    public void OnNextDayButton()
+    {
+        _model.NextDay();
         SaveGame();
+    }
+    public void OnRestartDayButton()
+    {
+        throw new System.NotImplementedException();
     }
     public void LoadGame()
     {
@@ -81,4 +90,6 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
 
         _gameView.TextUIUpdate();
     }
+
+
 }

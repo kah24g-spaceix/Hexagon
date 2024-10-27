@@ -6,8 +6,14 @@ public class GameView : MonoBehaviour, IGameView
 {
     [Header("Option UI")]
     [SerializeField] private GameObject OptionUI;
+    
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
+    [SerializeField] private GameObject ToDayResultUI;
+    
+    [SerializeField] private Button NextDayButton;
+    [SerializeField] private Button RestartDayButton;
+    
     [Header("InGame Value UI")]
     [SerializeField] private TextMeshProUGUI Day;
     [SerializeField] private TextMeshProUGUI CurrentTime;
@@ -22,12 +28,18 @@ public class GameView : MonoBehaviour, IGameView
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
-        TextUIUpdate();
-        HideUI(OptionUI);
-        HideUI(TechTreeUI);
+        //NextDayButton.onClick.AddListener(gamePresenter.OnNextDayButton);
+        //RestartDayButton.onClick.AddListener(gamePresenter.OnRestartDayButton);
+
         option = false;
         techtree = false;
         pause = false;
+    }
+    private void Start()
+    {
+        TextUIUpdate();
+        HideUI(OptionUI);
+        HideUI(TechTreeUI);
     }
     // Update is called once per frame
     void Update()
@@ -55,14 +67,24 @@ public class GameView : MonoBehaviour, IGameView
     {
         CurrentTime.text = currentTime;
     }
-    public void HideUI(GameObject gameObject)
+
+    public void ShowToDayResult()
     {
-        gameObject.gameObject.SetActive(false);
+        ToDayResultUI.gameObject.SetActive(true);
+    }
+    public void HideToDayResult()
+    {
+        ToDayResultUI.gameObject.SetActive(false);
     }
     public void ShowUI(GameObject gameObject)
     {
         gameObject.gameObject.SetActive(true);
     }
+    public void HideUI(GameObject gameObject)
+    {
+        gameObject.gameObject.SetActive(false);
+    }
+
     public void ActiveTrigger(GameObject gameObject, bool active)
     {
         gameObject.gameObject.SetActive(active);

@@ -1,17 +1,13 @@
-public struct PlayerSaveModel
+public struct PlayerSystemModel
 {
     public int Money { get; } // µ·
-    public int Commodity { get; } // ¹°ÀÚ
     public int Employees { get; } // Á÷¿ø
     public int Resistance { get; } // ÀúÇ×±º
     public double CommunityOpinionValue { get; } // ¹Î½Éµµ
     public int Day { get; }
 
-
-
-    public PlayerSaveModel(
+    public PlayerSystemModel(
         int money,
-        int commodity,
         int employees,
         int resistance,
         double communityOpinionValue,
@@ -19,11 +15,37 @@ public struct PlayerSaveModel
         )
     {
         Money = money;
-        Commodity = commodity;
         Employees = employees;
         Resistance = resistance;
         CommunityOpinionValue = communityOpinionValue;
         Day = day;
+    }
+}
+public struct PlayerMaterialModel
+{
+    public int Alloy { get; } // ÇÕ±Ý
+    public int Microchip { get; } // ¸¶ÀÌÅ©·Î Ä¨
+    public int CarbonFiber { get; } // Åº¼Ò ¼¶À¯
+    public int ConductiveFiber { get; } // Àüµµ¼º ¼¶À¯
+    public int Pump { get; } // ÆßÇÁ
+    public int RubberTube { get; } // °ü
+
+
+    public PlayerMaterialModel(
+        int alloy,
+        int microchip,
+        int carbonFiber,
+        int conductiveFiber,
+        int pump,
+        int tube
+        )
+    {
+        Alloy = alloy;
+        Microchip = microchip;
+        CarbonFiber = carbonFiber;
+        ConductiveFiber = conductiveFiber;
+        Pump = pump;
+        RubberTube = tube;
     }
 }
 public struct PlayerTechModel
@@ -44,18 +66,28 @@ public struct PlayerTechModel
         MaxEmployee = maxEmployees;
         TechLevels = techLevels;
     }
-
 }
 public interface IGameModel
 {
-    PlayerSaveModel GetPlayerSaveModel();
+    PlayerSystemModel GetPlayerSaveModel();
+    PlayerMaterialModel GetPlayerCommodityModel();
     PlayerTechModel GetPlayerTechModel();
-    void Income();
-    void BuyCommodity();
-    void ExchangeTechPoint(int value);
-    void Motivation();
-    void DoPlayerInfoResult(PlayerSaveModel model);
+    void DoSystemResult(PlayerSystemModel model);
+    void DoMaterialResult(PlayerMaterialModel model);
     void DoTechResult(PlayerTechModel model);
+    void Income();
+    void ExchangeTechPoint(int value);
+    void TodayResult();
+    void NextDay();
+
+    void AlloyFactory();
+    void MicrochipFactory();
+    void CarbonFiberFactory();
+    void ConductiveFiber();
+    void PumpFactory();
+    void RubberTubeFactory();
+
+
     void SaveGame();
     bool LoadGame();
 }

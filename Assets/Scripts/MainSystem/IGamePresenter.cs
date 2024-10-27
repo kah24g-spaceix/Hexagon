@@ -6,9 +6,10 @@ public interface IGamePresenter
     string GetDay();
     string GetMoney();
     IEnumerator MoneyPerSecond();
-    void OnBuyCommodityButton();
     void OnExchangeTechPointButton(int value);
-    void NextDay();
+    void OnNextDayButton();
+    void OnRestartDayButton();
+    void DoTodayResult();
     void LoadGame();
     void SaveGame();
 }

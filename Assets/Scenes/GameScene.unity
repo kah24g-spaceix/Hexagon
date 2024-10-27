@@ -324,6 +324,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OptionUI: {fileID: 2081534190}
   TechTreeUI: {fileID: 654135593}
+  ToDayResultUI: {fileID: 0}
+  NextDayButton: {fileID: 0}
+  RestartDayButton: {fileID: 0}
   Day: {fileID: 2061562602}
   CurrentTime: {fileID: 1843626655}
   Money: {fileID: 1381595933}
@@ -2269,7 +2272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &584438597
 RectTransform:
   m_ObjectHideFlags: 0
