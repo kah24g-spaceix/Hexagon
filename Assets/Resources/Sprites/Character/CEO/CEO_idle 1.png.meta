@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3d843f688c501664d989334a86f3d980
+guid: a48f149f4ce93f146988217f7bd9a9b5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,13 +44,13 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -110,232 +110,232 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CEO_idle_0
+      name: CEO_idle 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ae2ee357c9ab76b4a9f4190ac7587ff5
-      internalID: 2002391472
+      spriteID: 38b137004f1f86845ae6d79aa4319d61
+      internalID: -372614880
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_1
+      name: CEO_idle 1_1
       rect:
         serializedVersion: 2
         x: 12
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c3b5ecc034735347ac90dc067e4d536
-      internalID: -287505392
+      spriteID: 64f5026933f7c4a44b8672943d4c4c85
+      internalID: 789148058
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_2
+      name: CEO_idle 1_2
       rect:
         serializedVersion: 2
         x: 24
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5bb79f28b32b7e64abc31312712c33cf
-      internalID: 265662031
+      spriteID: 7017c13a60875ab4c8303e95866a7724
+      internalID: 445018713
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_3
+      name: CEO_idle 1_3
       rect:
         serializedVersion: 2
         x: 36
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 608143219c7098a4c99e29afe79f8ca2
-      internalID: -1660515355
+      spriteID: c2fbd6884c34cbb4fad94bb6d922d0ca
+      internalID: -1280370474
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_4
+      name: CEO_idle 1_4
       rect:
         serializedVersion: 2
         x: 48
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c65bc873ad9dec4a902ad33f6d9bcc5
-      internalID: -426069416
+      spriteID: 0a019a2e51a174b45bf85143a96dfd02
+      internalID: 304739630
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_5
+      name: CEO_idle 1_5
       rect:
         serializedVersion: 2
         x: 60
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d4e4e83685abab47a36707ef8fdd5c7
-      internalID: -791772973
+      spriteID: 09b37b8a2bce2064980e9a35eeec247f
+      internalID: 1659219513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_6
+      name: CEO_idle 1_6
       rect:
         serializedVersion: 2
         x: 72
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d8806118db55e874cbcf03a4f051c58a
-      internalID: -1029386665
+      spriteID: dd08a27c507d91e439cd88e94d17b841
+      internalID: 1972559303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_7
+      name: CEO_idle 1_7
       rect:
         serializedVersion: 2
         x: 84
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c96b424d52ea7f544b5a7d4276157395
-      internalID: 1762508778
+      spriteID: 70a6bf77962f06e45a6a31bb9f926126
+      internalID: -909331814
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_8
+      name: CEO_idle 1_8
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: acf515a0b0e6fc74b9302525594e80c7
-      internalID: -74567357
+      spriteID: 398f9101d80f9ef40b6373371d02f06e
+      internalID: 2102844235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_9
+      name: CEO_idle 1_9
       rect:
         serializedVersion: 2
         x: 108
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f0e5d08cfaca484f80134a1d9a0496b
-      internalID: -51038403
+      spriteID: 14bbf53f2dff02e40ae67afa6e10729f
+      internalID: -1528635791
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CEO_idle_10
+      name: CEO_idle 1_10
       rect:
         serializedVersion: 2
         x: 120
         y: 0
         width: 12
-        height: 33
+        height: 34
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3f6e26e104c7114b8e33f456193da53
-      internalID: 2008875052
+      spriteID: ae2fef9d64dcc05429422bcf8c36c084
+      internalID: 1998253510
       vertices: []
       indices: 
       edges: []
@@ -351,17 +351,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CEO_idle_0: 2002391472
-      CEO_idle_1: -287505392
-      CEO_idle_10: 2008875052
-      CEO_idle_2: 265662031
-      CEO_idle_3: -1660515355
-      CEO_idle_4: -426069416
-      CEO_idle_5: -791772973
-      CEO_idle_6: -1029386665
-      CEO_idle_7: 1762508778
-      CEO_idle_8: -74567357
-      CEO_idle_9: -51038403
+      CEO_idle 1_0: -372614880
+      CEO_idle 1_1: 789148058
+      CEO_idle 1_10: 1998253510
+      CEO_idle 1_2: 445018713
+      CEO_idle 1_3: -1280370474
+      CEO_idle 1_4: 304739630
+      CEO_idle 1_5: 1659219513
+      CEO_idle 1_6: 1972559303
+      CEO_idle 1_7: -909331814
+      CEO_idle 1_8: 2102844235
+      CEO_idle 1_9: -1528635791
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
