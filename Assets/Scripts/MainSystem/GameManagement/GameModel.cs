@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameModel : MonoBehaviour, IGameModel
 {
@@ -53,7 +51,7 @@ public class GameModel : MonoBehaviour, IGameModel
             );
     }
 
-    
+
     public PlayerSystemModel GetPlayerSaveModel() => _playerSystemModel;
     public PlayerMaterialModel GetPlayerCommodityModel() => _playerMaterialModel;
     public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
@@ -196,7 +194,7 @@ public class GameModel : MonoBehaviour, IGameModel
             data.MaterialData.Microchip,
             data.MaterialData.CarbonFiber,
             data.MaterialData.ConductiveFiber,
-            data.MaterialData.Pump, 
+            data.MaterialData.Pump,
             data.MaterialData.RubberTube
             );
         _playerTechModel = new PlayerTechModel(

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 public class GamePresenter : MonoBehaviour, IGamePresenter
 {
@@ -34,7 +33,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public IEnumerator MoneyPerSecond()
     {
-        while(_dayCycle.currentTime > 0)
+        while (_dayCycle.currentTime > 0)
         {
             _model.Income();
             ReloadData();
