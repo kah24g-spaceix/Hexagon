@@ -9,8 +9,9 @@ public class GameView : MonoBehaviour, IGameView
     
     [Header("InGame UI")]
     [SerializeField] private GameObject TechTreeUI;
+
+    [Header("DayEnd UI")]
     [SerializeField] private GameObject ToDayResultUI;
-    
     [SerializeField] private Button NextDayButton;
     [SerializeField] private Button RestartDayButton;
     
@@ -19,6 +20,14 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI CurrentTime;
     [SerializeField] private TextMeshProUGUI Money;
     [SerializeField] private TextMeshProUGUI Commodity;
+
+    [Header("InGame Button")]
+    [SerializeField] private Button MenuButton;
+    [SerializeField] private GameObject ButtonsUI;
+    [SerializeField] private Button StoreButton;
+    [SerializeField] private Button ImplantButton;
+    [SerializeField] private Button TechButton;
+    [SerializeField] private Button HeadCountButton;
 
     IGamePresenter gamePresenter;
     private bool option;
