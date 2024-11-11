@@ -21,7 +21,12 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         ReloadData();
         StartCoroutine(_dayCycle.StartDayCycle());
-        StartCoroutine(MoneyPerSecond());
+    }
+
+    public IEnumerator DataChangeUpdate()
+    {
+        MoneyPerSecond();
+        DoUpdatePlant();
     }
     public string GetDay()
     {
@@ -31,19 +36,13 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         return $"{_playerSaveModel.Money} H$";
     }
-    public IEnumerator MoneyPerSecond()
+    public void MoneyPerSecond()
     {
-        while (_dayCycle.currentTime > 0)
-        {
-            _model.Income();
-            ReloadData();
-            yield return new WaitForSeconds(1f);
-
-            if (_dayCycle.currentTime <= 0)
-            {
-                yield break;
-            }
-        }
+        _model.Income();
+        ReloadData();
+    }
+    public void DoUpdatePlant()
+    {
 
     }
     public void OnExchangeTechPointButton(int value)
@@ -62,23 +61,26 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void DoTodayResult()
     {
         _model.TodayResult();
-        LoadGame();
+        DoLoadGame();
     }
     public void OnNextDayButton()
     {
         _model.NextDay();
-        SaveGame();
+        DoSaveGame();
     }
+
     public void OnRestartDayButton()
     {
         throw new System.NotImplementedException();
     }
-    public void LoadGame()
+
+
+    public void DoLoadGame()
     {
         _model.LoadGame();
         ReloadData();
     }
-    public void SaveGame()
+    public void DoSaveGame()
     {
         _model.SaveGame();
     }

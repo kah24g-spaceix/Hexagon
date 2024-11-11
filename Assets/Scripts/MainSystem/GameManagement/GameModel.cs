@@ -1,4 +1,6 @@
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 public class GameModel : MonoBehaviour, IGameModel
@@ -9,12 +11,20 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerSystemModel _playerSystemModel;
     private PlayerMaterialModel _playerMaterialModel;
     private PlayerTechModel _playerTechModel;
+
+    [HideInInspector] public bool isLoad;
     // 값 상수로 빼기
     // PlayerData 나누기
     private void Awake()
     {
-        Debug.Log("init data");
-        InitData();
+        if (isLoad)
+            LoadGame();
+        else
+        {
+            Debug.Log("init data");
+            InitData();
+        }
+
     }
 
     private void InitData()
@@ -22,9 +32,24 @@ public class GameModel : MonoBehaviour, IGameModel
         PlayerData initData = JsonConvert.DeserializeObject<PlayerData>(_playerDataInit.text);
         SetData(initData);
 
-        _playerSystemModel = new PlayerSystemModel(initData.SystemData.Money, initData.SystemData.Employees, initData.SystemData.Resistance, initData.SystemData.CommunityOpinionValue, initData.SystemData.Day);
-        _playerMaterialModel = new PlayerMaterialModel(initData.MaterialData.Alloy, initData.MaterialData.Microchip, initData.MaterialData.CarbonFiber, initData.MaterialData.ConductiveFiber, initData.MaterialData.Pump, initData.MaterialData.RubberTube);
-        _playerTechModel = new PlayerTechModel(initData.TechData.TechPoint, initData.TechData.RevenueValue, initData.TechData.MaxEmployee, initData.TechData.TechLevels);
+        _playerSystemModel = new PlayerSystemModel(
+            initData.SystemData.Money, 
+            initData.SystemData.Employees, 
+            initData.SystemData.Resistance, 
+            initData.SystemData.CommunityOpinionValue, 
+            initData.SystemData.Day);
+        _playerMaterialModel = new PlayerMaterialModel(
+            initData.MaterialData.Alloy, 
+            initData.MaterialData.Microchip, 
+            initData.MaterialData.CarbonFiber, 
+            initData.MaterialData.ConductiveFiber, 
+            initData.MaterialData.Pump, 
+            initData.MaterialData.RubberTube);
+        _playerTechModel = new PlayerTechModel(
+            initData.TechData.TechPoint, 
+            initData.TechData.RevenueValue, 
+            initData.TechData.MaxEmployee, 
+            initData.TechData.TechLevels);
     }
     private void UpdatePlayerSaveData()
     {
@@ -75,16 +100,17 @@ public class GameModel : MonoBehaviour, IGameModel
         UpdatePlayerSaveData();
         Debug.Log($"point {model.TechPoint}");
     }
-
+    private readonly int defaultMoney = 100;
+    private readonly int balanceValue = 10;
     public void Income()
     {
         int currentEmployees = _playerSystemModel.Employees;
-        int maxIncome = Mathf.FloorToInt(_playerTechModel.MaxEmployee - (_playerSystemModel.Employees / 10));
-        int revenue = 1 + (_playerTechModel.RevenueValue / 100);
+        int maxIncome = Mathf.FloorToInt(_playerTechModel.MaxEmployee - (_playerSystemModel.Employees / balanceValue));
+        int revenue = 1 + (_playerTechModel.RevenueValue / defaultMoney);
 
         int money = currentEmployees <= maxIncome
-            ? _playerSystemModel.Money + (UnityEngine.Random.Range(currentEmployees, maxIncome) * 100 * revenue)
-            : _playerSystemModel.Money + (currentEmployees * 100);
+            ? _playerSystemModel.Money + (UnityEngine.Random.Range(currentEmployees, maxIncome) * defaultMoney * revenue)
+            : _playerSystemModel.Money + (currentEmployees * defaultMoney);
 
         _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue, _playerSystemModel.Day);
         UpdatePlayerSaveData();
@@ -114,12 +140,12 @@ public class GameModel : MonoBehaviour, IGameModel
         int techPoint = _playerTechModel.TechPoint + (50 + (_playerSystemModel.Day * 2));
         int temp = _playerSystemModel.Employees / 10;
 
-        double randomValue = UnityEngine.Random.Range(0f, 100f);
-        int employees = randomValue <= (100 - _playerSystemModel.CommunityOpinionValue)
+        double randomValue = UnityEngine.Random.Range(0f, defaultMoney);
+        int employees = randomValue <= (defaultMoney - _playerSystemModel.CommunityOpinionValue)
             ? Mathf.Min(_playerSystemModel.Employees + temp, _playerTechModel.MaxEmployee)
             : _playerSystemModel.Employees - temp;
 
-        int resistance = randomValue > (100 - _playerSystemModel.CommunityOpinionValue) ? _playerSystemModel.Resistance + temp : _playerSystemModel.Resistance;
+        int resistance = randomValue > (defaultMoney - _playerSystemModel.CommunityOpinionValue) ? _playerSystemModel.Resistance + temp : _playerSystemModel.Resistance;
 
         _playerSystemModel = new PlayerSystemModel(_playerSystemModel.Money, employees, resistance, _playerSystemModel.CommunityOpinionValue, _playerSystemModel.Day);
         _playerTechModel = new PlayerTechModel(techPoint, _playerTechModel.RevenueValue, _playerTechModel.MaxEmployee, _playerTechModel.TechLevels);
@@ -139,30 +165,7 @@ public class GameModel : MonoBehaviour, IGameModel
     }
 
     //공장
-    public void AlloyFactory()
-    {
 
-    }
-    public void MicrochipFactory()
-    {
-
-    }
-    public void CarbonFiberFactory()
-    {
-
-    }
-    public void ConductiveFiber()
-    {
-
-    }
-    public void PumpFactory()
-    {
-
-    }
-    public void RubberTubeFactory()
-    {
-
-    }
 
     public void SaveGame()
     {

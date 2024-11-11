@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-
 // 플레이어 시스템 관련 데이터
 public class PlayerSystemData
 {
@@ -65,8 +62,8 @@ public class PlayerData
     public PlayerTechTreeData TechData { get; set; } // 플레이어 테크 트리 데이터
 
     public PlayerData(
-        PlayerSystemData systemData, 
-        PlayerMaterialData materialData, 
+        PlayerSystemData systemData,
+        PlayerMaterialData materialData,
         PlayerTechTreeData techTreeData)
     {
         SystemData = systemData;

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public struct PlayerSystemModel
 {
     public int Money { get; } // µ·
@@ -79,15 +81,6 @@ public interface IGameModel
     void ExchangeTechPoint(int value);
     void TodayResult();
     void NextDay();
-
-    void AlloyFactory();
-    void MicrochipFactory();
-    void CarbonFiberFactory();
-    void ConductiveFiber();
-    void PumpFactory();
-    void RubberTubeFactory();
-
-
     void SaveGame();
     bool LoadGame();
 }

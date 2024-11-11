@@ -3,13 +3,17 @@ using System.Collections;
 public interface IGamePresenter
 {
     //void BindView(IGameView pView);
+    IEnumerator DataChangeUpdate();
     string GetDay();
     string GetMoney();
-    IEnumerator MoneyPerSecond();
-    void OnExchangeTechPointButton(int value);
+    void MoneyPerSecond();
     void OnNextDayButton();
     void OnRestartDayButton();
     void DoTodayResult();
-    void LoadGame();
-    void SaveGame();
+    void OnExchangeTechPointButton(int value);
+    void DoUpdatePlant();
+
+    
+    void DoLoadGame();
+    void DoSaveGame();
 }
