@@ -6,6 +6,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private IGameModel _model;
     private IGameView _gameView;
     private PlayerSystemModel _playerSaveModel;
+    private PlayerMaterialModel _playerMaterialModel;
     private PlayerTechModel _playerTechModel;
 
     GameManager _gameManager;
@@ -21,12 +22,19 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         ReloadData();
         StartCoroutine(_dayCycle.StartDayCycle());
+        StartCoroutine(DataChangeUpdate());
     }
 
     public IEnumerator DataChangeUpdate()
     {
-        MoneyPerSecond();
-        DoUpdatePlant();
+        while (_dayCycle.currentTime >= 0)
+        {
+            //MoneyPerSecond();
+            DoUpdatePlant();
+            ReloadData();
+            yield return new WaitForSeconds(1f);
+        }
+
     }
     public string GetDay()
     {
@@ -41,10 +49,35 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _model.Income();
         ReloadData();
     }
+
+    public void DoSell()
+    {
+        _model.Sell();
+        ReloadData();
+    }
     public void DoUpdatePlant()
     {
-
+        _model.UpdatePlantData(_gameView.GetContracts());
+        ReloadData();
     }
+    public string[] GetPlantText()
+    {
+        string[] text = new string[6] 
+        {
+            $"{_playerMaterialModel.Alloy}",
+            $"{_playerMaterialModel.Microchip}",
+            $"{_playerMaterialModel.CarbonFiber}",
+            $"{_playerMaterialModel.ConductiveFiber}",
+            $"{_playerMaterialModel.Pump}",
+            $"{_playerMaterialModel.RubberTube}"
+        };
+
+        return text;
+    }
+
+
+
+
     public void OnExchangeTechPointButton(int value)
     {
         if (_playerTechModel.TechPoint == 0)
@@ -62,11 +95,13 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         _model.TodayResult();
         DoLoadGame();
+        ReloadData();
     }
     public void OnNextDayButton()
     {
         _model.NextDay();
         DoSaveGame();
+        ReloadData();
     }
 
     public void OnRestartDayButton()
@@ -87,7 +122,9 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private void ReloadData()
     {
         _playerSaveModel = _model.GetPlayerSaveModel();
+        _playerMaterialModel = _model.GetPlayerMaterialModel();
         _playerTechModel = _model.GetPlayerTechModel();
+
 
         _gameView.TextUIUpdate();
     }

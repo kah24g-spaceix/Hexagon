@@ -33,22 +33,22 @@ public class GameModel : MonoBehaviour, IGameModel
         SetData(initData);
 
         _playerSystemModel = new PlayerSystemModel(
-            initData.SystemData.Money, 
-            initData.SystemData.Employees, 
-            initData.SystemData.Resistance, 
-            initData.SystemData.CommunityOpinionValue, 
+            initData.SystemData.Money,
+            initData.SystemData.Employees,
+            initData.SystemData.Resistance,
+            initData.SystemData.CommunityOpinionValue,
             initData.SystemData.Day);
         _playerMaterialModel = new PlayerMaterialModel(
-            initData.MaterialData.Alloy, 
-            initData.MaterialData.Microchip, 
-            initData.MaterialData.CarbonFiber, 
-            initData.MaterialData.ConductiveFiber, 
-            initData.MaterialData.Pump, 
+            initData.MaterialData.Alloy,
+            initData.MaterialData.Microchip,
+            initData.MaterialData.CarbonFiber,
+            initData.MaterialData.ConductiveFiber,
+            initData.MaterialData.Pump,
             initData.MaterialData.RubberTube);
         _playerTechModel = new PlayerTechModel(
-            initData.TechData.TechPoint, 
-            initData.TechData.RevenueValue, 
-            initData.TechData.MaxEmployee, 
+            initData.TechData.TechPoint,
+            initData.TechData.RevenueValue,
+            initData.TechData.MaxEmployee,
             initData.TechData.TechLevels);
     }
     private void UpdatePlayerSaveData()
@@ -76,9 +76,8 @@ public class GameModel : MonoBehaviour, IGameModel
             );
     }
 
-
     public PlayerSystemModel GetPlayerSaveModel() => _playerSystemModel;
-    public PlayerMaterialModel GetPlayerCommodityModel() => _playerMaterialModel;
+    public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
     public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
 
 
@@ -87,19 +86,17 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerSystemModel = model;
         UpdatePlayerSaveData();
     }
-
     public void DoMaterialResult(PlayerMaterialModel model)
     {
         _playerMaterialModel = model;
         UpdatePlayerSaveData();
     }
-
     public void DoTechResult(PlayerTechModel model)
     {
         _playerTechModel = model;
         UpdatePlayerSaveData();
-        Debug.Log($"point {model.TechPoint}");
     }
+
     private readonly int defaultMoney = 100;
     private readonly int balanceValue = 10;
     public void Income()
@@ -165,6 +162,83 @@ public class GameModel : MonoBehaviour, IGameModel
     }
 
     //°øÀå
+
+    public void Sell()
+    {
+        _playerSystemModel = new PlayerSystemModel(
+            _playerSystemModel.Money + 10000,
+            _playerSystemModel.Employees,
+            _playerSystemModel.Resistance,
+            _playerSystemModel.CommunityOpinionValue,
+            _playerSystemModel.Day);
+
+
+
+        _playerMaterialModel = new PlayerMaterialModel(
+_playerMaterialModel.Alloy - 1,
+_playerMaterialModel.Microchip - 1,
+_playerMaterialModel.CarbonFiber - 1,
+_playerMaterialModel.ConductiveFiber - 1,
+_playerMaterialModel.Pump - 1,
+_playerMaterialModel.RubberTube - 1);
+        UpdatePlayerSaveData();
+    }
+    public void UpdatePlantData(bool[] contracts)
+    {
+        var newModel = new PlayerMaterialModel(
+Plant1(contracts[0]),
+Plant2(contracts[1]),
+Plant3(contracts[2]),
+Plant4(contracts[3]),
+Plant5(contracts[4]),
+Plant6(contracts[5]));
+        DoMaterialResult(newModel);
+    }
+    public int Plant1(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.Alloy + 1;
+
+        return _playerMaterialModel.Alloy;
+    }
+    public int Plant2(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.Microchip + 1;
+
+        return _playerMaterialModel.Microchip;
+    }
+    public int Plant3(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.CarbonFiber + 1;
+
+        return _playerMaterialModel.CarbonFiber;
+    }
+    public int Plant4(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.ConductiveFiber + 1;
+
+        return _playerMaterialModel.ConductiveFiber;
+    }
+    public int Plant5(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.Pump + 1;
+
+        return _playerMaterialModel.Pump;
+    }
+    public int Plant6(bool contract)
+    {
+        if (contract)
+            return _playerMaterialModel.RubberTube + 1;
+
+        return _playerMaterialModel.RubberTube;
+    }
+
+
+
 
 
     public void SaveGame()

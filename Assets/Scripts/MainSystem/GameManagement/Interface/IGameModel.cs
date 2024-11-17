@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public struct PlayerSystemModel
 {
@@ -72,7 +73,7 @@ public struct PlayerTechModel
 public interface IGameModel
 {
     PlayerSystemModel GetPlayerSaveModel();
-    PlayerMaterialModel GetPlayerCommodityModel();
+    PlayerMaterialModel GetPlayerMaterialModel();
     PlayerTechModel GetPlayerTechModel();
     void DoSystemResult(PlayerSystemModel model);
     void DoMaterialResult(PlayerMaterialModel model);
@@ -81,6 +82,19 @@ public interface IGameModel
     void ExchangeTechPoint(int value);
     void TodayResult();
     void NextDay();
+
+
+    void Sell();
+    void UpdatePlantData(bool[] contracts);
+    int Plant1(bool contract);
+    int Plant2(bool contract);
+    int Plant3(bool contract);
+    int Plant4(bool contract);
+    int Plant5(bool contract);
+    int Plant6(bool contract);
+
+
+
     void SaveGame();
     bool LoadGame();
 }

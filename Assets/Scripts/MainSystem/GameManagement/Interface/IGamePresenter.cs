@@ -11,9 +11,11 @@ public interface IGamePresenter
     void OnRestartDayButton();
     void DoTodayResult();
     void OnExchangeTechPointButton(int value);
-    void DoUpdatePlant();
 
-    
+    void DoSell();
+    void DoUpdatePlant();
+    string[] GetPlantText();
+
     void DoLoadGame();
     void DoSaveGame();
 }

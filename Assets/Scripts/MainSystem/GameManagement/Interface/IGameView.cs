@@ -10,4 +10,6 @@ public interface IGameView
     void ShowUI(GameObject gameObject);
     void HideUI(GameObject gameObject);
     void ActiveTrigger(GameObject gameObject, bool active);
+
+    public bool[] GetContracts();
 }

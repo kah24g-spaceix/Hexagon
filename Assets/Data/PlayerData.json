@@ -1,6 +1,6 @@
 {
     "SystemData": {
-      "Money": 10000,
+      "Money": 100,
       "Employees": 50,
       "Resistance": 20,
       "CommunityOpinionValue": 75.5,
@@ -10,8 +10,9 @@
       "Alloy": 200,
       "Microchip": 150,
       "CarbonFiber": 100,
-      "ConductiveFiber": 75,
-      "Pump": 10
+      "ConductiveFiber": 275,
+      "Pump": 100,
+      "RubberTube": 100
     },
     "TechData": {
       "TechPoint": 120,

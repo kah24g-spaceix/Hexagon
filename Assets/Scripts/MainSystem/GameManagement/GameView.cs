@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class GameView : MonoBehaviour, IGameView
 {
@@ -13,17 +14,19 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI Day;
     [SerializeField] private TextMeshProUGUI CurrentTime;
     [SerializeField] private TextMeshProUGUI Money;
-    [SerializeField] private TextMeshProUGUI Commodity;
 
-    [Header("Plant Buy Buttons")]
-    [SerializeField] private Button[] plantButtons;  // 구매 버튼 배열
-    [SerializeField] private string[] plantTypes;    // 각 버튼에 대응되는 공장 종류 (구매)
+    //[Header("Plant Buy Buttons")]
+    //[SerializeField] private Button[] plantButtons;  // 구매 버튼 배열
+    //[SerializeField] private string[] plantTypes;    // 각 버튼에 대응되는 공장 종류 (구매)
 
     [Header("Plant Contract Buttons")]
+    [SerializeField] private Button Sell;
     [SerializeField] private Button[] contractButtons; // 계약 버튼 배열
-    [SerializeField] private string[] contractPlantTypes;  // 각 버튼에 대응되는 공장 종류 (계약)
+    [SerializeField] private TextMeshProUGUI[] contractPlantText;  // 각 버튼에 대응되는 공장 종류 (계약)
 
     private IGamePresenter gamePresenter;
+    public bool[] contracts;
+
     private bool option;
     private bool techtree;
     private bool pause;
@@ -33,22 +36,30 @@ public class GameView : MonoBehaviour, IGameView
         gamePresenter = GetComponent<IGamePresenter>();
 
         // Button Event Listeners
-        NextDayButton.onClick.AddListener(gamePresenter.OnNextDayButton);
-        RestartDayButton.onClick.AddListener(gamePresenter.OnRestartDayButton);
+        //NextDayButton.onClick.AddListener(gamePresenter.OnNextDayButton);
+        //RestartDayButton.onClick.AddListener(gamePresenter.OnRestartDayButton);
 
-        // 구매 버튼에 이벤트 연결
-        for (int i = 0; i < plantButtons.Length; i++)
-        {
-            int index = i; // 클로저 문제를 피하기 위해 인덱스를 복사
-            plantButtons[i].onClick.AddListener(() => HandleBuyPlantButton(plantTypes[index]));
-        }
+        //// 구매 버튼에 이벤트 연결
+        //for (int i = 0; i < plantButtons.Length; i++)
+        //{
+        //    int index = i; // 클로저 문제를 피하기 위해 인덱스를 복사
+        //    plantButtons[i].onClick.AddListener(() => HandleBuyPlantButton(plantTypes[index]));
+        //}
 
-        // 계약 버튼에 이벤트 연결
-        for (int i = 0; i < contractButtons.Length; i++)
-        {
-            int index = i; // 클로저 문제를 피하기 위해 인덱스를 복사
-            contractButtons[i].onClick.AddListener(() => HandleContractPlantButton(contractPlantTypes[index]));
-        }
+        //// 계약 버튼에 이벤트 연결
+        //for (int i = 0; i < contractButtons.Length; i++)
+        //{
+        //    int index = i; // 클로저 문제를 피하기 위해 인덱스를 복사
+        //    contractButtons[i].onClick.AddListener(() => HandleContractPlantButton(contractPlantTypes[index]));
+        //}
+        Sell.onClick.AddListener(gamePresenter.DoSell);
+        contracts = new bool[6] { false, false, false, false, false, false };
+        contractButtons[0].onClick.AddListener(() => SetContracts(0));
+        contractButtons[1].onClick.AddListener(() => SetContracts(1));
+        contractButtons[2].onClick.AddListener(() => SetContracts(2));
+        contractButtons[3].onClick.AddListener(() => SetContracts(3));
+        contractButtons[4].onClick.AddListener(() => SetContracts(4));
+        contractButtons[5].onClick.AddListener(() => SetContracts(5));
 
         option = false;
         techtree = false;
@@ -60,6 +71,8 @@ public class GameView : MonoBehaviour, IGameView
         TextUIUpdate();
         HideUI(OptionUI);
         HideUI(TechTreeUI);
+
+
     }
 
     void Update()
@@ -77,10 +90,26 @@ public class GameView : MonoBehaviour, IGameView
         }
     }
 
+    public bool[] GetContracts()
+    {
+        return contracts;
+    }
+    private void SetContracts(int index)
+    {
+        contracts[index] = true;
+    }
+
     public void TextUIUpdate()
     {
         Day.text = gamePresenter.GetDay();
         Money.text = gamePresenter.GetMoney();
+
+        contractPlantText[0].text = gamePresenter.GetPlantText()[0];
+        contractPlantText[1].text = gamePresenter.GetPlantText()[1];
+        contractPlantText[2].text = gamePresenter.GetPlantText()[2];
+        contractPlantText[3].text = gamePresenter.GetPlantText()[3];
+        contractPlantText[4].text = gamePresenter.GetPlantText()[4];
+        contractPlantText[5].text = gamePresenter.GetPlantText()[5];
     }
 
     public void ClockUpdate(string currentTime)
@@ -120,18 +149,18 @@ public class GameView : MonoBehaviour, IGameView
     }
 
     // 구매 버튼 클릭 시 처리
-    private void HandleBuyPlantButton(string plantType)
-    {
-        Debug.Log($"Buy Plant button pressed: {plantType}");
-        // 공장 구매 처리 로직 추가 (gamePresenter를 통해 처리)
-        // 예: gamePresenter.OnBuyPlant(plantType);
-    }
+    //private void HandleBuyPlantButton(string plantType)
+    //{
+    //    Debug.Log($"Buy Plant button pressed: {plantType}");
+    //    // 공장 구매 처리 로직 추가 (gamePresenter를 통해 처리)
+    //    // 예: gamePresenter.OnBuyPlant(plantType);
+    //}
 
-    // 계약 버튼 클릭 시 처리
-    private void HandleContractPlantButton(string plantType)
-    {
-        Debug.Log($"Contract Plant button pressed: {plantType}");
-        // 공장 계약 처리 로직 추가 (gamePresenter를 통해 처리)
-        // 예: gamePresenter.OnContractPlant(plantType);
-    }
+    //// 계약 버튼 클릭 시 처리
+    //private void HandleContractPlantButton(string plantType)
+    //{
+    //    Debug.Log($"Contract Plant button pressed: {plantType}");
+    //    // 공장 계약 처리 로직 추가 (gamePresenter를 통해 처리)
+    //    // 예: gamePresenter.OnContractPlant(plantType);
+    //}
 }

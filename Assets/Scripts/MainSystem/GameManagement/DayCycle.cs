@@ -49,8 +49,6 @@ public class DayCycle : MonoBehaviour
             //Debug.Log(string.Format("Game Time: {0:00} hours, {1:00} minutes, {2:00} seconds", GetHour(), GetMinute(), GetSecond()));
             _gameView.ClockUpdate(string.Format("{0:00} : {1:00}", GetHour(), GetMinute()));
 
-            _gamePresenter.MoneyPerSecond();
-            _gamePresenter.DoUpdatePlant();
             yield return null;
 
             if (currentTime <= 0)
