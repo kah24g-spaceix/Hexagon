@@ -1,37 +1,40 @@
-Shader "Sprites/Pixel Snap/URP-Alpha-Blended"
+Shader "Sprites/Pixel Snap/URP-2D-Lit-Custom"
 {
     Properties
     {
-        _MainTex ("Main Texture", 2D) = "white" {}
+        _MainTex ("Main Texture", 2D) = "white" {} // 텍스처
     }
 
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" "LightMode"="Universal2D" }
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite Off
+
         Pass
         {
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            // URP Core 포함 (Lighting2D.hlsl 제외)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             // 텍스처 속성
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
+            half4 _MainTex_TexelSize; // 텍스처 크기와 텍셀 크기
 
-            // 텍스처 크기와 텍셀 크기 선언
-            half4 _MainTex_TexelSize;
+            // 정점 구조체
             struct Attributes
             {
-                float4 positionOS : POSITION; // 객체의 정점 위치
-                float2 uv : TEXCOORD0;       // 기본 UV 좌표
+                float4 positionOS : POSITION; // 오브젝트 공간 좌표
+                float2 uv : TEXCOORD0;       // UV 좌표
             };
 
             struct Varyings
             {
-                float4 positionCS : SV_POSITION; // 클립 공간 위치
+                float4 positionCS : SV_POSITION; // 클립 공간 좌표
                 float2 uv : TEXCOORD0;          // UV 좌표
             };
 
@@ -39,28 +42,29 @@ Shader "Sprites/Pixel Snap/URP-Alpha-Blended"
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                // 오브젝트 공간 좌표를 클립 공간으로 변환
+                // 클립 공간으로 변환
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS);
 
-                // UV 좌표를 그대로 전달
+                // UV 좌표 전달
                 OUT.uv = IN.uv;
+
                 return OUT;
             }
 
             // 프래그먼트 셰이더
             half4 frag(Varyings IN) : SV_Target
             {
-                // 텍셀 크기 계산 (텍스처 크기 기반으로 계산)
+                // 텍셀 크기 계산
                 float2 texelSize = _MainTex_TexelSize;
 
                 // UV 좌표 보정 (텍셀 중심으로 이동)
                 float2 correctedUV = IN.uv + texelSize * 0.5;
 
                 // 텍스처 샘플링
-                half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, correctedUV);
+                half4 baseColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, correctedUV);
 
-                // 알파값을 유지하여 투명도 처리
-                return color;
+                // 2D 조명 계산은 URP가 자동 처리하므로 텍스처 색상만 반환
+                return baseColor;
             }
             ENDHLSL
         }
