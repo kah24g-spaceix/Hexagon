@@ -6,7 +6,7 @@ public class DayCycle : MonoBehaviour
     IGameView _gameView;
     IGamePresenter _gamePresenter;
     GameManager gameManager;
-    //게임 내 시간
+    
     public float hour;
     public float minute;
     public float second;
