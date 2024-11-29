@@ -1,11 +1,11 @@
-// ÇÃ·¹ÀÌ¾î ½Ã½ºÅÛ °ü·Ã µ¥ÀÌÅÍ
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class PlayerSystemData
 {
-    public int Money { get; set; } // µ·
-    public int Employees { get; set; } // Á÷¿ø
-    public int Resistance { get; set; } // ÀúÇ×±º
-    public double CommunityOpinionValue { get; set; } // ¹Î½É ÆÛ¼¾Æ®
-    public int Day { get; set; } // ³¯
+    public int Money { get; set; } // ï¿½ï¿½
+    public int Employees { get; set; } // ï¿½ï¿½ï¿½ï¿½
+    public int Resistance { get; set; } // ï¿½ï¿½ï¿½×±ï¿½
+    public double CommunityOpinionValue { get; set; } // ï¿½Î½ï¿½ ï¿½Û¼ï¿½Æ®
+    public int Day { get; set; } // ï¿½ï¿½
 
     public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue, int day)
     {
@@ -17,15 +17,15 @@ public class PlayerSystemData
     }
 }
 
-// ÇÃ·¹ÀÌ¾î ÀÚ¿ø °ü·Ã µ¥ÀÌÅÍ
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class PlayerMaterialData
 {
-    public int Alloy { get; set; } // ÇÕ±Ý
-    public int Microchip { get; set; } // ¸¶ÀÌÅ©·Î Ä¨
-    public int CarbonFiber { get; set; } // Åº¼Ò ¼¶À¯
-    public int ConductiveFiber { get; set; } // Àüµµ¼º ¼¶À¯
-    public int Pump { get; set; } // ÆßÇÁ
-    public int RubberTube { get; set; } // °í¹« °ü
+    public int Alloy { get; set; } // ï¿½Õ±ï¿½
+    public int Microchip { get; set; } // ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ Ä¨
+    public int CarbonFiber { get; set; } // Åºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int ConductiveFiber { get; set; } // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int Pump { get; set; } // ï¿½ï¿½ï¿½ï¿½
+    public int RubberTube { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
     public PlayerMaterialData(int alloy, int microchip, int carbonFiber, int conductiveFiber, int pump, int tube)
     {
@@ -37,14 +37,18 @@ public class PlayerMaterialData
         RubberTube = tube;
     }
 }
-
-// ÇÃ·¹ÀÌ¾î ±â¼ú Æ®¸® °ü·Ã µ¥ÀÌÅÍ
+public class PlayerPlantData
+{
+    public int Product { get; set;}
+    public int Level { get; set; }
+}
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class PlayerTechTreeData
 {
-    public int TechPoint { get; set; } // Å×Å© Æ÷ÀÎÆ®
-    public int RevenueValue { get; set; } // ¼öÀÍ ¼öÄ¡
-    public int MaxEmployee { get; set; } // ÃÖ´ë ¼ö¿ë ÀÎ¿ø ¼ö
-    public int[] TechLevels { get; set; } // Å×Å© ·¹º§
+    public int TechPoint { get; set; } // ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½Æ®
+    public int RevenueValue { get; set; } // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+    public int MaxEmployee { get; set; } // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½
+    public int[] TechLevels { get; set; } // ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½
 
     public PlayerTechTreeData(int techPoint, int revenueValue, int maxEmployee, int[] techLevels)
     {
@@ -57,9 +61,9 @@ public class PlayerTechTreeData
 
 public class PlayerData
 {
-    public PlayerSystemData SystemData { get; set; } // ÇÃ·¹ÀÌ¾î ½Ã½ºÅÛ µ¥ÀÌÅÍ
-    public PlayerMaterialData MaterialData { get; set; } // ÇÃ·¹ÀÌ¾î ÀÚ¿ø µ¥ÀÌÅÍ
-    public PlayerTechTreeData TechData { get; set; } // ÇÃ·¹ÀÌ¾î Å×Å© Æ®¸® µ¥ÀÌÅÍ
+    public PlayerSystemData SystemData { get; set; } // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public PlayerMaterialData MaterialData { get; set; } // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public PlayerTechTreeData TechData { get; set; } // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å© Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     public PlayerData(
         PlayerSystemData systemData,

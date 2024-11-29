@@ -13,8 +13,8 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerTechModel _playerTechModel;
 
     [HideInInspector] public bool isLoad;
-    // °ª »ó¼ö·Î »©±â
-    // PlayerData ³ª´©±â
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    // PlayerData ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private void Awake()
     {
         if (isLoad)
@@ -161,7 +161,7 @@ public class GameModel : MonoBehaviour, IGameModel
         UpdatePlayerSaveData();
     }
 
-    //°øÀå
+    //ï¿½ï¿½ï¿½ï¿½
 
     public void Sell()
     {
@@ -282,5 +282,15 @@ Plant6(contracts[5]));
             );
 
         _playerData = data;
+    }
+
+    public PlayerPlantModel GetPlayerPlantModel()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DoPlantResult(PlayerPlantModel model)
+    {
+        throw new System.NotImplementedException();
     }
 }

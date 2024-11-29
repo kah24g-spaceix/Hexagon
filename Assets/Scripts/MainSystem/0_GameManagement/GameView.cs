@@ -9,7 +9,7 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private GameObject OptionUI;
 
     [Header("UI Elements")]
-    
+
     [SerializeField] private GameObject TechTreeUI;
     [SerializeField] private GameObject ToDayResultUI;
     //[SerializeField] private Button NextDayButton;
@@ -25,7 +25,7 @@ public class GameView : MonoBehaviour, IGameView
 
 
     private bool option;
-    private bool pause;
+    private static bool GameIsPaused = false;
     private bool techtree;
 
     private void Awake()
@@ -34,7 +34,6 @@ public class GameView : MonoBehaviour, IGameView
 
         option = false;
         techtree = false;
-        pause = false;
     }
 
     private void Start()
@@ -50,15 +49,28 @@ public class GameView : MonoBehaviour, IGameView
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            option = !option;
-            ActiveTrigger(OptionUI, option);
-            Pause(option);
+            if (GameIsPaused)
+            {
+                ShowUI(OptionUI);
+                Resume();
+                GameIsPaused = false;
+            }
+            else
+            {
+                HideUI(OptionUI);
+                Pause();
+                GameIsPaused = true;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.T) && !pause)
+        if (!GameIsPaused)
         {
-            techtree = !techtree;
-            ActiveTrigger(TechTreeUI, techtree);
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                techtree = !techtree;
+                ActiveTrigger(TechTreeUI, techtree);
+            }
         }
+
     }
 
     public bool[] GetContracts()
@@ -101,9 +113,12 @@ public class GameView : MonoBehaviour, IGameView
         gameObject.gameObject.SetActive(active);
     }
 
-    private void Pause(bool active)
+    public void Resume()
     {
-        pause = active;
-        Time.timeScale = active ? 0 : 1;
+        Time.timeScale = 1;
+    }
+    public void Pause()
+    {
+        Time.timeScale = 0;
     }
 }

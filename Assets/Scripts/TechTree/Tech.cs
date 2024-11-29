@@ -31,10 +31,10 @@ public class Tech : MonoBehaviour, IView<TechModel>
             return;
         }
 
-        levelText.text = $"{model.TechLevels[ID]}/{model.TechCaps[ID]}";
-        titleText.text = $"{model.TechNames[ID]}";
-        descriptionText.text = $"{model.TechDescriptions[ID]}";
-        costText.text = $"Cost: {playerTechData.TechPoint}/{model.TechCosts[ID]} TP";
+        levelText.SetText($"{model.TechLevels[ID]}/{model.TechCaps[ID]}");
+        titleText.SetText($"{model.TechNames[ID]}");
+        descriptionText.SetText($"{model.TechDescriptions[ID]}");
+        costText.SetText($"Cost: {playerTechData.TechPoint}/{model.TechCosts[ID]} TP");
 
         Image sprite = GetComponent<Image>();
         if (model.TechLevels[ID] >= model.TechCaps[ID])
@@ -71,13 +71,13 @@ public class Tech : MonoBehaviour, IView<TechModel>
     }
     public void Buy()
     {
-        Debug.Log("´©¸§");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½");
         TechModel currentTechModel = techTree.TechModel;
         PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
         Debug.Log($"{playerTechData.TechPoint}");
         if (playerTechData.TechPoint < currentTechModel.TechCosts[ID] || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
         {
-            Debug.Log("±¸¸Å ºÒ°¡");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½");
             return;
         }
         currentTechModel.TechLevels[ID]++;
@@ -95,6 +95,6 @@ public class Tech : MonoBehaviour, IView<TechModel>
             );
         playerModel.DoTechResult(value);
         techTree.UpdateAllTechUI(currentTechModel);
-        Debug.Log("±¸¸Å ¼º°ø");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
     }
 }

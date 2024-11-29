@@ -7,6 +7,8 @@ public interface IGameView
 
     void ShowToDayResult();
     void HideToDayResult();
+    void Resume();
+    void Pause();
     void ShowUI(GameObject gameObject);
     void HideUI(GameObject gameObject);
     void ActiveTrigger(GameObject gameObject, bool active);

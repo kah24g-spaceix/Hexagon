@@ -3,10 +3,10 @@ using Unity.VisualScripting;
 
 public struct PlayerSystemModel
 {
-    public int Money { get; } // µ·
-    public int Employees { get; } // Á÷¿ø
-    public int Resistance { get; } // ÀúÇ×±º
-    public double CommunityOpinionValue { get; } // ¹Î½Éµµ
+    public int Money { get; } // ï¿½ï¿½
+    public int Employees { get; } // ï¿½ï¿½ï¿½ï¿½
+    public int Resistance { get; } // ï¿½ï¿½ï¿½×±ï¿½
+    public double CommunityOpinionValue { get; } // ï¿½Î½Éµï¿½
     public int Day { get; }
 
     public PlayerSystemModel(
@@ -26,12 +26,12 @@ public struct PlayerSystemModel
 }
 public struct PlayerMaterialModel
 {
-    public int Alloy { get; } // ÇÕ±Ý
-    public int Microchip { get; } // ¸¶ÀÌÅ©·Î Ä¨
-    public int CarbonFiber { get; } // Åº¼Ò ¼¶À¯
-    public int ConductiveFiber { get; } // Àüµµ¼º ¼¶À¯
-    public int Pump { get; } // ÆßÇÁ
-    public int RubberTube { get; } // °ü
+    public int Alloy { get; } // ï¿½Õ±ï¿½
+    public int Microchip { get; } // ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ Ä¨
+    public int CarbonFiber { get; } // Åºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int ConductiveFiber { get; } // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public int Pump { get; } // ï¿½ï¿½ï¿½ï¿½
+    public int RubberTube { get; } // ï¿½ï¿½
 
 
     public PlayerMaterialModel(
@@ -51,11 +51,15 @@ public struct PlayerMaterialModel
         RubberTube = tube;
     }
 }
+public struct PlayerPlantModel
+{
+
+}
 public struct PlayerTechModel
 {
-    public int TechPoint { get; } // Å×Å© Æ÷ÀÎÆ®
-    public int RevenueValue { get; } // ¼öÀÍ¼öÄ¡
-    public int MaxEmployee { get; } // ÃÖ´ë Á÷¿ø ¼ö¿ëÀÎ¿ø ¼ö
+    public int TechPoint { get; } // ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½Æ®
+    public int RevenueValue { get; } // ï¿½ï¿½ï¿½Í¼ï¿½Ä¡
+    public int MaxEmployee { get; } // ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½
     public int[] TechLevels { get; }
 
     public PlayerTechModel(
@@ -74,9 +78,11 @@ public interface IGameModel
 {
     PlayerSystemModel GetPlayerSaveModel();
     PlayerMaterialModel GetPlayerMaterialModel();
+    PlayerPlantModel GetPlayerPlantModel();
     PlayerTechModel GetPlayerTechModel();
     void DoSystemResult(PlayerSystemModel model);
     void DoMaterialResult(PlayerMaterialModel model);
+    void DoPlantResult(PlayerPlantModel model);
     void DoTechResult(PlayerTechModel model);
     void Income();
     void ExchangeTechPoint(int value);
