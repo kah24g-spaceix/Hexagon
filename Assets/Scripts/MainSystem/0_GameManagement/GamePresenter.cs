@@ -121,7 +121,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     private void ReloadData()
     {
-        _playerSaveModel = _model.GetPlayerSaveModel();
+        _playerSaveModel = _model.GetPlayerSystemModel();
         _playerMaterialModel = _model.GetPlayerMaterialModel();
         _playerTechModel = _model.GetPlayerTechModel();
 

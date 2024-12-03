@@ -51,9 +51,65 @@ public struct PlayerMaterialModel
         RubberTube = tube;
     }
 }
+public struct PlayerHyperFrameModel
+{
+    public int Eye { get; }
+    public int Arm { get; }
+    public int Hand { get; }
+    public int Lag { get; }
+    public int Foot { get; }
+    public int Body { get; }
+    public int Head { get; }
+
+    public PlayerHyperFrameModel
+    (
+        int eye, 
+        int arm, 
+        int hand, 
+        int lag, 
+        int foot, 
+        int body,
+        int head)
+    {
+        Eye = eye;
+        Arm = arm;
+        Hand = hand;
+        Lag = lag;
+        Foot = foot;
+        Body = body;
+        Head = head;
+    }
+}
 public struct PlayerPlantModel
 {
+    public int[] UpgradeCosts { get; }
+    public int[] Products { get; }
+    public int[] Levels { get; }
+    public bool[] IsContructions { get; }
+    
 
+    public PlayerPlantModel(
+        int[] upgradeCosts,
+        int[] products,
+        int[] levels,
+        bool[] isContructions
+    )
+    {
+        UpgradeCosts = upgradeCosts;
+        Products = products;
+        Levels = levels;
+        IsContructions = isContructions;
+    }
+}
+public struct PlayerPlantContractModel
+{
+    public bool[] IsContracts { get; }
+        public PlayerPlantContractModel(
+        bool[] isContracts
+    )
+    {
+        IsContracts = isContracts;
+    }
 }
 public struct PlayerTechModel
 {
@@ -76,13 +132,16 @@ public struct PlayerTechModel
 }
 public interface IGameModel
 {
-    PlayerSystemModel GetPlayerSaveModel();
+    PlayerSystemModel GetPlayerSystemModel();
     PlayerMaterialModel GetPlayerMaterialModel();
     PlayerPlantModel GetPlayerPlantModel();
+    PlayerPlantContractModel GetPlayerPlantContractModel();
     PlayerTechModel GetPlayerTechModel();
+
     void DoSystemResult(PlayerSystemModel model);
     void DoMaterialResult(PlayerMaterialModel model);
     void DoPlantResult(PlayerPlantModel model);
+    void DoPlantContractResult(PlayerPlantContractModel model);
     void DoTechResult(PlayerTechModel model);
     void Income();
     void ExchangeTechPoint(int value);
@@ -91,15 +150,6 @@ public interface IGameModel
 
 
     void Sell();
-    void UpdatePlantData(bool[] contracts);
-    int Plant1(bool contract);
-    int Plant2(bool contract);
-    int Plant3(bool contract);
-    int Plant4(bool contract);
-    int Plant5(bool contract);
-    int Plant6(bool contract);
-
-
 
     void SaveGame();
     bool LoadGame();

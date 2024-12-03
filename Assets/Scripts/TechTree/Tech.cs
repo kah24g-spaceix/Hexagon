@@ -71,13 +71,14 @@ public class Tech : MonoBehaviour, IView<TechModel>
     }
     public void Buy()
     {
-        Debug.Log("����");
+        Debug.Log("Try Buy");
         TechModel currentTechModel = techTree.TechModel;
         PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
         Debug.Log($"{playerTechData.TechPoint}");
-        if (playerTechData.TechPoint < currentTechModel.TechCosts[ID] || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
+        if (playerTechData.TechPoint < currentTechModel.TechCosts[ID] 
+        || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
         {
-            Debug.Log("���� �Ұ�");
+            Debug.Log("No Money");
             return;
         }
         currentTechModel.TechLevels[ID]++;
@@ -86,15 +87,15 @@ public class Tech : MonoBehaviour, IView<TechModel>
         int revenueValue = playerTechData.RevenueValue + currentTechModel.Revenue[ID];
         int maxEmployees = playerTechData.MaxEmployee + currentTechModel.MaxEmployee[ID];
         int[] techLevels = currentTechModel.TechLevels;
-        PlayerTechModel value = new PlayerTechModel
+        PlayerTechModel newData = new PlayerTechModel
             (
             techPoint,
             revenueValue,
             maxEmployees,
             techLevels
             );
-        playerModel.DoTechResult(value);
+        playerModel.DoTechResult(newData);
         techTree.UpdateAllTechUI(currentTechModel);
-        Debug.Log("���� ����");
+        Debug.Log("Buy Success");
     }
 }

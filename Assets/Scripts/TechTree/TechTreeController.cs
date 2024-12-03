@@ -21,6 +21,7 @@ public class TechTreeController : MonoBehaviour
             return;
         }
 
+
         if (data.TechDataLines == null)
         {
             Debug.LogError("TechDataLines is null.");

@@ -1,41 +1,27 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static PlayerTechModel;
 
 public class TechTree : MonoBehaviour
 {
-    public static TechTree techTree;
     [SerializeField] private GameObject techHolder;
-    [SerializeField] private List<Tech> techList = new List<Tech>();
-    private GameManager gameManager;
+    public static TechTree techTree;
+    
+    private List<Tech> techList = new List<Tech>();
+    public List<Tech> TechList { get; set; }
+
     private TechModel techModel;
-
-    private IGameModel playerModel;
-    private PlayerTechModel _playerTechModel;
-    public GameObject GetTechHolder() => techHolder;
-
-    public int TechPoint { get; set; }
-    public double CommunityOpinionValue { get; set; }
-    public TechModel TechModel => techModel;
-    public List<Tech> TechList => techList;
+    public TechModel TechModel { get; set; }
 
     private void Awake()
     {
-        playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        TechModel = techModel;
         if (techTree == null)
         {
             techTree = this;
         }
-        Debug.Log("TechTree initialized.");
     }
-    private void Start()
-    {
-        _playerTechModel = playerModel.GetPlayerTechModel();
-        TechPoint = _playerTechModel.TechPoint;
-    }
-
     public void InitializeTechModel(TechData techData)
     {
         int[] techLevels = new int[techData.TechDataLines.Length];
@@ -75,23 +61,12 @@ public class TechTree : MonoBehaviour
         for (int i = 0; i < techList.Count; i++)
         {
             techList[i].ID = i;
-            Debug.Log($"Set ID for Tech: {techList[i].name} to {i}");
         }
 
-        foreach (Tech tech in techList)
+        for (int i = 0; i < techList.Count; i++)
         {
-            int techId = tech.ID;
-
-            if (techId >= 0 && techId < techModel.ConnectedTechs.Length)
-            {
-                tech.ConnectedTechs = techModel.ConnectedTechs[techId];
-                Debug.Log($"ConnectedTechs for Tech ID {techId}: {string.Join(", ", tech.ConnectedTechs)}");
-            }
-            else
-            {
-                break;
-                //Debug.LogError($"Tech ID {techId} is out of range in TechOpens array.");
-            }
+            int techId = techList[i].ID;
+            techList[i].ConnectedTechs = techModel.ConnectedTechs[techId];
         }
 
         UpdateAllTechUI(techModel);

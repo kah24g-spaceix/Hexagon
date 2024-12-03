@@ -10,6 +10,7 @@ public class GameModel : MonoBehaviour, IGameModel
 
     private PlayerSystemModel _playerSystemModel;
     private PlayerMaterialModel _playerMaterialModel;
+    private PlayerPlantModel _playerPlantModel;
     private PlayerTechModel _playerTechModel;
 
     [HideInInspector] public bool isLoad;
@@ -33,34 +34,37 @@ public class GameModel : MonoBehaviour, IGameModel
         SetData(initData);
 
         _playerSystemModel = new PlayerSystemModel(
-            initData.SystemData.Money,
-            initData.SystemData.Employees,
-            initData.SystemData.Resistance,
-            initData.SystemData.CommunityOpinionValue,
-            initData.SystemData.Day);
+            initData.P_SystemData.Money,
+            initData.P_SystemData.Employees,
+            initData.P_SystemData.Resistance,
+            initData.P_SystemData.CommunityOpinionValue,
+            initData.P_SystemData.Day);
         _playerMaterialModel = new PlayerMaterialModel(
-            initData.MaterialData.Alloy,
-            initData.MaterialData.Microchip,
-            initData.MaterialData.CarbonFiber,
-            initData.MaterialData.ConductiveFiber,
-            initData.MaterialData.Pump,
-            initData.MaterialData.RubberTube);
+            initData.P_MaterialData.Alloy,
+            initData.P_MaterialData.Microchip,
+            initData.P_MaterialData.CarbonFiber,
+            initData.P_MaterialData.ConductiveFiber,
+            initData.P_MaterialData.Pump,
+            initData.P_MaterialData.RubberTube);
+        _playerPlantModel = new PlayerPlantModel(
+            
+            );
         _playerTechModel = new PlayerTechModel(
-            initData.TechData.TechPoint,
-            initData.TechData.RevenueValue,
-            initData.TechData.MaxEmployee,
-            initData.TechData.TechLevels);
+            initData.P_TechData.TechPoint,
+            initData.P_TechData.RevenueValue,
+            initData.P_TechData.MaxEmployee,
+            initData.P_TechData.TechLevels);
     }
     private void UpdatePlayerSaveData()
     {
-        _playerData.SystemData = new PlayerSystemData(
+        _playerData.P_SystemData = new PlayerSystemData(
             _playerSystemModel.Money,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
             _playerSystemModel.CommunityOpinionValue,
             _playerSystemModel.Day
             );
-        _playerData.MaterialData = new PlayerMaterialData(
+        _playerData.P_MaterialData = new PlayerMaterialData(
             _playerMaterialModel.Alloy,
             _playerMaterialModel.Microchip,
             _playerMaterialModel.CarbonFiber,
@@ -68,7 +72,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerMaterialModel.Pump,
             _playerMaterialModel.RubberTube
             );
-        _playerData.TechData = new PlayerTechTreeData(
+        _playerData.P_TechData = new PlayerTechTreeData(
             _playerTechModel.TechPoint,
             _playerTechModel.RevenueValue,
             _playerTechModel.MaxEmployee,
@@ -76,8 +80,9 @@ public class GameModel : MonoBehaviour, IGameModel
             );
     }
 
-    public PlayerSystemModel GetPlayerSaveModel() => _playerSystemModel;
+    public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
     public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
+    public PlayerPlantModel GetPlayerPlantModel() => _playerPlantModel;
     public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
 
 
@@ -89,6 +94,11 @@ public class GameModel : MonoBehaviour, IGameModel
     public void DoMaterialResult(PlayerMaterialModel model)
     {
         _playerMaterialModel = model;
+        UpdatePlayerSaveData();
+    }
+    public void DoPlantResult(PlayerPlantModel model)
+    {
+        _playerPlantModel = model;
         UpdatePlayerSaveData();
     }
     public void DoTechResult(PlayerTechModel model)
@@ -183,63 +193,6 @@ _playerMaterialModel.Pump - 1,
 _playerMaterialModel.RubberTube - 1);
         UpdatePlayerSaveData();
     }
-    public void UpdatePlantData(bool[] contracts)
-    {
-        var newModel = new PlayerMaterialModel(
-Plant1(contracts[0]),
-Plant2(contracts[1]),
-Plant3(contracts[2]),
-Plant4(contracts[3]),
-Plant5(contracts[4]),
-Plant6(contracts[5]));
-        DoMaterialResult(newModel);
-    }
-    public int Plant1(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.Alloy + 1;
-
-        return _playerMaterialModel.Alloy;
-    }
-    public int Plant2(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.Microchip + 1;
-
-        return _playerMaterialModel.Microchip;
-    }
-    public int Plant3(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.CarbonFiber + 1;
-
-        return _playerMaterialModel.CarbonFiber;
-    }
-    public int Plant4(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.ConductiveFiber + 1;
-
-        return _playerMaterialModel.ConductiveFiber;
-    }
-    public int Plant5(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.Pump + 1;
-
-        return _playerMaterialModel.Pump;
-    }
-    public int Plant6(bool contract)
-    {
-        if (contract)
-            return _playerMaterialModel.RubberTube + 1;
-
-        return _playerMaterialModel.RubberTube;
-    }
-
-
-
-
 
     public void SaveGame()
     {
@@ -260,37 +213,28 @@ Plant6(contracts[5]));
     private void SetData(PlayerData data)
     {
         _playerSystemModel = new PlayerSystemModel(
-            data.SystemData.Money,
-            data.SystemData.Employees,
-            data.SystemData.Resistance,
-            data.SystemData.CommunityOpinionValue,
-            data.SystemData.Day
+            data.P_SystemData.Money,
+            data.P_SystemData.Employees,
+            data.P_SystemData.Resistance,
+            data.P_SystemData.CommunityOpinionValue,
+            data.P_SystemData.Day
             );
         _playerMaterialModel = new PlayerMaterialModel(
-            data.MaterialData.Alloy,
-            data.MaterialData.Microchip,
-            data.MaterialData.CarbonFiber,
-            data.MaterialData.ConductiveFiber,
-            data.MaterialData.Pump,
-            data.MaterialData.RubberTube
+            data.P_MaterialData.Alloy,
+            data.P_MaterialData.Microchip,
+            data.P_MaterialData.CarbonFiber,
+            data.P_MaterialData.ConductiveFiber,
+            data.P_MaterialData.Pump,
+            data.P_MaterialData.RubberTube
             );
         _playerTechModel = new PlayerTechModel(
-            data.TechData.TechPoint,
-            data.TechData.RevenueValue,
-            data.TechData.MaxEmployee,
-            data.TechData.TechLevels
+            data.P_TechData.TechPoint,
+            data.P_TechData.RevenueValue,
+            data.P_TechData.MaxEmployee,
+            data.P_TechData.TechLevels
             );
 
         _playerData = data;
     }
 
-    public PlayerPlantModel GetPlayerPlantModel()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void DoPlantResult(PlayerPlantModel model)
-    {
-        throw new System.NotImplementedException();
-    }
 }

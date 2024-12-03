@@ -2,7 +2,7 @@ Shader "Sprites/Pixel Snap/URP-2D-Lit-Custom"
 {
     Properties
     {
-        _MainTex ("Main Texture", 2D) = "white" {} // ÅØ½ºÃ³
+        _MainTex ("Main Texture", 2D) = "white" {} // ï¿½Ø½ï¿½Ã³
     }
 
     SubShader
@@ -17,53 +17,53 @@ Shader "Sprites/Pixel Snap/URP-2D-Lit-Custom"
             #pragma vertex vert
             #pragma fragment frag
 
-            // URP Core Æ÷ÇÔ (Lighting2D.hlsl Á¦¿Ü)
+            // URP Core ï¿½ï¿½ï¿½ï¿½ (Lighting2D.hlsl ï¿½ï¿½ï¿½ï¿½)
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            // ÅØ½ºÃ³ ¼Ó¼º
+            // ï¿½Ø½ï¿½Ã³ ï¿½Ó¼ï¿½
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-            half4 _MainTex_TexelSize; // ÅØ½ºÃ³ Å©±â¿Í ÅØ¼¿ Å©±â
+            half4 _MainTex_TexelSize; // ï¿½Ø½ï¿½Ã³ Å©ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ Å©ï¿½ï¿½
 
-            // Á¤Á¡ ±¸Á¶Ã¼
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼
             struct Attributes
             {
-                float4 positionOS : POSITION; // ¿ÀºêÁ§Æ® °ø°£ ÁÂÇ¥
-                float2 uv : TEXCOORD0;       // UV ÁÂÇ¥
+                float4 positionOS : POSITION; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+                float2 uv : TEXCOORD0;       // UV ï¿½ï¿½Ç¥
             };
 
             struct Varyings
             {
-                float4 positionCS : SV_POSITION; // Å¬¸³ °ø°£ ÁÂÇ¥
-                float2 uv : TEXCOORD0;          // UV ÁÂÇ¥
+                float4 positionCS : SV_POSITION; // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+                float2 uv : TEXCOORD0;          // UV ï¿½ï¿½Ç¥
             };
 
-            // Á¤Á¡ ¼ÎÀÌ´õ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                // Å¬¸³ °ø°£À¸·Î º¯È¯
+                // Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS);
 
-                // UV ÁÂÇ¥ Àü´Þ
+                // UV ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
                 OUT.uv = IN.uv;
 
                 return OUT;
             }
 
-            // ÇÁ·¡±×¸ÕÆ® ¼ÎÀÌ´õ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½Æ® ï¿½ï¿½ï¿½Ì´ï¿½
             half4 frag(Varyings IN) : SV_Target
             {
-                // ÅØ¼¿ Å©±â °è»ê
+                // ï¿½Ø¼ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½
                 float2 texelSize = _MainTex_TexelSize;
 
-                // UV ÁÂÇ¥ º¸Á¤ (ÅØ¼¿ Áß½ÉÀ¸·Î ÀÌµ¿)
+                // UV ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ø¼ï¿½ ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½)
                 float2 correctedUV = IN.uv + texelSize * 0.5;
 
-                // ÅØ½ºÃ³ »ùÇÃ¸µ
+                // ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½Ã¸ï¿½
                 half4 baseColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, correctedUV);
 
-                // 2D Á¶¸í °è»êÀº URP°¡ ÀÚµ¿ Ã³¸®ÇÏ¹Ç·Î ÅØ½ºÃ³ »ö»ó¸¸ ¹ÝÈ¯
+                // 2D ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ URPï¿½ï¿½ ï¿½Úµï¿½ Ã³ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
                 return baseColor;
             }
             ENDHLSL

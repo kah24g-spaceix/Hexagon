@@ -1,11 +1,10 @@
-// �÷��̾� �ý��� ���� ������
 public class PlayerSystemData
 {
-    public int Money { get; set; } // ��
-    public int Employees { get; set; } // ����
-    public int Resistance { get; set; } // ���ױ�
-    public double CommunityOpinionValue { get; set; } // �ν� �ۼ�Ʈ
-    public int Day { get; set; } // ��
+    public int Money { get; set; } 
+    public int Employees { get; set; } 
+    public int Resistance { get; set; } 
+    public double CommunityOpinionValue { get; set; } 
+    public int Day { get; set; } 
 
     public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue, int day)
     {
@@ -17,15 +16,14 @@ public class PlayerSystemData
     }
 }
 
-// �÷��̾� �ڿ� ���� ������
 public class PlayerMaterialData
 {
-    public int Alloy { get; set; } // �ձ�
-    public int Microchip { get; set; } // ����ũ�� Ĩ
-    public int CarbonFiber { get; set; } // ź�� ����
-    public int ConductiveFiber { get; set; } // ������ ����
-    public int Pump { get; set; } // ����
-    public int RubberTube { get; set; } // ���� ��
+    public int Alloy { get; set; } 
+    public int Microchip { get; set; } 
+    public int CarbonFiber { get; set; }
+    public int ConductiveFiber { get; set; } 
+    public int Pump { get; set; } 
+    public int RubberTube { get; set; } 
 
     public PlayerMaterialData(int alloy, int microchip, int carbonFiber, int conductiveFiber, int pump, int tube)
     {
@@ -37,18 +35,74 @@ public class PlayerMaterialData
         RubberTube = tube;
     }
 }
+public class PlayerHyperFrameData
+{
+    public int Eye { get; set; }
+    public int Arm { get; set; }
+    public int Hand { get; set; }
+    public int Lag { get; set; }
+    public int Foot { get; set; }
+    public int Body { get; set; }
+    public int Head { get; set; }
+
+    public PlayerHyperFrameData
+    (
+        int eye, 
+        int arm, 
+        int hand, 
+        int lag, 
+        int foot, 
+        int body, 
+        int head
+        )
+    {
+        Eye = eye;
+        Arm = arm;
+        Hand = hand;
+        Lag = lag;
+        Foot = foot;
+        Body = body;
+        Head = head;
+    }
+}
 public class PlayerPlantData
 {
-    public int Product { get; set;}
-    public int Level { get; set; }
+    public int[] UpgradeCosts { get; set;}
+    public int[] Products { get; set;}
+    public int[] Levels { get; set;}
+    public bool[] IsContructions { get; set;}
+    
+
+    public PlayerPlantData(
+        int[] upgradeCosts,
+        int[] products,
+        int[] levels,
+        bool[] isContructions
+    )
+    {
+        UpgradeCosts = upgradeCosts;
+        Products = products;
+        Levels = levels;
+        IsContructions = isContructions;
+    }
 }
-// �÷��̾� ��� Ʈ�� ���� ������
+public class PlayerPlantContractData
+{
+        public bool[] IsContracts { get; }
+        public PlayerPlantContractData(
+        bool[] isContracts
+    )
+    {
+        IsContracts = isContracts;
+    }
+}
+
 public class PlayerTechTreeData
 {
-    public int TechPoint { get; set; } // ��ũ ����Ʈ
-    public int RevenueValue { get; set; } // ���� ��ġ
-    public int MaxEmployee { get; set; } // �ִ� ���� �ο� ��
-    public int[] TechLevels { get; set; } // ��ũ ����
+    public int TechPoint { get; set; }
+    public int RevenueValue { get; set; }
+    public int MaxEmployee { get; set; }
+    public int[] TechLevels { get; set; }
 
     public PlayerTechTreeData(int techPoint, int revenueValue, int maxEmployee, int[] techLevels)
     {
@@ -61,18 +115,24 @@ public class PlayerTechTreeData
 
 public class PlayerData
 {
-    public PlayerSystemData SystemData { get; set; } // �÷��̾� �ý��� ������
-    public PlayerMaterialData MaterialData { get; set; } // �÷��̾� �ڿ� ������
-    public PlayerTechTreeData TechData { get; set; } // �÷��̾� ��ũ Ʈ�� ������
+    public PlayerSystemData P_SystemData { get; set; }
+    public PlayerMaterialData P_MaterialData { get; set; }
+    public PlayerPlantData P_PlantData { get; set; }
+    public PlayerPlantContractData P_PlantContractData { get; set; }
+    public PlayerTechTreeData P_TechData { get; set; }
 
     public PlayerData(
-        PlayerSystemData systemData,
-        PlayerMaterialData materialData,
-        PlayerTechTreeData techTreeData)
+        PlayerSystemData p_systemData,
+        PlayerMaterialData p_materialData,
+        PlayerPlantData p_plantData,
+        PlayerPlantContractData p_plantContractData,
+        PlayerTechTreeData p_techTreeData)
     {
-        SystemData = systemData;
-        MaterialData = materialData;
-        TechData = techTreeData;
+        P_SystemData = p_systemData;
+        P_MaterialData = p_materialData;
+        P_PlantData = p_plantData;
+        P_PlantContractData = p_plantContractData;
+        P_TechData = p_techTreeData;
     }
 
 }
