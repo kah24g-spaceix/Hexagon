@@ -1,100 +1,88 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum Answer
-{
-    Yes,
-    No
-};
 public class TitleButton : MonoBehaviour
 {
-    [Header("Title Button")]
-    [SerializeField] private Button gameStartButton;
-    [SerializeField] private Button gameLoadButton;
-    [SerializeField] private Button gameQuitButton;
+    [Header("Buttons")]
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button loadButton;
+    [SerializeField] private Button optionsButton;
+    [SerializeField] private Button exitButton;
 
+    [Header("Options Popup")]
+    [SerializeField] private GameObject optionsPopup;
 
-    [Header("Warning UI")]
-    [SerializeField] private GameObject checkData;
-    private Button[] checkDataButtons;
+    [Header("Check Data Popup")]
+    [SerializeField] private GameObject checkDataPopup;
+    [SerializeField] private Button checkDataYesButton;
+    [SerializeField] private Button checkDataNoButton;
 
+    [Header("Load Data Popup")]
     [SerializeField] private GameObject loadFailedPopup;
-    private Button loadFailedPopupOkButton;
-
-    private TextMeshProUGUI gameStartButtonName;
-    private TextMeshProUGUI gameLoadButtonName;
-    private TextMeshProUGUI gameQuitButtonName;
+    [SerializeField] private Button loadFailedPopupOkButton;
 
     private void Awake()
     {
-        gameStartButtonName = gameStartButton.GetComponentInChildren<TextMeshProUGUI>();
-        gameLoadButtonName = gameLoadButton.GetComponentInChildren<TextMeshProUGUI>();
-        gameQuitButtonName = gameQuitButton.GetComponentInChildren<TextMeshProUGUI>();
-
-        checkDataButtons = checkData.GetComponentsInChildren<Button>();
-        loadFailedPopupOkButton = loadFailedPopup.GetComponentInChildren<Button>();
-
-        HideCheckDataPopup();
-        HideLoadFailedPopup();
-
-        gameStartButtonName.SetText("Start");
-        gameLoadButtonName.SetText("Load");
-        gameQuitButtonName.SetText("Quit");
-
-        gameStartButton.onClick.AddListener(OnStartButton);
-        checkDataButtons[(int)Answer.Yes].onClick.AddListener(CheckDataAnswerYes);
-        checkDataButtons[(int)Answer.No].onClick.AddListener(HideCheckDataPopup);
-
-        gameLoadButton.onClick.AddListener(OnDoDataLoad);
-        loadFailedPopupOkButton.onClick.AddListener(HideLoadFailedPopup);
-
-        gameQuitButton.onClick.AddListener(OnQuitButton);
-
-
+        InitializePopup();
+        AddListeners();
     }
 
-    private void OnStartButton()
+    private void InitializePopup()
+    {
+        HidePopup(checkDataPopup);
+        HidePopup(loadFailedPopup);
+    }
+
+    private void AddListeners()
+    {
+        // Title buttons
+        startButton.onClick.AddListener(OnStartButtonClicked);
+        loadButton.onClick.AddListener(OnLoadButtonClicked);
+        optionsButton.onClick.AddListener(OnOptionsButtonClicked);
+        exitButton.onClick.AddListener(OnExitButtonClicked);
+
+        // Check data popup buttons
+        checkDataYesButton.onClick.AddListener(OnCheckDataYes);
+        checkDataNoButton.onClick.AddListener(() => HidePopup(checkDataPopup));
+
+        // Load failed popup button
+        loadFailedPopupOkButton.onClick.AddListener(() => HidePopup(loadFailedPopup));
+    }
+
+    // Button Actions
+    private void OnStartButtonClicked()
     {
         if (PlayerPrefs.HasKey("Save"))
-            checkData.SetActive(true);
+        {
+            ShowPopup(checkDataPopup);
+        }
         else
         {
-            CheckDataAnswerYes();
+            OnCheckDataYes();
         }
-
-    }
-    private void CheckDataAnswerYes()
-    {
-        ChangeScene();
-        IsLoad(false);
-    }
-    private void HideCheckDataPopup()
-    {
-        checkData.SetActive(false);
     }
 
-
-    private void OnDoDataLoad()
+    private void OnLoadButtonClicked()
     {
         if (!PlayerPrefs.HasKey("Save"))
-            loadFailedPopup.SetActive(true);
+        {
+            ShowPopup(loadFailedPopup);
+        }
         else
         {
             ChangeScene();
-            IsLoad(true);
+            SetLoadState(true);
         }
     }
-    private void HideLoadFailedPopup()
+
+    private void OnOptionsButtonClicked()
     {
-        loadFailedPopup.SetActive(false);
+        ShowPopup(optionsPopup);
     }
 
-
-    private void OnQuitButton()
+    private void OnExitButtonClicked()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -103,13 +91,38 @@ public class TitleButton : MonoBehaviour
 #endif
     }
 
-    private void IsLoad(bool isDataLoad)
+    private void OnCheckDataYes()
     {
-        GameObject otherSceneObject = GameObject.FindWithTag("GameMamager");
-        otherSceneObject.GetComponent<GameModel>().isLoad = isDataLoad;
+        ChangeScene();
+        SetLoadState(false);
     }
+
+    // Utility Methods
     private void ChangeScene()
     {
         SceneManager.LoadScene("MainGameScene");
+    }
+
+    private void SetLoadState(bool isLoad)
+    {
+        GameObject gameManager = GameObject.FindWithTag("GameManager");
+        if (gameManager != null)
+        {
+            gameManager.GetComponent<GameModel>().isLoad = isLoad;
+        }
+        else
+        {
+            Debug.LogError("GameManager not found in the scene.");
+        }
+    }
+
+    private void ShowPopup(GameObject popup)
+    {
+        popup?.SetActive(true);
+    }
+
+    private void HidePopup(GameObject popup)
+    {
+        popup?.SetActive(false);
     }
 }

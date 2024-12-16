@@ -8,15 +8,26 @@ public class PlantDataLine
     public int ContractCost { get; }
     public int UpgradeCost { get; }
     public int Product { get; }
-    public int ImportProduct{ get; }
+    public int ContractProduct{ get; }
+    public int LevelCap { get; }
 
-    public PlantDataLine(string name, int constructionCost, int contractCost, int product, int importProduct)
+    public PlantDataLine(
+        string name, 
+        int constructionCost,
+        int contractCost, 
+        int upgradeCost,
+        int product, 
+        int contractProduct,
+        int levelCap
+        )
     {
         Name = name;
         ConstructionCost = constructionCost;
         ContractCost = contractCost;
+        UpgradeCost = upgradeCost;
         Product = product;
-        ImportProduct = importProduct;
+        LevelCap = levelCap;
+        ContractProduct = contractProduct;
     }
 }
 

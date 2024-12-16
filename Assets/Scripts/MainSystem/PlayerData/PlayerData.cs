@@ -1,10 +1,10 @@
 public class PlayerSystemData
 {
-    public int Money { get; set; } 
-    public int Employees { get; set; } 
-    public int Resistance { get; set; } 
-    public double CommunityOpinionValue { get; set; } 
-    public int Day { get; set; } 
+    public int Money { get; set; }
+    public int Employees { get; set; }
+    public int Resistance { get; set; }
+    public double CommunityOpinionValue { get; set; }
+    public int Day { get; set; }
 
     public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue, int day)
     {
@@ -15,15 +15,14 @@ public class PlayerSystemData
         Day = day;
     }
 }
-
 public class PlayerMaterialData
 {
-    public int Alloy { get; set; } 
-    public int Microchip { get; set; } 
+    public int Alloy { get; set; }
+    public int Microchip { get; set; }
     public int CarbonFiber { get; set; }
-    public int ConductiveFiber { get; set; } 
-    public int Pump { get; set; } 
-    public int RubberTube { get; set; } 
+    public int ConductiveFiber { get; set; }
+    public int Pump { get; set; }
+    public int RubberTube { get; set; }
 
     public PlayerMaterialData(int alloy, int microchip, int carbonFiber, int conductiveFiber, int pump, int tube)
     {
@@ -47,12 +46,12 @@ public class PlayerHyperFrameData
 
     public PlayerHyperFrameData
     (
-        int eye, 
-        int arm, 
-        int hand, 
-        int lag, 
-        int foot, 
-        int body, 
+        int eye,
+        int arm,
+        int hand,
+        int lag,
+        int foot,
+        int body,
         int head
         )
     {
@@ -67,11 +66,11 @@ public class PlayerHyperFrameData
 }
 public class PlayerPlantData
 {
-    public int[] UpgradeCosts { get; set;}
-    public int[] Products { get; set;}
-    public int[] Levels { get; set;}
-    public bool[] IsContructions { get; set;}
-    
+    public int[] UpgradeCosts { get; set; }
+    public int[] Products { get; set; }
+    public int[] Levels { get; set; }
+    public bool[] IsContructions { get; set; }
+
 
     public PlayerPlantData(
         int[] upgradeCosts,
@@ -88,11 +87,13 @@ public class PlayerPlantData
 }
 public class PlayerPlantContractData
 {
-        public bool[] IsContracts { get; }
-        public PlayerPlantContractData(
-        bool[] isContracts
-    )
+    public int[] Costs { get; set; }
+    public int[] Products { get; set; }
+    public bool[] IsContracts { get; set; }
+    public PlayerPlantContractData(int[] costs, int[] products, bool[] isContracts)
     {
+        Costs = costs;
+        Products = products;
         IsContracts = isContracts;
     }
 }
@@ -116,7 +117,10 @@ public class PlayerTechTreeData
 public class PlayerData
 {
     public PlayerSystemData P_SystemData { get; set; }
+
     public PlayerMaterialData P_MaterialData { get; set; }
+    public PlayerHyperFrameData P_HyperFrameData { get; set; }
+
     public PlayerPlantData P_PlantData { get; set; }
     public PlayerPlantContractData P_PlantContractData { get; set; }
     public PlayerTechTreeData P_TechData { get; set; }
@@ -124,14 +128,19 @@ public class PlayerData
     public PlayerData(
         PlayerSystemData p_systemData,
         PlayerMaterialData p_materialData,
+        PlayerHyperFrameData p_hyperFrameData,
         PlayerPlantData p_plantData,
         PlayerPlantContractData p_plantContractData,
         PlayerTechTreeData p_techTreeData)
     {
         P_SystemData = p_systemData;
+
         P_MaterialData = p_materialData;
+        P_HyperFrameData = p_hyperFrameData;
+
         P_PlantData = p_plantData;
         P_PlantContractData = p_plantContractData;
+
         P_TechData = p_techTreeData;
     }
 

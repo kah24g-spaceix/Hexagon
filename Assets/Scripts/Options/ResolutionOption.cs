@@ -30,9 +30,10 @@ public class ResolutionOption : MonoBehaviour
         resolutionDropdown.onValueChanged.AddListener(DropboxOptionChange);
         fullScreenToggle.onValueChanged.AddListener(FullScreenButton);
         Invoke("SetResolution", 0.1f);
-        /*#if !UNITY_EDITOR
+        
+        #if !UNITY_EDITOR
                     Invoke("SetResolution", 0.1f);
-        #endif*/
+        #endif
     }
 
     void SetResolution()
@@ -45,7 +46,7 @@ public class ResolutionOption : MonoBehaviour
         // only 16:9
         if (is16v9)
         {
-            float tolerance = 0.01f; // Çã¿ë ¿ÀÂ÷ ¼³Á¤
+            float tolerance = 0.01f; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             resolutions = resolutions.FindAll(x => Mathf.Abs((float)x.width / x.height - 16f / 9) < tolerance);
         }
         // Hz Visibility
@@ -87,14 +88,11 @@ public class ResolutionOption : MonoBehaviour
     public void DropboxOptionChange(int resolutionIndex)
     {
         ResolutionIndex = resolutionIndex;
+        Screen.SetResolution(resolutions[ResolutionIndex].width, resolutions[ResolutionIndex].height, screenMode);
     }
     public void FullScreenButton(bool isFull)
     {
         fullScreenToggle.isOn = isFull;
         screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
-    }
-    public void OkButtonClick()
-    {
-        Screen.SetResolution(resolutions[ResolutionIndex].width, resolutions[ResolutionIndex].height, screenMode);
     }
 }

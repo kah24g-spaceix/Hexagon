@@ -4,79 +4,39 @@ using UnityEngine;
 public class GamePresenter : MonoBehaviour, IGamePresenter
 {
     private IGameModel _model;
-    private IGameView _gameView;
-    private PlayerSystemModel _playerSaveModel;
+    private PlayerSystemModel _playerSystemModel;
     private PlayerMaterialModel _playerMaterialModel;
     private PlayerTechModel _playerTechModel;
-
-    GameManager _gameManager;
-    DayCycle _dayCycle;
+    GameDateManager _dayCycle;
     private void Awake()
     {
         _model = GetComponent<IGameModel>();
-        _gameView = GetComponent<IGameView>();
-        _gameManager = GetComponent<GameManager>();
-        _dayCycle = GetComponent<DayCycle>();
+        _dayCycle = GetComponent<GameDateManager>();
     }
     private void Start()
     {
         ReloadData();
-        StartCoroutine(_dayCycle.StartDayCycle());
-        StartCoroutine(DataChangeUpdate());
+        StartCoroutine(_dayCycle.DayCycle());
+        StartCoroutine(_dayCycle.SystemUpdate());
     }
 
-    public IEnumerator DataChangeUpdate()
+    public void SystemUpdate()
     {
-        while (_dayCycle.currentTime >= 0)
-        {
-            //MoneyPerSecond();
-            DoUpdatePlant();
-            ReloadData();
-            yield return new WaitForSeconds(1f);
-        }
-
+        MoneyPerSecond();
     }
     public string GetDay()
     {
-        return $"Day {_playerSaveModel.Day}";
+        return $"Day {_playerSystemModel.Day}";
     }
     public string GetMoney()
     {
-        return $"{_playerSaveModel.Money} H$";
+        return $"{_playerSystemModel.Money} H$";
     }
     public void MoneyPerSecond()
     {
         _model.Income();
         ReloadData();
     }
-
-    public void DoSell()
-    {
-        _model.Sell();
-        ReloadData();
-    }
-    public void DoUpdatePlant()
-    {
-        _model.UpdatePlantData(_gameView.GetContracts());
-        ReloadData();
-    }
-    public string[] GetPlantText()
-    {
-        string[] text = new string[6] 
-        {
-            $"{_playerMaterialModel.Alloy}",
-            $"{_playerMaterialModel.Microchip}",
-            $"{_playerMaterialModel.CarbonFiber}",
-            $"{_playerMaterialModel.ConductiveFiber}",
-            $"{_playerMaterialModel.Pump}",
-            $"{_playerMaterialModel.RubberTube}"
-        };
-
-        return text;
-    }
-
-
-
 
     public void OnExchangeTechPointButton(int value)
     {
@@ -94,22 +54,21 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void DoTodayResult()
     {
         _model.TodayResult();
-        DoLoadGame();
         ReloadData();
+    }
+    public void OnDaySkipButton()
+    {
+        _model.SetTimeScale(10);
     }
     public void OnNextDayButton()
     {
-        _model.NextDay();
         DoSaveGame();
         ReloadData();
     }
-
     public void OnRestartDayButton()
     {
-        throw new System.NotImplementedException();
+        DoLoadGame();
     }
-
-
     public void DoLoadGame()
     {
         _model.LoadGame();
@@ -121,12 +80,9 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     private void ReloadData()
     {
-        _playerSaveModel = _model.GetPlayerSystemModel();
+        _playerSystemModel = _model.GetPlayerSystemModel();
         _playerMaterialModel = _model.GetPlayerMaterialModel();
         _playerTechModel = _model.GetPlayerTechModel();
-
-
-        _gameView.TextUIUpdate();
     }
 
 

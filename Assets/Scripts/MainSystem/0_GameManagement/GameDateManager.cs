@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DayCycle : MonoBehaviour
+public class GameDateManager : MonoBehaviour
 {
     IGameView _gameView;
     IGamePresenter _gamePresenter;
@@ -23,10 +23,10 @@ public class DayCycle : MonoBehaviour
         _gameView = GetComponent<IGameView>();
         _gamePresenter = GetComponent<IGamePresenter>();
         gameManager = GetComponent<GameManager>();
-        time = gameManager.playTime;
+        time = gameManager.PlayTime;
         timeScale = gameDayInHours / time;
     }
-    public IEnumerator StartDayCycle()
+    public IEnumerator DayCycle()
     {
         currentTime = time;
         hour = 0f;
@@ -47,8 +47,9 @@ public class DayCycle : MonoBehaviour
             //second = (minute - GetMinute()) * 60f;
 
             //Debug.Log(string.Format("Game Time: {0:00} hours, {1:00} minutes, {2:00} seconds", GetHour(), GetMinute(), GetSecond()));
-            _gameView.ClockUpdate(string.Format("{0:00} : {1:00}", GetHour(), GetMinute()));
-
+            _gameView.ClockUpdate(GetHour(), GetMinute());
+            _gameView.ViewUpdate();
+            
             yield return null;
 
             if (currentTime <= 0)
@@ -58,6 +59,14 @@ public class DayCycle : MonoBehaviour
                 _gamePresenter.DoTodayResult();
                 yield break;
             }
+        }
+    }
+    public IEnumerator SystemUpdate()
+    {
+        while (currentTime >= 0)
+        {
+            _gamePresenter.SystemUpdate();
+            yield return new WaitForSeconds(1f);
         }
     }
     private float GetHour()

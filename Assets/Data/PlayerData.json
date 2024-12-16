@@ -1,12 +1,12 @@
 {
-    "SystemData": {
-      "Money": 100,
+    "P_SystemData": {
+      "Money": 1000000,
       "Employees": 50,
       "Resistance": 20,
       "CommunityOpinionValue": 75.5,
       "Day": 1
     },
-    "MaterialData": {
+    "P_MaterialData": {
       "Alloy": 200,
       "Microchip": 150,
       "CarbonFiber": 100,
@@ -14,7 +14,25 @@
       "Pump": 100,
       "RubberTube": 100
     },
-    "TechData": {
+    "P_HyperFrameData": {
+      "Eye": 0,
+      "Arm": 0,
+      "Hand": 0,
+      "Lag": 0,
+      "Foot": 0,
+      "Body": 0,
+      "Head": 0
+    },
+    "P_PlantData": {
+      "UpgradeCosts":[],
+      "Products":[],
+      "Levels":[],
+      "IsContructions":[]
+    },
+    "P_PlantContractData": {
+      "IsContracts":[]
+    },
+    "P_TechData": {
       "TechPoint": 120,
       "RevenueValue": 5000,
       "MaxEmployee": 100,

@@ -24,6 +24,16 @@ public struct PlayerSystemModel
         Day = day;
     }
 }
+
+public enum ProductName
+{
+    Alloy,
+    Microchip,
+    CarbonFiber,
+    ConductiveFiber,
+    Pump,
+    RubberTube
+}
 public struct PlayerMaterialModel
 {
     public int Alloy { get; } // �ձ�
@@ -40,7 +50,7 @@ public struct PlayerMaterialModel
         int carbonFiber,
         int conductiveFiber,
         int pump,
-        int tube
+        int rubberTube
         )
     {
         Alloy = alloy;
@@ -48,7 +58,7 @@ public struct PlayerMaterialModel
         CarbonFiber = carbonFiber;
         ConductiveFiber = conductiveFiber;
         Pump = pump;
-        RubberTube = tube;
+        RubberTube = rubberTube;
     }
 }
 public struct PlayerHyperFrameModel
@@ -85,29 +95,31 @@ public struct PlayerPlantModel
     public int[] UpgradeCosts { get; }
     public int[] Products { get; }
     public int[] Levels { get; }
-    public bool[] IsContructions { get; }
+    public bool[] IsConstructions { get; }
     
 
     public PlayerPlantModel(
         int[] upgradeCosts,
         int[] products,
         int[] levels,
-        bool[] isContructions
+        bool[] isConstructions
     )
     {
         UpgradeCosts = upgradeCosts;
         Products = products;
         Levels = levels;
-        IsContructions = isContructions;
+        IsConstructions = isConstructions;
     }
 }
 public struct PlayerPlantContractModel
 {
+    public int[] Costs { get; }
+    public int[] Products { get; }
     public bool[] IsContracts { get; }
-        public PlayerPlantContractModel(
-        bool[] isContracts
-    )
+    public PlayerPlantContractModel(int[] costs, int[] products, bool[] isContracts)
     {
+        Costs = costs;
+        Products = products;
         IsContracts = isContracts;
     }
 }
@@ -130,27 +142,53 @@ public struct PlayerTechModel
         TechLevels = techLevels;
     }
 }
-public interface IGameModel
+public interface IPlayerSystemModelHandler
 {
     PlayerSystemModel GetPlayerSystemModel();
-    PlayerMaterialModel GetPlayerMaterialModel();
-    PlayerPlantModel GetPlayerPlantModel();
-    PlayerPlantContractModel GetPlayerPlantContractModel();
-    PlayerTechModel GetPlayerTechModel();
-
     void DoSystemResult(PlayerSystemModel model);
-    void DoMaterialResult(PlayerMaterialModel model);
-    void DoPlantResult(PlayerPlantModel model);
-    void DoPlantContractResult(PlayerPlantContractModel model);
-    void DoTechResult(PlayerTechModel model);
     void Income();
     void ExchangeTechPoint(int value);
-    void TodayResult();
-    void NextDay();
+}
 
+public interface IPlayerMaterialModelHandler
+{
+    PlayerMaterialModel GetPlayerMaterialModel();
+    void DoMaterialResult(PlayerMaterialModel model);
+}
+public interface IPlayerHyperFrameModelHandler
+{
+    PlayerHyperFrameModel GetPlayerHyperFrameModel();
+    void DoHyperFrameResult(PlayerHyperFrameModel model);
+}
+public interface IPlayerPlantModelHandler
+{
+    PlayerPlantModel GetPlayerPlantModel();
+    void DoPlantResult(PlayerPlantModel model);
+    void AddProduct();
+    PlayerPlantContractModel GetPlayerPlantContractModel();
+    void DoPlantContractResult(PlayerPlantContractModel model);
+    void AddContractProduct();
+}
 
-    void Sell();
+public interface IPlayerTechModelHandler
+{
+    PlayerTechModel GetPlayerTechModel();
+    void DoTechResult(PlayerTechModel model);
+}
 
+public interface IGameProgressHandler
+{
     void SaveGame();
     bool LoadGame();
+    void TodayResult();
+    void SetTimeScale(float scale);
+    void NextDay();
+}
+public interface IGameModel :
+    IPlayerSystemModelHandler,
+    IPlayerMaterialModelHandler,
+    IPlayerPlantModelHandler,
+    IPlayerTechModelHandler,
+    IGameProgressHandler
+{
 }

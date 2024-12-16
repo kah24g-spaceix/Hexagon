@@ -3,7 +3,7 @@ using System.Collections;
 public interface IGamePresenter
 {
     //void BindView(IGameView pView);
-    IEnumerator DataChangeUpdate();
+    void SystemUpdate();
     string GetDay();
     string GetMoney();
     void MoneyPerSecond();
@@ -11,10 +11,6 @@ public interface IGamePresenter
     void OnRestartDayButton();
     void DoTodayResult();
     void OnExchangeTechPointButton(int value);
-
-    void DoSell();
-    void DoUpdatePlant();
-    string[] GetPlantText();
 
     void DoLoadGame();
     void DoSaveGame();

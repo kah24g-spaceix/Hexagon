@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static TechTree;
 
 public class Tech : MonoBehaviour, IView<TechModel>
 {
@@ -15,21 +14,22 @@ public class Tech : MonoBehaviour, IView<TechModel>
     public int ID { get; set; }
     public int[] ConnectedTechs { get; set; }
 
+    private Button button;
+
     private void Awake()
     {
         playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
-        Button button = GetComponent<Button>();
+        button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
+
+        ConnectedTechs ??= new int[0];
     }
 
     public void Bind(TechModel model)
     {
+        if (playerModel == null || ID < 0 || ID >= model.TechLevels.Length) return;
+
         PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
-        if (ID < 0 || ID >= model.TechLevels.Length)
-        {
-            Debug.LogError($"Tech ID {ID} is out of range.");
-            return;
-        }
 
         levelText.SetText($"{model.TechLevels[ID]}/{model.TechCaps[ID]}");
         titleText.SetText($"{model.TechNames[ID]}");
@@ -37,6 +37,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
         costText.SetText($"Cost: {playerTechData.TechPoint}/{model.TechCosts[ID]} TP");
 
         Image sprite = GetComponent<Image>();
+
         if (model.TechLevels[ID] >= model.TechCaps[ID])
         {
             costText.gameObject.SetActive(false);
@@ -56,46 +57,33 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void UpdateConnectedTechs(TechModel model)
     {
-        foreach (int connectedTech in ConnectedTechs)
+        if (ConnectedTechs == null || ConnectedTechs.Length == 0) return;
+
+        for (int i = 0; i < ConnectedTechs.Length; i++)
         {
-            if (connectedTech > 0 && connectedTech < techTree.TechList.Count)
-            {
-                techTree.TechList[connectedTech].gameObject.SetActive(model.TechLevels[ID] > 0);
-            }
-            else
-            {
-                break;
-                //Debug.LogError($"Tech with ID {connectedTech} is out of range in TechList. TechList count: {techTree.TechList.Count}");
-            }
+            int connectedId = ConnectedTechs[i];
+            if (connectedId < 0 || connectedId >= TechTree.Instance.TechList.Count) continue;
+
+            TechTree.Instance.TechList[connectedId].gameObject.SetActive(model.TechLevels[ID] > 0);
         }
     }
+
     public void Buy()
     {
-        Debug.Log("Try Buy");
-        TechModel currentTechModel = techTree.TechModel;
-        PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
-        Debug.Log($"{playerTechData.TechPoint}");
-        if (playerTechData.TechPoint < currentTechModel.TechCosts[ID] 
-        || currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID])
-        {
-            Debug.Log("No Money");
-            return;
-        }
-        currentTechModel.TechLevels[ID]++;
+        TechModel currentTechModel = TechTree.Instance.TechModel;
+        PlayerTechModel playerTechModel = playerModel.GetPlayerTechModel();
 
-        int techPoint = playerTechData.TechPoint - currentTechModel.TechCosts[ID];
-        int revenueValue = playerTechData.RevenueValue + currentTechModel.Revenue[ID];
-        int maxEmployees = playerTechData.MaxEmployee + currentTechModel.MaxEmployee[ID];
-        int[] techLevels = currentTechModel.TechLevels;
-        PlayerTechModel newData = new PlayerTechModel
-            (
-            techPoint,
-            revenueValue,
-            maxEmployees,
-            techLevels
-            );
-        playerModel.DoTechResult(newData);
-        techTree.UpdateAllTechUI(currentTechModel);
-        Debug.Log("Buy Success");
+        if (playerTechModel.TechPoint - currentTechModel.TechCosts[ID] < 0) return;
+        if (currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID]) return;
+
+        currentTechModel.TechLevels[ID]++;
+        playerModel.DoTechResult(new PlayerTechModel(
+            playerTechModel.TechPoint - currentTechModel.TechCosts[ID],
+            playerTechModel.RevenueValue + currentTechModel.Revenue[ID],
+            playerTechModel.MaxEmployee + currentTechModel.MaxEmployee[ID],
+            currentTechModel.TechLevels
+        ));
+
+        TechTree.Instance.UpdateAllTechUI(currentTechModel);
     }
 }

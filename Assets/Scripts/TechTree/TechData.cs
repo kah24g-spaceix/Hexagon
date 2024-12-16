@@ -19,7 +19,7 @@ public class TechDataLine
         MaxEmployee = maxEmployee;
         TechName = techName;
         TechDescription = techDescription;
-        ConnectedTechs = connectedTechs;
+        ConnectedTechs = connectedTechs ?? new int[0]; // null일 경우 빈 배열로 초기화
     }
 }
 

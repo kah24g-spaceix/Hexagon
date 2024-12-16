@@ -24,15 +24,12 @@ public class GameView : MonoBehaviour, IGameView
     public bool[] contracts;
 
 
-    private bool option;
     private static bool GameIsPaused = false;
     private bool techtree;
 
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
-
-        option = false;
         techtree = false;
     }
 
@@ -44,8 +41,7 @@ public class GameView : MonoBehaviour, IGameView
 
 
     }
-
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -70,22 +66,22 @@ public class GameView : MonoBehaviour, IGameView
                 ActiveTrigger(TechTreeUI, techtree);
             }
         }
-
     }
-
-    public bool[] GetContracts()
+    public void ViewUpdate()
     {
-        return contracts;
+        TextUIUpdate();
+
     }
+
     public void TextUIUpdate()
     {
-        Day.text = gamePresenter.GetDay();
-        Money.text = gamePresenter.GetMoney();
+        Day.SetText(gamePresenter.GetDay());
+        Money.SetText(gamePresenter.GetMoney());
     }
 
-    public void ClockUpdate(string currentTime)
+    public void ClockUpdate(float hour, float minute)
     {
-        CurrentTime.text = currentTime;
+        CurrentTime.SetText(string.Format("{0:00} : {1:00}", hour, minute));
     }
 
     public void ShowToDayResult()

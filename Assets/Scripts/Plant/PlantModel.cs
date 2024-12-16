@@ -1,14 +1,16 @@
-public struct PlantModel
+public class PlantModel
 {
     public string[] Names { get; }
     public int[] ConstructionCosts { get; }
     public int[] ContractCosts { get; }
     public int[] UpgradeCosts { get; }
     public int[] Products { get; }
-    public int[] ImportProducts { get; }
+    public int[] ContractProducts { get; }
+    public int[] LevelCaps { get; }
     public int[] Levels { get; }
     public bool[] IsContructions { get; }
     public bool[] IsContracts { get; }
+    public bool[] PendingContractCancellations { get; }
 
     public PlantModel(
         string[] names,
@@ -16,10 +18,12 @@ public struct PlantModel
         int[] contractCosts,
         int[] upgradeCosts,
         int[] products,
-        int[] importProducts,
+        int[] contractProducts,
+        int[] levelCaps,
         int[] levels,
         bool[] isContructions,
-        bool[] isContracts
+        bool[] isContracts,
+        bool[] pendingContractCancellations
     )
     {
         Names = names;
@@ -27,9 +31,11 @@ public struct PlantModel
         ContractCosts = contractCosts;
         UpgradeCosts = upgradeCosts;
         Products = products;
-        ImportProducts = importProducts;
+        ContractProducts = contractProducts;
+        LevelCaps = levelCaps;
         Levels = levels;
         IsContructions = isContructions;
         IsContracts = isContracts;
+        PendingContractCancellations = pendingContractCancellations;
     }
 }

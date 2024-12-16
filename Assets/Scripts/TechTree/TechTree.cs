@@ -1,81 +1,76 @@
-using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 public class TechTree : MonoBehaviour
 {
-    [SerializeField] private GameObject techHolder;
-    public static TechTree techTree;
-    
-    private List<Tech> techList = new List<Tech>();
-    public List<Tech> TechList { get; set; }
+    private static TechTree _instance;
 
-    private TechModel techModel;
-    public TechModel TechModel { get; set; }
+    public static TechTree Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<TechTree>();
+                if (_instance == null)
+                {
+                    Debug.LogError("TechTree instance is not found in the scene.");
+                }
+            }
+            return _instance;
+        }
+    }
+
+    [SerializeField] private GameObject techHolder;
+    public List<Tech> TechList { get; private set; }
+    public TechModel TechModel { get; private set; }
 
     private void Awake()
     {
-        TechModel = techModel;
-        if (techTree == null)
+        if (_instance == null)
         {
-            techTree = this;
+            _instance = this;
         }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+        }
+
     }
+
     public void InitializeTechModel(TechData techData)
     {
-        int[] techLevels = new int[techData.TechDataLines.Length];
-        int[] techCaps = techData.TechDataLines.Select(t => t.TechCap).ToArray();
-        int[] techCosts = techData.TechDataLines.Select(t => t.TechCost).ToArray();
-        int[] revenue = techData.TechDataLines.Select(t => t.Revenue).ToArray();
-        int[] maxEmployee = techData.TechDataLines.Select(t=> t.MaxEmployee).ToArray();
-        string[] techNames = techData.TechDataLines.Select(t => t.TechName).ToArray();
-        string[] techDescriptions = techData.TechDataLines.Select(t => t.TechDescription).ToArray();
-        int[][] connectedTechs = techData.TechDataLines.Select(t => t.ConnectedTechs).ToArray();
-
-        techModel = new TechModel(
-            techLevels,
-            techCaps,
-            techCosts,
-            revenue,
-            maxEmployee,
-            techNames,
-            techDescriptions,
-            connectedTechs
-        );
-        TechTreeStart();
-    }
-    public void TechTreeStart()
-    {
-        if (techHolder == null)
+        if (techData == null || techHolder == null)
         {
-            Debug.LogError("TechHolder is not assigned.");
+            Debug.LogError("TechData or TechHolder is not assigned.");
             return;
         }
-        techList.Clear();
-        foreach (Tech tech in techHolder.GetComponentsInChildren<Tech>())
+
+        TechModel = new TechModel(
+            new int[techData.TechDataLines.Length],
+            techData.TechDataLines.Select(t => t.TechCap).ToArray(),
+            techData.TechDataLines.Select(t => t.TechCost).ToArray(),
+            techData.TechDataLines.Select(t => t.Revenue).ToArray(),
+            techData.TechDataLines.Select(t => t.MaxEmployee).ToArray(),
+            techData.TechDataLines.Select(t => t.TechName).ToArray(),
+            techData.TechDataLines.Select(t => t.TechDescription).ToArray(),
+            techData.TechDataLines.Select(t => t.ConnectedTechs ?? new int[0]).ToArray()
+        );
+
+        TechList = new List<Tech>(techHolder.GetComponentsInChildren<Tech>());
+        for (int i = 0; i < TechList.Count; i++)
         {
-            techList.Add(tech);
+            TechList[i].ID = i;
+            TechList[i].ConnectedTechs = TechModel.ConnectedTechs[i];
         }
 
-        for (int i = 0; i < techList.Count; i++)
-        {
-            techList[i].ID = i;
-        }
-
-        for (int i = 0; i < techList.Count; i++)
-        {
-            int techId = techList[i].ID;
-            techList[i].ConnectedTechs = techModel.ConnectedTechs[techId];
-        }
-
-        UpdateAllTechUI(techModel);
-        Debug.Log("Tech UI updated.");
+        UpdateAllTechUI(TechModel);
     }
 
     public void UpdateAllTechUI(TechModel model)
     {
-        foreach (Tech tech in techList)
+        foreach (var tech in TechList)
         {
             tech.Bind(model);
         }

@@ -2,64 +2,75 @@ Shader "Sprites/Pixel Snap/URP-Alpha-Blended"
 {
     Properties
     {
-        _MainTex ("Main Texture", 2D) = "white" {}
+        // í…ìŠ¤ì²˜ ì†ì„± ì •ì˜
+        _MainTex ("Main Texture", 2D) = "white" {} // ìŠ¤í”„ë¼ì´íŠ¸ í…ìŠ¤ì²˜
     }
 
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha
-        ZWrite Off
+        Tags 
+        { 
+            "RenderType"="Transparent" // íˆ¬ëª… ë Œë”ë§ íƒœê·¸
+            "Queue"="Transparent"     // íˆ¬ëª… íì— ë°°ì¹˜
+        }
+
+        Blend SrcAlpha OneMinusSrcAlpha // ì•ŒíŒŒ ë¸”ë Œë”© ì„¤ì •
+        ZWrite Off                     // Z ë²„í¼ ì“°ê¸° ë¹„í™œì„±í™”
+
         Pass
         {
             HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert             // Vertex í•¨ìˆ˜
+            #pragma fragment frag           // Fragment í•¨ìˆ˜
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            // ÅØ½ºÃ³ ¼Ó¼º
+            // í…ìŠ¤ì²˜ ìƒ˜í”ŒëŸ¬ ì„ ì–¸
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
 
-            // ÅØ½ºÃ³ Å©±â¿Í ÅØ¼¿ Å©±â ¼±¾ğ
+            // í…ìŠ¤ì²˜ì˜ í…ì…€ í¬ê¸°ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì†ì„± (ìë™ ì„¤ì •ë¨)
             half4 _MainTex_TexelSize;
+
+            // ì •ì  ë°ì´í„° êµ¬ì¡°ì²´ (Vertex ì…°ì´ë” ì…ë ¥)
             struct Attributes
             {
-                float4 positionOS : POSITION; // °´Ã¼ÀÇ Á¤Á¡ À§Ä¡
-                float2 uv : TEXCOORD0;       // ±âº» UV ÁÂÇ¥
+                float4 positionOS : POSITION; // ê°ì²´ ê³µê°„ì—ì„œì˜ ì •ì  ìœ„ì¹˜
+                float2 uv : TEXCOORD0;       // ê¸°ë³¸ UV ì¢Œí‘œ
             };
 
+            // Vertex ì…°ì´ë”ì˜ ì¶œë ¥ ë° Fragment ì…°ì´ë”ì˜ ì…ë ¥ êµ¬ì¡°ì²´
             struct Varyings
             {
-                float4 positionCS : SV_POSITION; // Å¬¸³ °ø°£ À§Ä¡
-                float2 uv : TEXCOORD0;          // UV ÁÂÇ¥
+                float4 positionCS : SV_POSITION; // í´ë¦½ ê³µê°„ ì •ì  ìœ„ì¹˜
+                float2 uv : TEXCOORD0;          // í…ìŠ¤ì²˜ UV ì¢Œí‘œ
             };
 
-            // Á¤Á¡ ¼ÎÀÌ´õ
+            // Vertex ì…°ì´ë”: ì…ë ¥ ë°ì´í„°ë¥¼ í´ë¦½ ê³µê°„ìœ¼ë¡œ ë³€í™˜
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                // ¿ÀºêÁ§Æ® °ø°£ ÁÂÇ¥¸¦ Å¬¸³ °ø°£À¸·Î º¯È¯
+                // ê°ì²´ ê³µê°„ ì •ì  ìœ„ì¹˜ë¥¼ í´ë¦½ ê³µê°„ìœ¼ë¡œ ë³€í™˜
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS);
 
-                // UV ÁÂÇ¥¸¦ ±×´ë·Î Àü´Ş
+                // í…ìŠ¤ì²˜ UV ì¢Œí‘œë¥¼ ê·¸ëŒ€ë¡œ ì „ë‹¬
                 OUT.uv = IN.uv;
+
                 return OUT;
             }
 
-            // ÇÁ·¡±×¸ÕÆ® ¼ÎÀÌ´õ
+            // Fragment ì…°ì´ë”: í…ìŠ¤ì²˜ ìƒ‰ìƒ ìƒ˜í”Œë§ ë° ì¶œë ¥
             half4 frag(Varyings IN) : SV_Target
             {
-                // ÅØ¼¿ Å©±â °è»ê (ÅØ½ºÃ³ Å©±â ±â¹İÀ¸·Î °è»ê)
-                float2 texelSize = _MainTex_TexelSize;
+                // í…ì…€ í¬ê¸° (í…ìŠ¤ì²˜ í•´ìƒë„ì— ë”°ë¼ ìë™ ê³„ì‚°ë¨)
+                float2 texelSize = _MainTex_TexelSize.xy;
 
-                // UV ÁÂÇ¥ º¸Á¤ (ÅØ¼¿ Áß½ÉÀ¸·Î ÀÌµ¿)
+                // í…ì…€ ì¤‘ì‹¬ìœ¼ë¡œ UV ë³´ì •
                 float2 correctedUV = IN.uv + texelSize * 0.5;
 
-                // ÅØ½ºÃ³ »ùÇÃ¸µ
+                // í…ìŠ¤ì²˜ ìƒ˜í”Œë§
                 half4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, correctedUV);
 
-                // ¾ËÆÄ°ªÀ» À¯ÁöÇÏ¿© Åõ¸íµµ Ã³¸®
+                // ìµœì¢… ìƒ‰ìƒì„ ë°˜í™˜
                 return color;
             }
             ENDHLSL
