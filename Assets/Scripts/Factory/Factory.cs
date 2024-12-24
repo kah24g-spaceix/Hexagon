@@ -27,11 +27,14 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
 
-        string spritePath = $"Resources/Sprites/Factorys/Factory_{ID}";
-        string isNotImage = "Resources/Sprites/DebugImage/IsNotImage";
+        string spritePath = $"Sprites/Factorys/Factory_{ID}";
+        string isNotImage = "Sprites/DebugImage/IsNotImage";
         Sprite loadedSprite = Resources.Load<Sprite>(spritePath) ?? Resources.Load<Sprite>(isNotImage);
-        
+        if (loadedSprite == null)
+            Debug.LogError("Fuck");
+
         image.sprite = loadedSprite;
+
         nameText.SetText(model.Names[ID]);
         levelText.SetText($"{model.Levels[ID]}/{model.LevelCaps[ID]}");
         if (!model.IsContructions[ID])
