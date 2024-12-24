@@ -90,7 +90,7 @@ public struct PlayerHyperFrameModel
         Head = head;
     }
 }
-public struct PlayerPlantModel
+public struct PlayerFactoryModel
 {
     public int[] UpgradeCosts { get; }
     public int[] Products { get; }
@@ -98,7 +98,7 @@ public struct PlayerPlantModel
     public bool[] IsConstructions { get; }
     
 
-    public PlayerPlantModel(
+    public PlayerFactoryModel(
         int[] upgradeCosts,
         int[] products,
         int[] levels,
@@ -111,12 +111,12 @@ public struct PlayerPlantModel
         IsConstructions = isConstructions;
     }
 }
-public struct PlayerPlantContractModel
+public struct PlayerFactoryContractModel
 {
     public int[] Costs { get; }
     public int[] Products { get; }
     public bool[] IsContracts { get; }
-    public PlayerPlantContractModel(int[] costs, int[] products, bool[] isContracts)
+    public PlayerFactoryContractModel(int[] costs, int[] products, bool[] isContracts)
     {
         Costs = costs;
         Products = products;
@@ -162,11 +162,11 @@ public interface IPlayerHyperFrameModelHandler
 }
 public interface IPlayerPlantModelHandler
 {
-    PlayerPlantModel GetPlayerPlantModel();
-    void DoPlantResult(PlayerPlantModel model);
+    PlayerFactoryModel GetPlayerPlantModel();
+    void DoPlantResult(PlayerFactoryModel model);
     void AddProduct();
-    PlayerPlantContractModel GetPlayerPlantContractModel();
-    void DoPlantContractResult(PlayerPlantContractModel model);
+    PlayerFactoryContractModel GetPlayerPlantContractModel();
+    void DoPlantContractResult(PlayerFactoryContractModel model);
     void AddContractProduct();
 }
 

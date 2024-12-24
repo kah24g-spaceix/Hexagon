@@ -21,8 +21,6 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI Money;
 
     private IGamePresenter gamePresenter;
-    public bool[] contracts;
-
 
     private static bool GameIsPaused = false;
     private bool techtree;

@@ -1,4 +1,4 @@
-public class PlantModel
+public class FactoryModel
 {
     public string[] Names { get; }
     public int[] ConstructionCosts { get; }
@@ -12,7 +12,7 @@ public class PlantModel
     public bool[] IsContracts { get; }
     public bool[] PendingContractCancellations { get; }
 
-    public PlantModel(
+    public FactoryModel(
         string[] names,
         int[] constructoinCosts,
         int[] contractCosts,

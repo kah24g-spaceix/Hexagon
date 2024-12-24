@@ -2,9 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Plant : MonoBehaviour, IView<PlantModel>
+public class Factory : MonoBehaviour, IView<FactoryModel>
 {
-    [SerializeField] private Image plantImage;
+    [SerializeField] private Image image;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text constructionCostText;
@@ -23,14 +23,15 @@ public class Plant : MonoBehaviour, IView<PlantModel>
         contractButton.onClick.AddListener(Contract);
     }
 
-    public void Bind(PlantModel model)
+    public void Bind(FactoryModel model)
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
 
-        string spritePath = $"Sprites/Plants/Plant_{ID}";
-        Sprite loadedSprite = Resources.Load<Sprite>(spritePath) ?? Resources.Load<Sprite>("Sprites/Default");
-
-        plantImage.sprite = loadedSprite;
+        string spritePath = $"Resources/Sprites/Factorys/Factory_{ID}";
+        string isNotImage = "Resources/Sprites/DebugImage/IsNotImage";
+        Sprite loadedSprite = Resources.Load<Sprite>(spritePath) ?? Resources.Load<Sprite>(isNotImage);
+        
+        image.sprite = loadedSprite;
         nameText.SetText(model.Names[ID]);
         levelText.SetText($"{model.Levels[ID]}/{model.LevelCaps[ID]}");
         if (!model.IsContructions[ID])
@@ -49,37 +50,37 @@ public class Plant : MonoBehaviour, IView<PlantModel>
 
     public void Construction()
     {
-        PlantModel currentPlantModel = PlantGroup.Instance.PlantModel;
+        FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
         PlayerSystemModel playerSystemModel = playerModel.GetPlayerSystemModel();
         Debug.Log("Construction method called.");
         int cost;
-        if (!currentPlantModel.IsContructions[ID])
+        if (!currentFactoryModel.IsContructions[ID])
         {
-            if (playerSystemModel.Money - currentPlantModel.ConstructionCosts[ID] < 0) return;
-            currentPlantModel.IsContructions[ID] = true;
-            cost = currentPlantModel.ConstructionCosts[ID];
+            if (playerSystemModel.Money - currentFactoryModel.ConstructionCosts[ID] < 0) return;
+            currentFactoryModel.IsContructions[ID] = true;
+            cost = currentFactoryModel.ConstructionCosts[ID];
 
         }
         else
         {
-            if (currentPlantModel.Levels[ID] >= currentPlantModel.LevelCaps[ID])
+            if (currentFactoryModel.Levels[ID] >= currentFactoryModel.LevelCaps[ID])
             {
-                currentPlantModel.Levels[ID] = currentPlantModel.LevelCaps[ID];
+                currentFactoryModel.Levels[ID] = currentFactoryModel.LevelCaps[ID];
                 return;
             }
-            if (playerSystemModel.Money - currentPlantModel.UpgradeCosts[ID] < 0) return;
-            currentPlantModel.Levels[ID]++;
-            currentPlantModel.UpgradeCosts[ID] += currentPlantModel.UpgradeCosts[ID] / 2;
-            currentPlantModel.Products[ID] += 2;
-            cost = currentPlantModel.UpgradeCosts[ID];
+            if (playerSystemModel.Money - currentFactoryModel.UpgradeCosts[ID] < 0) return;
+            currentFactoryModel.Levels[ID]++;
+            currentFactoryModel.UpgradeCosts[ID] += currentFactoryModel.UpgradeCosts[ID] / 2;
+            currentFactoryModel.Products[ID] += 2;
+            cost = currentFactoryModel.UpgradeCosts[ID];
         }
 
         playerModel.DoPlantResult(new
         (
-            currentPlantModel.UpgradeCosts,
-            currentPlantModel.Products,
-            currentPlantModel.Levels,
-            currentPlantModel.IsContructions
+            currentFactoryModel.UpgradeCosts,
+            currentFactoryModel.Products,
+            currentFactoryModel.Levels,
+            currentFactoryModel.IsContructions
             ));
         playerModel.DoSystemResult(new
         (
@@ -89,26 +90,26 @@ public class Plant : MonoBehaviour, IView<PlantModel>
             playerSystemModel.CommunityOpinionValue,
             playerSystemModel.Day
         ));
-        PlantGroup.Instance.UpdateAllPlantUI(currentPlantModel);
+        FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
 
     public void Contract()
     {
-        PlantModel currentPlantModel = PlantGroup.Instance.PlantModel;
-        if (!currentPlantModel.IsContracts[ID])
+        FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
+        if (!currentFactoryModel.IsContracts[ID])
         {
             // 계약 시작
             Debug.Log($"Contract cancellation requested for Plant {ID}");
-            currentPlantModel.IsContracts[ID] = true;
-            playerModel.DoPlantContractResult(new(currentPlantModel.ContractCosts, currentPlantModel.ContractProducts, currentPlantModel.IsContracts));
+            currentFactoryModel.IsContracts[ID] = true;
+            playerModel.DoPlantContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
         }
         else
         {
             // 계약 취소 요청 기록
-            currentPlantModel.PendingContractCancellations[ID] = true;
+            currentFactoryModel.PendingContractCancellations[ID] = true;
             Debug.Log($"Contract cancellation requested for Plant {ID}. It will take effect the next day.");
         }
 
-        PlantGroup.Instance.UpdateAllPlantUI(currentPlantModel);
+        FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
 }

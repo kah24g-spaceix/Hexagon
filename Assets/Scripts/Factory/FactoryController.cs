@@ -1,28 +1,28 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlantController : MonoBehaviour
+public class FactoryController : MonoBehaviour
 {
     private Coroutine routine;
 
-    public void Show(PlantData data)
+    public void Show(FactoryData data)
     {
-        if (data?.PlantDataLines == null)
+        if (data?.FactoryDataLines == null)
         {
             Debug.LogError("PlantData or PlantDataLines is null.");
             return;
         }
 
-        if (PlantGroup.Instance == null)
+        if (FactoryGroup.Instance == null)
         {
             Debug.LogError("PlantGroup instance is not initialized.");
             return;
         }
 
-        routine = StartCoroutine(PlantDataRoutine(data.PlantDataLines));
+        routine = StartCoroutine(PlantDataRoutine(data.FactoryDataLines));
     }
 
-    private IEnumerator PlantDataRoutine(PlantDataLine[] data, int startIndex = 0)
+    private IEnumerator PlantDataRoutine(FactoryDataLine[] data, int startIndex = 0)
     {
         if (data == null)
         {
@@ -30,7 +30,7 @@ public class PlantController : MonoBehaviour
             yield break;
         }
 
-        if (PlantGroup.Instance.PlantList == null)
+        if (FactoryGroup.Instance.List == null)
         {
             Debug.LogError("PlantList is not initialized in PlantGroup.");
             yield break;
@@ -38,13 +38,13 @@ public class PlantController : MonoBehaviour
 
         for (int i = startIndex; i < data.Length; i++)
         {
-            if (i >= PlantGroup.Instance.PlantList.Count)
+            if (i >= FactoryGroup.Instance.List.Count)
             {
                 Debug.LogError($"Index {i} is out of range for PlantList.");
                 yield break;
             }
 
-            Plant plantComponent = PlantGroup.Instance.PlantList[i];
+            Factory plantComponent = FactoryGroup.Instance.List[i];
             if (plantComponent == null)
             {
                 Debug.LogWarning($"Plant component at index {i} is null.");
@@ -52,7 +52,7 @@ public class PlantController : MonoBehaviour
             }
 
             plantComponent.ID = i;
-            plantComponent.Bind(PlantGroup.Instance.PlantModel);
+            plantComponent.Bind(FactoryGroup.Instance.Model);
         }
     }
 }

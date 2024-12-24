@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlantDataLine
+public class FactoryDataLine
 {
     public string Name { get; }
     public int ConstructionCost { get; }
@@ -11,7 +11,7 @@ public class PlantDataLine
     public int ContractProduct{ get; }
     public int LevelCap { get; }
 
-    public PlantDataLine(
+    public FactoryDataLine(
         string name, 
         int constructionCost,
         int contractCost, 
@@ -31,18 +31,18 @@ public class PlantDataLine
     }
 }
 
-public class PlantData : IEnumerable<PlantDataLine>
+public class FactoryData : IEnumerable<FactoryDataLine>
 {
-    public PlantDataLine[] PlantDataLines { get; }
+    public FactoryDataLine[] FactoryDataLines { get; }
 
-    public PlantData(PlantDataLine[] plantDataLines)
+    public FactoryData(FactoryDataLine[] plantDataLines)
     {
-        PlantDataLines = plantDataLines;
+        FactoryDataLines = plantDataLines;
     }
 
-    public IEnumerator<PlantDataLine> GetEnumerator()
+    public IEnumerator<FactoryDataLine> GetEnumerator()
     {
-        foreach (var plantDataLine in PlantDataLines)
+        foreach (var plantDataLine in FactoryDataLines)
         {
             yield return plantDataLine;
         }

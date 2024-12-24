@@ -1126,7 +1126,7 @@ MonoBehaviour:
   loadButton: {fileID: 92201277}
   optionsButton: {fileID: 1273551928}
   exitButton: {fileID: 428356207}
-  optionsPopup: {fileID: 0}
+  optionsPopup: {fileID: 1271029119}
   checkDataPopup: {fileID: 2100371500}
   checkDataYesButton: {fileID: 392891567}
   checkDataNoButton: {fileID: 807644214}
@@ -2208,6 +2208,11 @@ PrefabInstance:
 --- !u!224 &1271029118 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1992465642715615818, guid: 821e646baf3489b4db342fe6c847fc2f, type: 3}
+  m_PrefabInstance: {fileID: 1271029117}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1271029119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3098964685631994661, guid: 821e646baf3489b4db342fe6c847fc2f, type: 3}
   m_PrefabInstance: {fileID: 1271029117}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1273551926

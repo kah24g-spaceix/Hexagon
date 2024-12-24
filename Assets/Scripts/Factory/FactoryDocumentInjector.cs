@@ -1,21 +1,21 @@
 using System;
 using UnityEngine;
 
-public class PlantDocumentInjector : MonoBehaviour
+public class FactoryDocumentInjector : MonoBehaviour
 {
-    [SerializeField] private TextAsset _plantDataTextAsset;
+    [SerializeField] private TextAsset _factoryDataTextAsset;
 
-    private const string ParserName = "PlantDataParser";
-    private PlantController controller;
+    private const string ParserName = "FactoryDataParser";
+    private FactoryController controller;
 
     private void Awake()
     {
-        controller = GetComponent<PlantController>();
+        controller = GetComponent<FactoryController>();
     }
 
     private void Start()
     {
-        if (PlantGroup.Instance == null)
+        if (FactoryGroup.Instance == null)
         {
             Debug.LogError("PlantGroup instance is not initialized.");
             return;
@@ -30,13 +30,13 @@ public class PlantDocumentInjector : MonoBehaviour
             return;
         }
 
-        if (!typeof(IDocumentParser<PlantData>).IsAssignableFrom(parserType))
+        if (!typeof(IDocumentParser<FactoryData>).IsAssignableFrom(parserType))
         {
             Debug.LogError($"Type {parserType} is not assignable to IDocumentParser<PlantData>.");
             return;
         }
 
-        IDocumentParser<PlantData> parser = Activator.CreateInstance(parserType) as IDocumentParser<PlantData>;
+        IDocumentParser<FactoryData> parser = Activator.CreateInstance(parserType) as IDocumentParser<FactoryData>;
         if (parser == null)
         {
             Debug.LogError("Failed to create an instance of the parser.");
@@ -46,22 +46,22 @@ public class PlantDocumentInjector : MonoBehaviour
         BindParser(parser);
     }
 
-    public void BindParser(IDocumentParser<PlantData> documentParser)
+    public void BindParser(IDocumentParser<FactoryData> documentParser)
     {
-        if (_plantDataTextAsset == null)
+        if (_factoryDataTextAsset == null)
         {
             Debug.LogError("Text asset for plant data is not assigned.");
             return;
         }
 
-        PlantData data = documentParser.Parse(_plantDataTextAsset.text);
-        if (data?.PlantDataLines == null)
+        FactoryData data = documentParser.Parse(_factoryDataTextAsset.text);
+        if (data?.FactoryDataLines == null)
         {
             Debug.LogError("Parsed PlantData or PlantDataLines is null.");
             return;
         }
 
-        PlantGroup.Instance.InitializePlantModel(data);
+        FactoryGroup.Instance.InitializePlantModel(data);
         controller.Show(data);
     }
 }

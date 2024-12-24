@@ -64,7 +64,7 @@ public class PlayerHyperFrameData
         Head = head;
     }
 }
-public class PlayerPlantData
+public class PlayerFactoryData
 {
     public int[] UpgradeCosts { get; set; }
     public int[] Products { get; set; }
@@ -72,7 +72,7 @@ public class PlayerPlantData
     public bool[] IsContructions { get; set; }
 
 
-    public PlayerPlantData(
+    public PlayerFactoryData(
         int[] upgradeCosts,
         int[] products,
         int[] levels,
@@ -85,12 +85,12 @@ public class PlayerPlantData
         IsContructions = isContructions;
     }
 }
-public class PlayerPlantContractData
+public class PlayerFactoryContractData
 {
     public int[] Costs { get; set; }
     public int[] Products { get; set; }
     public bool[] IsContracts { get; set; }
-    public PlayerPlantContractData(int[] costs, int[] products, bool[] isContracts)
+    public PlayerFactoryContractData(int[] costs, int[] products, bool[] isContracts)
     {
         Costs = costs;
         Products = products;
@@ -121,16 +121,16 @@ public class PlayerData
     public PlayerMaterialData P_MaterialData { get; set; }
     public PlayerHyperFrameData P_HyperFrameData { get; set; }
 
-    public PlayerPlantData P_PlantData { get; set; }
-    public PlayerPlantContractData P_PlantContractData { get; set; }
+    public PlayerFactoryData P_PlantData { get; set; }
+    public PlayerFactoryContractData P_PlantContractData { get; set; }
     public PlayerTechTreeData P_TechData { get; set; }
 
     public PlayerData(
         PlayerSystemData p_systemData,
         PlayerMaterialData p_materialData,
         PlayerHyperFrameData p_hyperFrameData,
-        PlayerPlantData p_plantData,
-        PlayerPlantContractData p_plantContractData,
+        PlayerFactoryData p_plantData,
+        PlayerFactoryContractData p_plantContractData,
         PlayerTechTreeData p_techTreeData)
     {
         P_SystemData = p_systemData;

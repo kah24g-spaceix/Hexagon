@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 2965594679828071190}
   - component: {fileID: 1169135134152786888}
   m_Layer: 5
-  m_Name: PlantImage
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1027,7 +1027,7 @@ GameObject:
   - component: {fileID: 7913217017941938731}
   - component: {fileID: 1304704388619554432}
   m_Layer: 5
-  m_Name: Plant
+  m_Name: Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1073,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1468c7f11cee0bd4bbb0c87c175dad03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantImage: {fileID: 1169135134152786888}
+  image: {fileID: 1169135134152786888}
   nameText: {fileID: 6865212684604143387}
   levelText: {fileID: 1601088333518779621}
   constructionCostText: {fileID: 1498996443187364032}

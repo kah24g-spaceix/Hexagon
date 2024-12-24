@@ -2,19 +2,19 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-public class PlantDataParser : IDocumentParser<PlantData>
+public class FactoryDataParser : IDocumentParser<FactoryData>
 {
-    public PlantData Parse(string data)
+    public FactoryData Parse(string data)
     {
         try
         {
-            PlantDataLine[] lines = JsonConvert.DeserializeObject<PlantDataLine[]>(data);
+            FactoryDataLine[] lines = JsonConvert.DeserializeObject<FactoryDataLine[]>(data);
             if (lines == null)
             {
                 Debug.LogError("Deserialized lines are null.");
                 return null;
             }
-            return new PlantData(lines);
+            return new FactoryData(lines);
         }
         catch (Exception ex)
         {

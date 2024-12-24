@@ -11,8 +11,8 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerMaterialModel _playerMaterialModel;
     private PlayerHyperFrameModel _playerHyperFrameModel;
 
-    private PlayerPlantModel _playerPlantModel;
-    private PlayerPlantContractModel _playerPlantContractModel;
+    private PlayerFactoryModel _playerFactoryModel;
+    private PlayerFactoryContractModel _playerFactoryContractModel;
 
     private PlayerTechModel _playerTechModel;
 
@@ -73,16 +73,16 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerHyperFrameModel.Head
         );
 
-        _playerData.P_PlantData = new PlayerPlantData(
-            _playerPlantModel.UpgradeCosts,
-            _playerPlantModel.Products,
-            _playerPlantModel.Levels,
-            _playerPlantModel.IsConstructions
+        _playerData.P_PlantData = new PlayerFactoryData(
+            _playerFactoryModel.UpgradeCosts,
+            _playerFactoryModel.Products,
+            _playerFactoryModel.Levels,
+            _playerFactoryModel.IsConstructions
         );
-        _playerData.P_PlantContractData = new PlayerPlantContractData(
-            _playerPlantContractModel.Costs,
-            _playerPlantContractModel.Products,
-            _playerPlantContractModel.IsContracts
+        _playerData.P_PlantContractData = new PlayerFactoryContractData(
+            _playerFactoryContractModel.Costs,
+            _playerFactoryContractModel.Products,
+            _playerFactoryContractModel.IsContracts
         );
 
 
@@ -122,14 +122,14 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_HyperFrameData.Body,
             data.P_HyperFrameData.Head
         );
-        _playerPlantModel = new PlayerPlantModel
+        _playerFactoryModel = new PlayerFactoryModel
         (
             data.P_PlantData.UpgradeCosts,
             data.P_PlantData.Products,
             data.P_PlantData.Levels,
             data.P_PlantData.IsContructions
         );
-        _playerPlantContractModel = new PlayerPlantContractModel
+        _playerFactoryContractModel = new PlayerFactoryContractModel
         (
             data.P_PlantContractData.Costs,
             data.P_PlantContractData.Products,
@@ -163,8 +163,8 @@ public class GameModel : MonoBehaviour, IGameModel
     public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
     public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
     public PlayerHyperFrameModel GetPlayerHyperFrameModel() => _playerHyperFrameModel;
-    public PlayerPlantModel GetPlayerPlantModel() => _playerPlantModel;
-    public PlayerPlantContractModel GetPlayerPlantContractModel() => _playerPlantContractModel;
+    public PlayerFactoryModel GetPlayerPlantModel() => _playerFactoryModel;
+    public PlayerFactoryContractModel GetPlayerPlantContractModel() => _playerFactoryContractModel;
     public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
 
     public void DoSystemResult(PlayerSystemModel model)
@@ -182,14 +182,14 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerHyperFrameModel = model;
         UpdatePlayerSaveData();
     }
-    public void DoPlantResult(PlayerPlantModel model)
+    public void DoPlantResult(PlayerFactoryModel model)
     {
-        _playerPlantModel = model;
+        _playerFactoryModel = model;
         UpdatePlayerSaveData();
     }
-    public void DoPlantContractResult(PlayerPlantContractModel model)
+    public void DoPlantContractResult(PlayerFactoryContractModel model)
     {
-        _playerPlantContractModel = model;
+        _playerFactoryContractModel = model;
         UpdatePlayerSaveData();
     }
     public void DoTechResult(PlayerTechModel model)
@@ -278,7 +278,7 @@ public class GameModel : MonoBehaviour, IGameModel
     }
     private void ProcessContractCancellations()
     {
-        PlantModel currentPlantModel = PlantGroup.Instance.PlantModel;
+        FactoryModel currentPlantModel = FactoryGroup.Instance.Model;
 
         for (int i = 0; i < currentPlantModel.PendingContractCancellations.Length; i++)
         {
@@ -290,7 +290,7 @@ public class GameModel : MonoBehaviour, IGameModel
             }
         }
 
-        PlantGroup.Instance.UpdateAllPlantUI(currentPlantModel);
+        FactoryGroup.Instance.UpdateAllPlantUI(currentPlantModel);
     }
     public void AddProduct()
     {
@@ -310,22 +310,22 @@ public class GameModel : MonoBehaviour, IGameModel
         switch (productName)
         {
             case ProductName.Alloy:
-                return _playerPlantModel.Products[0];
+                return _playerFactoryModel.Products[0];
 
             case ProductName.Microchip:
-                return _playerPlantModel.Products[1];
+                return _playerFactoryModel.Products[1];
 
             case ProductName.CarbonFiber:
-                return _playerPlantModel.Products[2];
+                return _playerFactoryModel.Products[2];
 
             case ProductName.ConductiveFiber:
-                return _playerPlantModel.Products[3];
+                return _playerFactoryModel.Products[3];
 
             case ProductName.Pump:
-                return _playerPlantModel.Products[4];
+                return _playerFactoryModel.Products[4];
 
             case ProductName.RubberTube:
-                return _playerPlantModel.Products[5];
+                return _playerFactoryModel.Products[5];
 
             default:
                 break;
@@ -351,33 +351,33 @@ public class GameModel : MonoBehaviour, IGameModel
         switch (productName)
         {
             case ProductName.Alloy:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.Alloy])
-                    return _playerPlantContractModel.Products[(int)ProductName.Alloy];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Alloy])
+                    return _playerFactoryContractModel.Products[(int)ProductName.Alloy];
                 return 0;
 
             case ProductName.Microchip:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.Microchip])
-                    return _playerPlantContractModel.Products[(int)ProductName.Microchip];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Microchip])
+                    return _playerFactoryContractModel.Products[(int)ProductName.Microchip];
                 return 0;
 
             case ProductName.CarbonFiber:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.CarbonFiber])
-                    return _playerPlantContractModel.Products[(int)ProductName.CarbonFiber];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.CarbonFiber])
+                    return _playerFactoryContractModel.Products[(int)ProductName.CarbonFiber];
                 return 0;
 
             case ProductName.ConductiveFiber:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.ConductiveFiber])
-                    return _playerPlantContractModel.Products[(int)ProductName.ConductiveFiber];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.ConductiveFiber])
+                    return _playerFactoryContractModel.Products[(int)ProductName.ConductiveFiber];
                 return 0;
 
             case ProductName.Pump:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.Pump])
-                    return _playerPlantContractModel.Products[(int)ProductName.Pump];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Pump])
+                    return _playerFactoryContractModel.Products[(int)ProductName.Pump];
                 return 0;
 
             case ProductName.RubberTube:
-                if (_playerPlantContractModel.IsContracts[(int)ProductName.RubberTube])
-                    return _playerPlantContractModel.Products[(int)ProductName.RubberTube];
+                if (_playerFactoryContractModel.IsContracts[(int)ProductName.RubberTube])
+                    return _playerFactoryContractModel.Products[(int)ProductName.RubberTube];
                 return 0;
 
             default:
