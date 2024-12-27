@@ -12,6 +12,6 @@ public interface IGamePresenter
     void DoTodayResult();
     void OnExchangeTechPointButton(int value);
 
-    void DoLoadGame();
-    void DoSaveGame();
+    void DoLoadGame(bool useDateData);
+    void DoSaveGame(bool useDateData);
 }

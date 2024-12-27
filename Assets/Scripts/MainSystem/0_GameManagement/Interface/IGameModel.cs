@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 
-public struct PlayerSystemModel
+public class PlayerSystemModel
 {
     public int Money { get; } // ��
     public int Employees { get; } // ����
@@ -34,14 +34,14 @@ public enum ProductName
     Pump,
     RubberTube
 }
-public struct PlayerMaterialModel
+public class PlayerMaterialModel
 {
-    public int Alloy { get; } // �ձ�
-    public int Microchip { get; } // ����ũ�� Ĩ
-    public int CarbonFiber { get; } // ź�� ����
-    public int ConductiveFiber { get; } // ������ ����
-    public int Pump { get; } // ����
-    public int RubberTube { get; } // ��
+    public int Alloy { get; }
+    public int Microchip { get; }
+    public int CarbonFiber { get; }
+    public int ConductiveFiber { get; }
+    public int Pump { get; }
+    public int RubberTube { get; }
 
 
     public PlayerMaterialModel(
@@ -61,7 +61,7 @@ public struct PlayerMaterialModel
         RubberTube = rubberTube;
     }
 }
-public struct PlayerHyperFrameModel
+public class PlayerHyperFrameModel
 {
     public int Eye { get; }
     public int Arm { get; }
@@ -90,7 +90,7 @@ public struct PlayerHyperFrameModel
         Head = head;
     }
 }
-public struct PlayerFactoryModel
+public class PlayerFactoryModel
 {
     public int[] UpgradeCosts { get; }
     public int[] Products { get; }
@@ -111,7 +111,7 @@ public struct PlayerFactoryModel
         IsConstructions = isConstructions;
     }
 }
-public struct PlayerFactoryContractModel
+public class PlayerFactoryContractModel
 {
     public int[] Costs { get; }
     public int[] Products { get; }
@@ -123,7 +123,7 @@ public struct PlayerFactoryContractModel
         IsContracts = isContracts;
     }
 }
-public struct PlayerTechModel
+public class PlayerTechModel
 {
     public int TechPoint { get; } // ��ũ ����Ʈ
     public int RevenueValue { get; } // ���ͼ�ġ
@@ -178,8 +178,8 @@ public interface IPlayerTechModelHandler
 
 public interface IGameProgressHandler
 {
-    void SaveGame();
-    bool LoadGame();
+    void SaveGame(bool useDateData);
+    bool LoadGame(bool useDateData);
     void TodayResult();
     void SetTimeScale(float scale);
     void NextDay();

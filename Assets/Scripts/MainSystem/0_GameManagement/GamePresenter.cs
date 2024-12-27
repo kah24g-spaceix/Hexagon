@@ -62,21 +62,21 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public void OnNextDayButton()
     {
-        DoSaveGame();
+        DoSaveGame(true);
         ReloadData();
     }
     public void OnRestartDayButton()
     {
-        DoLoadGame();
+        DoLoadGame(true);
     }
-    public void DoLoadGame()
+    public void DoLoadGame(bool useDateData)
     {
-        _model.LoadGame();
+        _model.LoadGame(useDateData);
         ReloadData();
     }
-    public void DoSaveGame()
+    public void DoSaveGame(bool useDateData)
     {
-        _model.SaveGame();
+        _model.SaveGame(useDateData);
     }
     private void ReloadData()
     {

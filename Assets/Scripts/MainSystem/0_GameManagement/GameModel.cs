@@ -20,7 +20,7 @@ public class GameModel : MonoBehaviour, IGameModel
     private void Awake()
     {
         if (isLoad)
-            LoadGame();
+            LoadGame(false);
         else
         {
             Debug.Log("init data");
@@ -145,21 +145,36 @@ public class GameModel : MonoBehaviour, IGameModel
 
         _playerData = data;
     }
-    public void SaveGame()
+    public void SaveGame(bool useDateData)
     {
-        string json = JsonConvert.SerializeObject(_playerData);
-        Debug.Log(json);
-        PlayerPrefs.SetString("Save", json);
+        if (!useDateData)
+        {
+            string json = JsonConvert.SerializeObject(_playerData);
+            Debug.Log(json);
+            PlayerPrefs.SetString("Save", json);
+        }
+        else
+        {
+            string json = JsonConvert.SerializeObject(_playerData);
+            Debug.Log(json);
+            PlayerPrefs.SetString("Save", json);
+            PlayerPrefs.SetString("DaySave", json);
+        }
     }
-    public bool LoadGame()
+    public bool LoadGame(bool useDateData)
     {
-        if (!PlayerPrefs.HasKey("Save"))
-            return false;
-
-        SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("Save")));
+        if (!useDateData){
+            if (!PlayerPrefs.HasKey("Save"))
+                return false;
+            SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("Save")));
+        }
+        else{
+            if (!PlayerPrefs.HasKey("DaySave"))
+                return false;
+            SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("DaySave")));
+        }
         return true;
     }
-
     public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
     public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
     public PlayerHyperFrameModel GetPlayerHyperFrameModel() => _playerHyperFrameModel;
