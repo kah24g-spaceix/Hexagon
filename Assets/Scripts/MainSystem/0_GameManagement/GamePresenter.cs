@@ -62,6 +62,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public void OnNextDayButton()
     {
+        _model.NextDay();
         DoSaveGame(true);
         ReloadData();
     }
@@ -85,5 +86,12 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _playerTechModel = _model.GetPlayerTechModel();
     }
 
-
+    public void Resume()
+    {
+        Time.timeScale = 1;
+    }
+    public void Pause()
+    {
+        Time.timeScale = 0;
+    }
 }

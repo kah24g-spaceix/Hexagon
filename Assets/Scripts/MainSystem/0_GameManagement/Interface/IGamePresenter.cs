@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 
 public interface IGamePresenter
 {
@@ -14,4 +15,7 @@ public interface IGamePresenter
 
     void DoLoadGame(bool useDateData);
     void DoSaveGame(bool useDateData);
+
+    void Resume();
+    void Pause();
 }

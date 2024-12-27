@@ -32,11 +32,15 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI CurrentTime;
     [SerializeField] private TextMeshProUGUI Money;
 
-    [Header("In Game UI")]
+    [Header("In Game Button")]
+    [SerializeField] private Button DayCycleButton;
+
+    [Header("In Game Popup")]
     [SerializeField] private GameObject FactoryUI;
-    private bool factory;
+    [SerializeField] private GameObject HyperFrameUI;
     [SerializeField] private GameObject TechTreeUI;
-    private bool techtree;
+    [SerializeField] private GameObject HeadCountUI;
+    [SerializeField] private GameObject StoreUI;
 
     [Header("To Day Result UI")]
     [SerializeField] private GameObject ToDayResultUI;
@@ -55,14 +59,23 @@ public class GameView : MonoBehaviour, IGameView
     private void Start()
     {
         TextUIUpdate();
+        HideUI(MenuPopup);
         HideUI(OptionPopup);
+        HideUI(ToDayResultUI);
+
+        HideUI(FactoryUI);
+        HideUI(HyperFrameUI);
         HideUI(TechTreeUI);
+        HideUI(HeadCountUI);
+        HideUI(StoreUI);
+
         ResumeButton.onClick.AddListener(() => ButtonType(InGameButton.ResumeButton));
         OptionButton.onClick.AddListener(() => ButtonType(InGameButton.OptionButton));
         SaveButton.onClick.AddListener(() => ButtonType(InGameButton.SaveButton));
         TitleButton.onClick.AddListener(() => ButtonType(InGameButton.TitleButton));
         ExitButton.onClick.AddListener(() => ButtonType(InGameButton.ExitButton));
 
+        DayCycleButton.onClick.AddListener(() => PauseTrigger());
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
                 "Do you want to move forward to the next day?", () => gamePresenter.DoSaveGame(true), () => { }));
@@ -76,10 +89,10 @@ public class GameView : MonoBehaviour, IGameView
         {
             case InGameButton.ResumeButton:
                 HideUI(MenuPopup);
-                Resume();
+                gamePresenter.Resume();
                 break;
             case InGameButton.OptionButton:
-                ShowUI(MenuPopup);
+                ShowUI(OptionPopup);
                 break;
             case InGameButton.SaveButton:
                 QuestionDialogUI.Instance.ShowQuestion(
@@ -124,29 +137,37 @@ public class GameView : MonoBehaviour, IGameView
     private void Update()
     {
         HandlePauseInput();
-        if (!gameIsPaused) HandleInGameInput();
+        if (!MenuPopup.activeSelf) HandleInGameInput();
     }
     private void HandlePauseInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            gameIsPaused = !gameIsPaused;
-            if (!gameIsPaused)
-            {
-                ShowUI(MenuPopup);
-                Pause();
-            }
+            PauseTrigger();
+            if (OptionPopup.activeSelf)
+                HideUI(OptionPopup);
             else
-            {
-                HideUI(MenuPopup);
-                Resume();
-            }
+                MenuPopup.SetActive(!MenuPopup.activeSelf);
+            
+            
         }
     }
     private void HandleInGameInput()
     {
-        PopUpTrigger(FactoryUI, factory, KeyCode.Keypad1);
-        PopUpTrigger(TechTreeUI, techtree, KeyCode.Keypad2);
+        PopUpTrigger(FactoryUI, KeyCode.Alpha1);
+        PopUpTrigger(HyperFrameUI, KeyCode.Alpha2);
+        PopUpTrigger(TechTreeUI, KeyCode.Alpha3);
+        PopUpTrigger(HeadCountUI, KeyCode.Alpha4);
+        PopUpTrigger(StoreUI, KeyCode.Alpha5);
+    }
+    private void PauseTrigger()
+    {
+        if (!gameIsPaused)
+            gamePresenter.Pause();
+            
+        else
+            gamePresenter.Resume();
+        gameIsPaused = !gameIsPaused;
     }
     public void ViewUpdate()
     {
@@ -158,36 +179,26 @@ public class GameView : MonoBehaviour, IGameView
         Day.SetText(gamePresenter.GetDay());
         Money.SetText(gamePresenter.GetMoney());
     }
-
     public void ClockUpdate(float hour, float minute)
     {
         CurrentTime.SetText($"{hour:00} : {minute:00}");
     }
-
-
-    public void ShowUI(GameObject gameObject)
+    public void ShowUI(GameObject UI)
     {
-        gameObject.SetActive(true);
+        UI.SetActive(true);
     }
-    public void HideUI(GameObject gameObject)
+    public void HideUI(GameObject UI)
     {
-        gameObject.SetActive(false);
+        UI.SetActive(false);
     }
-    public void PopUpTrigger(GameObject gameObject, bool active, KeyCode key)
+    public void PopUpTrigger(GameObject UI, KeyCode key)
     {
         if (Input.GetKeyDown(key))
         {
-            active = !active;
-            gameObject.SetActive(active);
+            UI.SetActive(!UI.activeSelf);
         }
     }
 
-    public void Resume()
-    {
-        Time.timeScale = 1;
-    }
-    public void Pause()
-    {
-        Time.timeScale = 0;
-    }
+
+
 }
