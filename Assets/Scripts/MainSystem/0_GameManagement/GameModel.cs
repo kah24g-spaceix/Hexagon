@@ -7,7 +7,7 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerData _playerData;
 
     private PlayerSystemModel _playerSystemModel;
-
+    private PlayerDayModel _playerDayModel;
     private PlayerMaterialModel _playerMaterialModel;
     private PlayerHyperFrameModel _playerHyperFrameModel;
 
@@ -28,7 +28,7 @@ public class GameModel : MonoBehaviour, IGameModel
         }
 
     }
-    private void InitData()
+    public void InitData()
     {
         PlayerData initData = JsonConvert.DeserializeObject<PlayerData>(_playerDataInit.text);
 
@@ -51,10 +51,13 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerSystemModel.Money,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
-            _playerSystemModel.CommunityOpinionValue,
-            _playerSystemModel.Day
+            _playerSystemModel.CommunityOpinionValue
             );
-
+        _playerData.P_DayData = new PlayerDayData(
+            _playerDayModel.Day,
+            _playerDayModel.LastDay,
+            _playerDayModel.CurrentTime
+            );
         _playerData.P_MaterialData = new PlayerMaterialData(
             _playerMaterialModel.Alloy,
             _playerMaterialModel.Microchip,
@@ -85,7 +88,6 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerFactoryContractModel.IsContracts
         );
 
-
         _playerData.P_TechData = new PlayerTechTreeData(
             _playerTechModel.TechPoint,
             _playerTechModel.RevenueValue,
@@ -100,8 +102,13 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_SystemData.Money,
             data.P_SystemData.Employees,
             data.P_SystemData.Resistance,
-            data.P_SystemData.CommunityOpinionValue,
-            data.P_SystemData.Day
+            data.P_SystemData.CommunityOpinionValue
+        );
+        _playerDayModel = new PlayerDayModel
+        (
+            data.P_DayData.Day,
+            data.P_DayData.LastDay,
+            data.P_DayData.CurrentTime
         );
         _playerMaterialModel = new PlayerMaterialModel
         (
@@ -157,7 +164,6 @@ public class GameModel : MonoBehaviour, IGameModel
         {
             string json = JsonConvert.SerializeObject(_playerData);
             Debug.Log(json);
-            PlayerPrefs.SetString("Save", json);
             PlayerPrefs.SetString("DaySave", json);
         }
     }
@@ -176,15 +182,21 @@ public class GameModel : MonoBehaviour, IGameModel
         return true;
     }
     public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
+    public PlayerDayModel GetPlayerDayModel() => _playerDayModel;
     public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
     public PlayerHyperFrameModel GetPlayerHyperFrameModel() => _playerHyperFrameModel;
-    public PlayerFactoryModel GetPlayerPlantModel() => _playerFactoryModel;
-    public PlayerFactoryContractModel GetPlayerPlantContractModel() => _playerFactoryContractModel;
+    public PlayerFactoryModel GetPlayerFactoryModel() => _playerFactoryModel;
+    public PlayerFactoryContractModel GetPlayerFactoryContractModel() => _playerFactoryContractModel;
     public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
 
     public void DoSystemResult(PlayerSystemModel model)
     {
         _playerSystemModel = model;
+        UpdatePlayerSaveData();
+    }
+    public void DoDayResult(PlayerDayModel model)
+    {
+        _playerDayModel = model;
         UpdatePlayerSaveData();
     }
     public void DoMaterialResult(PlayerMaterialModel model)
@@ -197,12 +209,12 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerHyperFrameModel = model;
         UpdatePlayerSaveData();
     }
-    public void DoPlantResult(PlayerFactoryModel model)
+    public void DoFactoryResult(PlayerFactoryModel model)
     {
         _playerFactoryModel = model;
         UpdatePlayerSaveData();
     }
-    public void DoPlantContractResult(PlayerFactoryContractModel model)
+    public void DoFactoryContractResult(PlayerFactoryContractModel model)
     {
         _playerFactoryContractModel = model;
         UpdatePlayerSaveData();
@@ -234,7 +246,7 @@ public class GameModel : MonoBehaviour, IGameModel
             : _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue);
 
         // 새로운 PlayerSystemModel 생성 및 저장
-        _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue, _playerSystemModel.Day);
+        _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
         UpdatePlayerSaveData();
     }
 
@@ -244,8 +256,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerSystemModel.Money + _playerSystemModel.Employees * 100 * value,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
-            _playerSystemModel.CommunityOpinionValue,
-            _playerSystemModel.Day
+            _playerSystemModel.CommunityOpinionValue
         );
 
         _playerTechModel = new PlayerTechModel(
@@ -259,7 +270,7 @@ public class GameModel : MonoBehaviour, IGameModel
 
     public void TodayResult()
     {
-        int techPoint = _playerTechModel.TechPoint + 50 + (_playerSystemModel.Day * 2);
+        int techPoint = _playerTechModel.TechPoint + 50 + (_playerDayModel.Day * 2);
         int temp = _playerSystemModel.Employees / 10;
 
         double randomValue = UnityEngine.Random.Range(0f, defaultMoney);
@@ -269,7 +280,7 @@ public class GameModel : MonoBehaviour, IGameModel
 
         int resistance = randomValue > (defaultMoney - _playerSystemModel.CommunityOpinionValue) ? _playerSystemModel.Resistance + temp : _playerSystemModel.Resistance;
 
-        _playerSystemModel = new PlayerSystemModel(_playerSystemModel.Money, employees, resistance, _playerSystemModel.CommunityOpinionValue, _playerSystemModel.Day);
+        _playerSystemModel = new PlayerSystemModel(_playerSystemModel.Money, employees, resistance, _playerSystemModel.CommunityOpinionValue);
         _playerTechModel = new PlayerTechModel(techPoint, _playerTechModel.RevenueValue, _playerTechModel.MaxEmployee, _playerTechModel.TechLevels);
         UpdatePlayerSaveData();
     }
@@ -280,12 +291,10 @@ public class GameModel : MonoBehaviour, IGameModel
     }
     public void NextDay()
     {
-        _playerSystemModel = new PlayerSystemModel(
-            _playerSystemModel.Money,
-            _playerSystemModel.Employees,
-            _playerSystemModel.Resistance,
-            _playerSystemModel.CommunityOpinionValue,
-            _playerSystemModel.Day + 1
+        _playerDayModel = new PlayerDayModel(
+            _playerDayModel.Day + 1,
+            _playerDayModel.LastDay,
+            _playerDayModel.CurrentTime
         );
 
         ProcessContractCancellations();

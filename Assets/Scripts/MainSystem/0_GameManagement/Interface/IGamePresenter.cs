@@ -8,6 +8,7 @@ public interface IGamePresenter
     string GetDay();
     string GetMoney();
     void MoneyPerSecond();
+    void OnDaySkipButton();
     void OnNextDayButton();
     void OnRestartDayButton();
     void DoTodayResult();

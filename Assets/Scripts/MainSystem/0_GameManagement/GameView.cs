@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Runtime.Serialization;
 
 public enum InGameButton
 {
@@ -34,6 +35,7 @@ public class GameView : MonoBehaviour, IGameView
 
     [Header("In Game Button")]
     [SerializeField] private Button DayCycleButton;
+    [SerializeField] private Button DaySkipButton;
 
     [Header("In Game Popup")]
     [SerializeField] private GameObject FactoryUI;
@@ -44,16 +46,20 @@ public class GameView : MonoBehaviour, IGameView
 
     [Header("To Day Result UI")]
     [SerializeField] private GameObject ToDayResultUI;
+    public GameObject ToDayResult {get; private set;}
     [SerializeField] private Button NextDayButton;
     [SerializeField] private Button RestartDayButton;
 
     private IGamePresenter gamePresenter;
+
+    private bool isDayCycleButton;
     private bool gameIsPaused;
 
 
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
+        ToDayResult = ToDayResultUI;
     }
 
     private void Start()
@@ -75,13 +81,15 @@ public class GameView : MonoBehaviour, IGameView
         TitleButton.onClick.AddListener(() => ButtonType(InGameButton.TitleButton));
         ExitButton.onClick.AddListener(() => ButtonType(InGameButton.ExitButton));
 
-        DayCycleButton.onClick.AddListener(() => PauseTrigger());
+        DayCycleButton.onClick.AddListener(() => {PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
+        DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
+        
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
-                "Do you want to move forward to the next day?", () => gamePresenter.DoSaveGame(true), () => { }));
+                "Do you want to move forward to the next day?", () => {gamePresenter.DoSaveGame(true); HideUI(ToDayResult); }, () => { }));
         RestartDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
-                "Do you want to begin the day again?", () => gamePresenter.DoLoadGame(true), () => { }));
+                "Do you want to begin the day again?", () => { gamePresenter.DoLoadGame(true); HideUI(ToDayResult); }, () => { }));
     }
     private void ButtonType(InGameButton buttonType)
     {
@@ -143,13 +151,13 @@ public class GameView : MonoBehaviour, IGameView
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            PauseTrigger();
             if (OptionPopup.activeSelf)
-                HideUI(OptionPopup);
+                OptionPopup.SetActive(!OptionPopup.activeSelf);
             else
+            {
+                if (!isDayCycleButton) PauseTrigger();
                 MenuPopup.SetActive(!MenuPopup.activeSelf);
-            
-            
+            }
         }
     }
     private void HandleInGameInput()
@@ -173,7 +181,6 @@ public class GameView : MonoBehaviour, IGameView
     {
         TextUIUpdate();
     }
-
     public void TextUIUpdate()
     {
         Day.SetText(gamePresenter.GetDay());

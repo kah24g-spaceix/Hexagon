@@ -7,24 +7,32 @@ public class PlayerSystemModel
     public int Employees { get; } // ����
     public int Resistance { get; } // ���ױ�
     public double CommunityOpinionValue { get; } // �νɵ�
-    public int Day { get; }
 
     public PlayerSystemModel(
         int money,
         int employees,
         int resistance,
-        double communityOpinionValue,
-        int day
+        double communityOpinionValue
         )
     {
         Money = money;
         Employees = employees;
         Resistance = resistance;
         CommunityOpinionValue = communityOpinionValue;
-        Day = day;
     }
 }
-
+public class PlayerDayModel
+{
+    public int Day { get; }
+    public int LastDay { get; }
+    public float CurrentTime { get; }
+    public PlayerDayModel (int day,int lastDay, float currentTime)
+    {
+        Day = day;
+        LastDay = lastDay;
+        CurrentTime = currentTime;
+    }
+}
 public enum ProductName
 {
     Alloy,
@@ -142,14 +150,16 @@ public class PlayerTechModel
         TechLevels = techLevels;
     }
 }
+
 public interface IPlayerSystemModelHandler
 {
     PlayerSystemModel GetPlayerSystemModel();
     void DoSystemResult(PlayerSystemModel model);
+    PlayerDayModel GetPlayerDayModel();
+    void DoDayResult(PlayerDayModel model);
     void Income();
     void ExchangeTechPoint(int value);
 }
-
 public interface IPlayerMaterialModelHandler
 {
     PlayerMaterialModel GetPlayerMaterialModel();
@@ -160,13 +170,13 @@ public interface IPlayerHyperFrameModelHandler
     PlayerHyperFrameModel GetPlayerHyperFrameModel();
     void DoHyperFrameResult(PlayerHyperFrameModel model);
 }
-public interface IPlayerPlantModelHandler
+public interface IPlayerFactoryModelHandler
 {
-    PlayerFactoryModel GetPlayerPlantModel();
-    void DoPlantResult(PlayerFactoryModel model);
+    PlayerFactoryModel GetPlayerFactoryModel();
+    void DoFactoryResult(PlayerFactoryModel model);
     void AddProduct();
-    PlayerFactoryContractModel GetPlayerPlantContractModel();
-    void DoPlantContractResult(PlayerFactoryContractModel model);
+    PlayerFactoryContractModel GetPlayerFactoryContractModel();
+    void DoFactoryContractResult(PlayerFactoryContractModel model);
     void AddContractProduct();
 }
 
@@ -178,6 +188,7 @@ public interface IPlayerTechModelHandler
 
 public interface IGameProgressHandler
 {
+    void InitData();
     void SaveGame(bool useDateData);
     bool LoadGame(bool useDateData);
     void TodayResult();
@@ -187,7 +198,8 @@ public interface IGameProgressHandler
 public interface IGameModel :
     IPlayerSystemModelHandler,
     IPlayerMaterialModelHandler,
-    IPlayerPlantModelHandler,
+    IPlayerFactoryModelHandler,
+    IPlayerHyperFrameModelHandler,
     IPlayerTechModelHandler,
     IGameProgressHandler
 {

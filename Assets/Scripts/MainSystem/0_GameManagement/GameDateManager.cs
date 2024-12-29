@@ -5,8 +5,9 @@ public class GameDateManager : MonoBehaviour
 {
     IGameView _gameView;
     IGamePresenter _gamePresenter;
+    IGameModel _gameModel;
     GameManager gameManager;
-    
+    PlayerDayModel playerDayModel;
     public float hour;
     public float minute;
     public float second;
@@ -22,13 +23,15 @@ public class GameDateManager : MonoBehaviour
     {
         _gameView = GetComponent<IGameView>();
         _gamePresenter = GetComponent<IGamePresenter>();
+        _gameModel = GetComponent<IGameModel>();
         gameManager = GetComponent<GameManager>();
+        playerDayModel = _gameModel.GetPlayerDayModel();
         time = gameManager.PlayTime;
         timeScale = gameDayInHours / time;
     }
     public IEnumerator DayCycle()
     {
-        currentTime = time;
+        currentTime = playerDayModel.CurrentTime;
         hour = 0f;
         minute = 0f;
         second = 0f;
@@ -54,9 +57,10 @@ public class GameDateManager : MonoBehaviour
 
             if (currentTime <= 0)
             {
-                Debug.Log("Time Over");
                 currentTime = 0;
+                
                 _gamePresenter.DoTodayResult();
+                _gameView.ShowUI(_gameView.ToDayResult);
                 yield break;
             }
         }

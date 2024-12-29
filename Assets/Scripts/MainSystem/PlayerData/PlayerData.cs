@@ -4,15 +4,26 @@ public class PlayerSystemData
     public int Employees { get; set; }
     public int Resistance { get; set; }
     public double CommunityOpinionValue { get; set; }
-    public int Day { get; set; }
 
-    public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue, int day)
+    public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue)
     {
         Money = money;
         Employees = employees;
         Resistance = resistance;
         CommunityOpinionValue = communityOpinionValue;
+    }
+}
+public class PlayerDayData
+{
+    public int Day { get; set; }
+    public int LastDay { get; set; }
+    public float CurrentTime { get; set; }
+
+    public PlayerDayData (int day, int lastDay, float currentTime)
+    {
         Day = day;
+        LastDay = lastDay;
+        CurrentTime = currentTime;
     }
 }
 public class PlayerMaterialData
@@ -117,7 +128,7 @@ public class PlayerTechTreeData
 public class PlayerData
 {
     public PlayerSystemData P_SystemData { get; set; }
-
+    public PlayerDayData P_DayData { get; set; }
     public PlayerMaterialData P_MaterialData { get; set; }
     public PlayerHyperFrameData P_HyperFrameData { get; set; }
 
@@ -127,6 +138,7 @@ public class PlayerData
 
     public PlayerData(
         PlayerSystemData p_systemData,
+        PlayerDayData p_dayData,
         PlayerMaterialData p_materialData,
         PlayerHyperFrameData p_hyperFrameData,
         PlayerFactoryData p_plantData,
@@ -134,7 +146,7 @@ public class PlayerData
         PlayerTechTreeData p_techTreeData)
     {
         P_SystemData = p_systemData;
-
+        P_DayData = p_dayData;
         P_MaterialData = p_materialData;
         P_HyperFrameData = p_hyperFrameData;
 

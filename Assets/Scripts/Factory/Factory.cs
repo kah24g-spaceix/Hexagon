@@ -78,7 +78,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             cost = currentFactoryModel.UpgradeCosts[ID];
         }
 
-        playerModel.DoPlantResult(new
+        playerModel.DoFactoryResult(new
         (
             currentFactoryModel.UpgradeCosts,
             currentFactoryModel.Products,
@@ -90,8 +90,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             playerSystemModel.Money - cost,
             playerSystemModel.Employees,
             playerSystemModel.Resistance,
-            playerSystemModel.CommunityOpinionValue,
-            playerSystemModel.Day
+            playerSystemModel.CommunityOpinionValue
         ));
         FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
@@ -104,7 +103,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             // 계약 시작
             Debug.Log($"Contract cancellation requested for Plant {ID}");
             currentFactoryModel.IsContracts[ID] = true;
-            playerModel.DoPlantContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
+            playerModel.DoFactoryContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
         }
         else
         {
