@@ -7,11 +7,11 @@ using System.Runtime.Serialization;
 
 public enum InGameButton
 {
-    ResumeButton,
-    OptionButton,
-    SaveButton,
-    TitleButton,
-    ExitButton,
+    Resume,
+    Option,
+    Save,
+    Title,
+    Exit,
 
 }
 public class GameView : MonoBehaviour, IGameView
@@ -75,38 +75,38 @@ public class GameView : MonoBehaviour, IGameView
         HideUI(HeadCountUI);
         HideUI(StoreUI);
 
-        ResumeButton.onClick.AddListener(() => ButtonType(InGameButton.ResumeButton));
-        OptionButton.onClick.AddListener(() => ButtonType(InGameButton.OptionButton));
-        SaveButton.onClick.AddListener(() => ButtonType(InGameButton.SaveButton));
-        TitleButton.onClick.AddListener(() => ButtonType(InGameButton.TitleButton));
-        ExitButton.onClick.AddListener(() => ButtonType(InGameButton.ExitButton));
+        ResumeButton.onClick.AddListener(() => ButtonType(InGameButton.Resume));
+        OptionButton.onClick.AddListener(() => ButtonType(InGameButton.Option));
+        SaveButton.onClick.AddListener(() => ButtonType(InGameButton.Save));
+        TitleButton.onClick.AddListener(() => ButtonType(InGameButton.Title));
+        ExitButton.onClick.AddListener(() => ButtonType(InGameButton.Exit));
 
         DayCycleButton.onClick.AddListener(() => {PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
         
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
-                "Do you want to move forward to the next day?", () => {gamePresenter.DoSaveGame(true); HideUI(ToDayResult); }, () => { }));
+                "Do you want to move forward to the next day?", () => {gamePresenter.OnNextDayButton(); HideUI(ToDayResult); }, () => { }));
         RestartDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
-                "Do you want to begin the day again?", () => { gamePresenter.DoLoadGame(true); HideUI(ToDayResult); }, () => { }));
+                "Do you want to begin the day again?", () => { gamePresenter.OnRestartDayButton(); HideUI(ToDayResult); }, () => { }));
     }
     private void ButtonType(InGameButton buttonType)
     {
         switch (buttonType)
         {
-            case InGameButton.ResumeButton:
+            case InGameButton.Resume:
                 HideUI(MenuPopup);
                 gamePresenter.Resume();
                 break;
-            case InGameButton.OptionButton:
+            case InGameButton.Option:
                 ShowUI(OptionPopup);
                 break;
-            case InGameButton.SaveButton:
+            case InGameButton.Save:
                 QuestionDialogUI.Instance.ShowQuestion(
                     "Do you want to save your progress?", () => gamePresenter.DoSaveGame(false), () => { });
                 break;
-            case InGameButton.TitleButton:
+            case InGameButton.Title:
                 QuestionDialogUI.Instance.ShowQuestion(
                 "Are you sure you want to return to the title screen?",
                 () =>
@@ -118,12 +118,12 @@ public class GameView : MonoBehaviour, IGameView
                                 "Do you want to save your progress?", () =>
                                 {
                                     gamePresenter.DoSaveGame(false);
-                                    SceneManager.LoadScene("MainGameScene");
-                                }, () => { });
+                                    SceneManager.LoadScene("TitleScene");
+                                }, () => {SceneManager.LoadScene("TitleScene"); });
                         }, () => { });
                 }, () => { });
                 break;
-            case InGameButton.ExitButton:
+            case InGameButton.Exit:
                 QuestionDialogUI.Instance.ShowQuestion(
                 "Are you sure you want to exit the game?",
                 () =>

@@ -132,8 +132,8 @@ public class PlayerData
     public PlayerMaterialData P_MaterialData { get; set; }
     public PlayerHyperFrameData P_HyperFrameData { get; set; }
 
-    public PlayerFactoryData P_PlantData { get; set; }
-    public PlayerFactoryContractData P_PlantContractData { get; set; }
+    public PlayerFactoryData P_FactoryData { get; set; }
+    public PlayerFactoryContractData P_FactoryContractData { get; set; }
     public PlayerTechTreeData P_TechData { get; set; }
 
     public PlayerData(
@@ -150,8 +150,8 @@ public class PlayerData
         P_MaterialData = p_materialData;
         P_HyperFrameData = p_hyperFrameData;
 
-        P_PlantData = p_plantData;
-        P_PlantContractData = p_plantContractData;
+        P_FactoryData = p_plantData;
+        P_FactoryContractData = p_plantContractData;
 
         P_TechData = p_techTreeData;
     }

@@ -6,7 +6,6 @@ public class GameDateManager : MonoBehaviour
     IGameView _gameView;
     IGamePresenter _gamePresenter;
     IGameModel _gameModel;
-    GameManager gameManager;
     PlayerDayModel playerDayModel;
     public float hour;
     public float minute;
@@ -24,9 +23,8 @@ public class GameDateManager : MonoBehaviour
         _gameView = GetComponent<IGameView>();
         _gamePresenter = GetComponent<IGamePresenter>();
         _gameModel = GetComponent<IGameModel>();
-        gameManager = GetComponent<GameManager>();
         playerDayModel = _gameModel.GetPlayerDayModel();
-        time = gameManager.PlayTime;
+        time = playerDayModel.CurrentTime;
         timeScale = gameDayInHours / time;
     }
     public IEnumerator DayCycle()
@@ -41,10 +39,7 @@ public class GameDateManager : MonoBehaviour
             currentTime -= Time.deltaTime;
             hour += Time.deltaTime * timeScale;
             
-            if (hour >= 24f)
-            {
-                hour = 0f;
-            }
+
 
             minute = (hour - GetHour()) * 60f;
             //second = (minute - GetMinute()) * 60f;
@@ -58,10 +53,14 @@ public class GameDateManager : MonoBehaviour
             if (currentTime <= 0)
             {
                 currentTime = 0;
-                
+                _gameModel.SetTimeScale(1);
                 _gamePresenter.DoTodayResult();
                 _gameView.ShowUI(_gameView.ToDayResult);
                 yield break;
+            }
+            if (hour >= 24f)
+            {
+                hour = 0f;
             }
         }
     }
@@ -72,6 +71,7 @@ public class GameDateManager : MonoBehaviour
             _gamePresenter.SystemUpdate();
             yield return new WaitForSeconds(1f);
         }
+        yield break;
     }
     private float GetHour()
     {

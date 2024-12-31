@@ -17,16 +17,19 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private void Start()
     {
         ReloadData();
-        DayStart();
+        TimerStart();
     }
-    private void DayStart()
+    private void TimerStop()
     {
         StopCoroutine(_dayCycle.DayCycle());
         StopCoroutine(_dayCycle.SystemUpdate());
-
+    }
+    private void TimerStart()
+    {
         StartCoroutine(_dayCycle.DayCycle());
         StartCoroutine(_dayCycle.SystemUpdate());
     }
+
     public void SystemUpdate()
     {
         MoneyPerSecond();
@@ -37,7 +40,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public string GetMoney()
     {
-        return $"{_playerSystemModel.Money} H$";
+        return $"{_playerSystemModel.Money:N0} $";
     }
     public void MoneyPerSecond()
     {
@@ -70,20 +73,20 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void OnNextDayButton()
     {
         _model.NextDay();
-        DoSaveGame(true);
-        DayStart();
         ReloadData();
+        DoSaveGame(true);
+        DoSaveGame(false);
+        TimerStart();
     }
     public void OnRestartDayButton()
     {
         DoLoadGame(true);
-        DayStart();
+        TimerStart();
     }
     public void DoLoadGame(bool useDateData)
     {
         if (!_model.LoadGame(useDateData))
             _model.InitData();
-        
         ReloadData();
     }
     public void DoSaveGame(bool useDateData)
@@ -93,6 +96,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private void ReloadData()
     {
         _playerSystemModel = _model.GetPlayerSystemModel();
+        _playerDayModel = _model.GetPlayerDayModel();
         _playerMaterialModel = _model.GetPlayerMaterialModel();
         _playerTechModel = _model.GetPlayerTechModel();
     }

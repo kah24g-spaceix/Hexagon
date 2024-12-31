@@ -76,13 +76,13 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerHyperFrameModel.Head
         );
 
-        _playerData.P_PlantData = new PlayerFactoryData(
+        _playerData.P_FactoryData = new PlayerFactoryData(
             _playerFactoryModel.UpgradeCosts,
             _playerFactoryModel.Products,
             _playerFactoryModel.Levels,
             _playerFactoryModel.IsConstructions
         );
-        _playerData.P_PlantContractData = new PlayerFactoryContractData(
+        _playerData.P_FactoryContractData = new PlayerFactoryContractData(
             _playerFactoryContractModel.Costs,
             _playerFactoryContractModel.Products,
             _playerFactoryContractModel.IsContracts
@@ -131,16 +131,16 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         _playerFactoryModel = new PlayerFactoryModel
         (
-            data.P_PlantData.UpgradeCosts,
-            data.P_PlantData.Products,
-            data.P_PlantData.Levels,
-            data.P_PlantData.IsContructions
+            data.P_FactoryData.UpgradeCosts,
+            data.P_FactoryData.Products,
+            data.P_FactoryData.Levels,
+            data.P_FactoryData.IsContructions
         );
         _playerFactoryContractModel = new PlayerFactoryContractModel
         (
-            data.P_PlantContractData.Costs,
-            data.P_PlantContractData.Products,
-            data.P_PlantContractData.IsContracts
+            data.P_FactoryContractData.Costs,
+            data.P_FactoryContractData.Products,
+            data.P_FactoryContractData.IsContracts
         );
         _playerTechModel = new PlayerTechModel
         (
@@ -177,6 +177,7 @@ public class GameModel : MonoBehaviour, IGameModel
         else{
             if (!PlayerPrefs.HasKey("DaySave"))
                 return false;
+            Debug.Log(PlayerPrefs.HasKey("DaySave"));
             SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("DaySave")));
         }
         return true;
