@@ -3,19 +3,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using System.Runtime.Serialization;
 
-public enum InGameButton
-{
-    Resume,
-    Option,
-    Save,
-    Title,
-    Exit,
 
-}
 public class GameView : MonoBehaviour, IGameView
 {
+    private enum InGameButton 
+    {
+        Resume,
+        Option,
+        Save,
+        Title,
+        Exit,
+    }
+    
     [Header("Menu Popup")]
     [SerializeField] private GameObject MenuPopup;
     [SerializeField] private GameObject OptionPopup;

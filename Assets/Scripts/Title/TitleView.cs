@@ -3,15 +3,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum TitleButton
-{
-    Start,
-    Load,
-    Option,
-    Exit
-}
+
 public class TitleView : MonoBehaviour
 {
+    private enum TitleButton
+    {
+        Start,
+        Load,
+        Option,
+        Exit
+    }
     [Header("Buttons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button loadButton;
