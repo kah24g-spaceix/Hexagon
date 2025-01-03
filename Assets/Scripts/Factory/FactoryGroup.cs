@@ -15,7 +15,7 @@ public class FactoryGroup : MonoBehaviour
                 _instance = FindObjectOfType<FactoryGroup>();
                 if (_instance == null)
                 {
-                    Debug.LogError("PlantGroup instance is not found in the scene.");
+                    Debug.LogError("FactoryGroup instance is not found in the scene.");
                 }
             }
             return _instance;
@@ -23,7 +23,9 @@ public class FactoryGroup : MonoBehaviour
     }
 
     [SerializeField] private GameObject factoryHolder;
+    [SerializeField] private GameObject materialHolder;
     public List<Factory> List { get; private set; }
+    public List<MaterialValue> MaterialList {get; private set;}
     public FactoryModel Model { get; private set; }
 
     private void Awake()
@@ -42,12 +44,17 @@ public class FactoryGroup : MonoBehaviour
     {
         if (factoryData == null)
         {
-            Debug.LogError("PlantData is not assigned.");
+            Debug.LogError("FactoryData is not assigned.");
             return;
         }
         if (factoryHolder == null)
         {
-            Debug.LogError("PlantHolder is not assigned in PlantGroup.");
+            Debug.LogError("Factory Holder is not assigned in FactoryGroup.");
+            return;
+        }
+        if (materialHolder == null)
+        {
+            Debug.LogError("Material Holder is not assigned in FactoryGroup.");
             return;
         }
         Model = new FactoryModel(
@@ -65,6 +72,7 @@ public class FactoryGroup : MonoBehaviour
         );
 
         List = new List<Factory>(factoryHolder.GetComponentsInChildren<Factory>());
+        MaterialList = new List<MaterialValue>(materialHolder.GetComponentsInChildren<MaterialValue>());
         for (int i = 0; i < List.Count; i++)
         {
             List[i].ID = i;

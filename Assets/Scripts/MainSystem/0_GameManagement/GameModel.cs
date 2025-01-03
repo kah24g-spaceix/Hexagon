@@ -17,6 +17,7 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerTechModel _playerTechModel;
 
     [HideInInspector] public bool isLoad;
+    [HideInInspector] public bool isStoryMode;
     private void Awake()
     {
         if (isLoad)
@@ -303,19 +304,27 @@ public class GameModel : MonoBehaviour, IGameModel
     }
     private void ProcessContractCancellations()
     {
-        FactoryModel currentPlantModel = FactoryGroup.Instance.Model;
+        FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
 
-        for (int i = 0; i < currentPlantModel.PendingContractCancellations.Length; i++)
+        for (int i = 0; i < currentFactoryModel.PendingContractCancellations.Length; i++)
         {
-            if (currentPlantModel.PendingContractCancellations[i])
+            if (currentFactoryModel.PendingContractCancellations[i])
             {
-                currentPlantModel.IsContracts[i] = false;
-                currentPlantModel.PendingContractCancellations[i] = false; // 처리 후 초기화
+                _playerSystemModel = new PlayerSystemModel
+                (
+                    _playerSystemModel.Money - currentFactoryModel.ContractCosts[i], 
+                    _playerSystemModel.Employees, 
+                    _playerSystemModel.Resistance, 
+                    _playerSystemModel.CommunityOpinionValue
+                );
+
+                currentFactoryModel.IsContracts[i] = false;
+                currentFactoryModel.PendingContractCancellations[i] = false;
                 Debug.Log($"Contract for Plant {i} has been cancelled.");
             }
         }
 
-        FactoryGroup.Instance.UpdateAllPlantUI(currentPlantModel);
+        FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
     public void AddProduct()
     {

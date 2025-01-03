@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,12 +10,12 @@ public class TitleView : MonoBehaviour
 {
     private enum TitleButton
     {
-        Start,
-        Load,
         Option,
         Exit
     }
-    [Header("Buttons")]
+    
+
+    [Header("Button")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button loadButton;
     [SerializeField] private Button optionsButton;
@@ -22,15 +24,32 @@ public class TitleView : MonoBehaviour
     [Header("Options Popup")]
     [SerializeField] private GameObject optionPopup;
 
+    [Header("Mode Select")]
+    [SerializeField] private GameObject SelectModeUI;
+    [SerializeField] private Button StoryButton;
+    [SerializeField] private Button SimulationButton;
+
     private void Start()
     {
+        HideUI(SelectModeUI);
+        HideUI(optionPopup);
         AddListeners();
     }
     private void AddListeners()
     {
         // Title buttons
-        startButton.onClick.AddListener(() => ButtonType(TitleButton.Start));
-        loadButton.onClick.AddListener(() => ButtonType(TitleButton.Load));
+        startButton.onClick.AddListener(() => 
+        {
+            StoryButton.onClick.AddListener(() => StartSelectMode(true));
+            SimulationButton.onClick.AddListener(() => StartSelectMode(false));
+            ShowUI(SelectModeUI);
+        });
+        loadButton.onClick.AddListener(() => 
+        {
+            StoryButton.onClick.AddListener(() => LoadSelectMode(true));
+            SimulationButton.onClick.AddListener(() => LoadSelectMode(false));
+            ShowUI(SelectModeUI);
+        });
         optionsButton.onClick.AddListener(() => ButtonType(TitleButton.Option));
         exitButton.onClick.AddListener(() => ButtonType(TitleButton.Exit));
     }
@@ -38,69 +57,49 @@ public class TitleView : MonoBehaviour
     {
         switch (buttonType)
         {
-            case TitleButton.Start:
-                if (PlayerPrefs.HasKey("Save"))
-                {
-                    QuestionDialogUI.Instance.ShowQuestion(
-                        "Warning!!\nPlay data remains.\nDo you want to continue?", () =>
-                        {
-                            ChangeScene();
-                            SetLoadState(false);
-                        }, () => { });
-                }
-                else
-                {
-                    ChangeScene();
-                    SetLoadState(false);
-                }
-                break;
-            case TitleButton.Load:
-                if (!PlayerPrefs.HasKey("Save"))
-                {
-                    WarningDialogUI.Instance.ShowWarning(
-                        "Warning!!\nThere is no data to load.", () =>
-                        {
-
-                        });
-                }
-                else
-                {
-                    ChangeScene();
-                    SetLoadState(true);
-                }
-
-                break;
             case TitleButton.Option: PopupTrigger(optionPopup); break;
-            case TitleButton.Exit: break;
+            case TitleButton.Exit: 
+                #if UNITY_EDITOR
+                        UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                        Application.Quit();
+                #endif
+            break;
         }
     }
-    // Button Actions
-    private void OnOptionsButtonClicked()
+    private void StartSelectMode(bool isStoryMode)
     {
-        ShowUI(optionPopup);
+        if (PlayerPrefs.HasKey("Save"))
+        {
+            QuestionDialogUI.Instance.ShowQuestion(
+                "Warning!!\nPlay data remains.\nDo you want to continue?", () =>
+                {
+                    ChangeScene();
+                }, () => { });
+        }
+        else SetGameState(false, isStoryMode);
     }
-
-    private void OnExitButtonClicked()
+    private void LoadSelectMode(bool isStoryMode)
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        if (!PlayerPrefs.HasKey("Save"))
+        {
+            WarningDialogUI.Instance.ShowWarning("Warning!!\nThere is no data to load.", () => { });
+        }
+        else SetGameState(true, isStoryMode);
     }
-
-    // Utility Methods
     private void ChangeScene()
     {
         SceneManager.LoadScene("MainGameScene");
     }
 
-    private void SetLoadState(bool isLoad)
+    private void SetGameState(bool isLoad, bool isStoryMode)
     {
-        GameObject gameManager = GameObject.FindWithTag("GameManager");
+        ChangeScene();
+        GameModel gameManager = GameObject.Find("GameManager").GetComponent<GameModel>();
         if (gameManager != null)
         {
-            gameManager.GetComponent<GameModel>().isLoad = isLoad;
+            gameManager.isLoad = isLoad;
+            gameManager.isStoryMode = isStoryMode;
         }
         else
         {

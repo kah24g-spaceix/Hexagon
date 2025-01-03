@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factoryHolder: {fileID: 879188564}
+  materialHolder: {fileID: 0}
 --- !u!114 &13236061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,6 +722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDataInit: {fileID: 4900000, guid: e3415bb1c4b40f4418317de40501a794, type: 3}
   isLoad: 0
+  isStoryMode: 0
 --- !u!114 &85819884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3745,7 +3747,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 4.671875
+  orthographic size: 2.8125
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -11523,7 +11525,7 @@ GameObject:
   - component: {fileID: 1991724946}
   - component: {fileID: 1991724947}
   m_Layer: 5
-  m_Name: MatetialValues
+  m_Name: MatetialHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

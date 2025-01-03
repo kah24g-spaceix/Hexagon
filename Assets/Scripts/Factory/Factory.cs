@@ -27,28 +27,32 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
 
-        string spritePath = $"Sprites/Factorys/Factory_{ID}";
         string isNotImage = "Sprites/DebugImage/IsNotImage";
-        Sprite loadedSprite = Resources.Load<Sprite>(spritePath) ?? Resources.Load<Sprite>(isNotImage);
-        if (loadedSprite == null)
-            Debug.LogError("Fuck");
+        string spriteFactoryPath = $"Sprites/Factorys/Factory_{ID}";
+        Sprite loadedFactorySprite = Resources.Load<Sprite>(spriteFactoryPath) ?? Resources.Load<Sprite>(isNotImage);
+        image.sprite = loadedFactorySprite;
 
-        image.sprite = loadedSprite;
+        string spriteMaterialPath = $"Sprites/FactoryMaterials/FactoryMaterial_{ID}";
+        Sprite loadedMaterialSprite = Resources.Load<Sprite>(spriteMaterialPath) ?? Resources.Load<Sprite>(isNotImage);
+        FactoryGroup.Instance.MaterialList[ID].image.sprite = loadedMaterialSprite;
 
         nameText.SetText(model.Names[ID]);
         levelText.SetText($"{model.Levels[ID]}/{model.LevelCaps[ID]}");
         if (!model.IsContructions[ID])
         {
-            constructionCostText.SetText($"{model.ConstructionCosts[ID]}H$");
+            constructionCostText.SetText($"{model.ConstructionCosts[ID]:N0}$");
         }
         else
         {
             if (model.Levels[ID] < model.LevelCaps[ID])
-                constructionCostText.SetText($"{model.UpgradeCosts[ID]}H$");
+                constructionCostText.SetText($"{model.UpgradeCosts[ID]:N0}$");
             else
                 constructionCostText.SetText($"Max Level");
         }
         contractCostText.SetText($"{model.ContractCosts[ID]}H$");
+
+
+        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"");
     }
 
     public void Construction()
@@ -109,7 +113,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         {
             // 계약 취소 요청 기록
             currentFactoryModel.PendingContractCancellations[ID] = true;
-            Debug.Log($"Contract cancellation requested for Plant {ID}. It will take effect the next day.");
+            Debug.Log($"Contract cancellation requested for Factory {ID}. It will take effect the next day.");
         }
 
         FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
