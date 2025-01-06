@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   factoryHolder: {fileID: 879188564}
-  materialHolder: {fileID: 0}
+  materialHolder: {fileID: 1991724945}
 --- !u!114 &13236061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3741,13 +3741,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 0.33333334
+    height: 0.44444445
   near clip plane: 0.1
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 3.75
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

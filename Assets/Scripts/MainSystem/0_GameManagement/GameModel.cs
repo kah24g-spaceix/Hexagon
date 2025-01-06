@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -18,16 +19,25 @@ public class GameModel : MonoBehaviour, IGameModel
 
     [HideInInspector] public bool isLoad;
     [HideInInspector] public bool isStoryMode;
+
+    private readonly int defaultMoney = 1;
+    private readonly int balanceValue = 20;
+    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
     private void Awake()
     {
         if (isLoad)
-            LoadGame(false);
+        {
+            if (!LoadGame(false)) // 수정: LoadGame의 성공 여부 확인 추가
+            {
+                Debug.LogError("Failed to load the game data. Initializing data instead.");
+                //InitData(); // 로드 실패 시 데이터 초기화
+            }
+        }
         else
         {
-            Debug.Log("init data");
+            Debug.Log("Initializing data");
             InitData();
         }
-
     }
     public void InitData()
     {
@@ -44,21 +54,30 @@ public class GameModel : MonoBehaviour, IGameModel
             Debug.LogError("One or more fields in PlayerData are null. Check JSON structure.");
             return;
         }
+
         SetData(initData);
     }
     private void UpdatePlayerSaveData()
     {
+        if (_playerSystemModel == null || _playerDayModel == null || _playerMaterialModel == null ||
+            _playerHyperFrameModel == null || _playerFactoryModel == null || _playerFactoryContractModel == null ||
+            _playerTechModel == null)
+        {
+            Debug.LogError("Cannot update save data. Some models are not initialized.");
+            return; // 수정: 모델 초기화 여부 확인
+        }
+
         _playerData.P_SystemData = new PlayerSystemData(
             _playerSystemModel.Money,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
             _playerSystemModel.CommunityOpinionValue
-            );
+        );
         _playerData.P_DayData = new PlayerDayData(
             _playerDayModel.Day,
             _playerDayModel.LastDay,
             _playerDayModel.CurrentTime
-            );
+        );
         _playerData.P_MaterialData = new PlayerMaterialData(
             _playerMaterialModel.Alloy,
             _playerMaterialModel.Microchip,
@@ -66,7 +85,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerMaterialModel.ConductiveFiber,
             _playerMaterialModel.Pump,
             _playerMaterialModel.RubberTube
-            );
+        );
         _playerData.P_HyperFrameData = new PlayerHyperFrameData(
             _playerHyperFrameModel.Eye,
             _playerHyperFrameModel.Arm,
@@ -94,25 +113,28 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerTechModel.RevenueValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
-            );
+        );
     }
     private void SetData(PlayerData data)
     {
-        _playerSystemModel = new PlayerSystemModel
-        (
+        if (data == null)
+        {
+            Debug.LogError("SetData received null data. Aborting.");
+            return; // 수정: Null 데이터 체크
+        }
+
+        _playerSystemModel = new PlayerSystemModel(
             data.P_SystemData.Money,
             data.P_SystemData.Employees,
             data.P_SystemData.Resistance,
             data.P_SystemData.CommunityOpinionValue
         );
-        _playerDayModel = new PlayerDayModel
-        (
+        _playerDayModel = new PlayerDayModel(
             data.P_DayData.Day,
             data.P_DayData.LastDay,
             data.P_DayData.CurrentTime
         );
-        _playerMaterialModel = new PlayerMaterialModel
-        (
+        _playerMaterialModel = new PlayerMaterialModel(
             data.P_MaterialData.Alloy,
             data.P_MaterialData.Microchip,
             data.P_MaterialData.CarbonFiber,
@@ -120,8 +142,7 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_MaterialData.Pump,
             data.P_MaterialData.RubberTube
         );
-        _playerHyperFrameModel = new PlayerHyperFrameModel
-        (
+        _playerHyperFrameModel = new PlayerHyperFrameModel(
             data.P_HyperFrameData.Eye,
             data.P_HyperFrameData.Arm,
             data.P_HyperFrameData.Hand,
@@ -130,21 +151,18 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_HyperFrameData.Body,
             data.P_HyperFrameData.Head
         );
-        _playerFactoryModel = new PlayerFactoryModel
-        (
+        _playerFactoryModel = new PlayerFactoryModel(
             data.P_FactoryData.UpgradeCosts,
             data.P_FactoryData.Products,
             data.P_FactoryData.Levels,
             data.P_FactoryData.IsContructions
         );
-        _playerFactoryContractModel = new PlayerFactoryContractModel
-        (
+        _playerFactoryContractModel = new PlayerFactoryContractModel(
             data.P_FactoryContractData.Costs,
             data.P_FactoryContractData.Products,
             data.P_FactoryContractData.IsContracts
         );
-        _playerTechModel = new PlayerTechModel
-        (
+        _playerTechModel = new PlayerTechModel(
             data.P_TechData.TechPoint,
             data.P_TechData.RevenueValue,
             data.P_TechData.MaxEmployee,
@@ -155,31 +173,37 @@ public class GameModel : MonoBehaviour, IGameModel
     }
     public void SaveGame(bool useDateData)
     {
-        if (!useDateData)
-        {
-            string json = JsonConvert.SerializeObject(_playerData);
-            Debug.Log(json);
-            PlayerPrefs.SetString("Save", json);
-        }
-        else
-        {
-            string json = JsonConvert.SerializeObject(_playerData);
-            Debug.Log(json);
-            PlayerPrefs.SetString("DaySave", json);
-        }
+        string key;
+        if (isStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
+        else key = useDateData ? "DaySave" : "Save";
+
+        string json = JsonConvert.SerializeObject(_playerData);
+        Debug.Log($"Saving game data for key: {key}");
+        PlayerPrefs.SetString(key, json);
     }
+
     public bool LoadGame(bool useDateData)
     {
-        if (!useDateData){
-            if (!PlayerPrefs.HasKey("Save"))
-                return false;
-            SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("Save")));
+        string key;
+        if (isStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
+        else key = useDateData ? "DaySave" : "Save";
+
+        if (!PlayerPrefs.HasKey(key))
+        {
+            Debug.LogWarning($"No save data found for key: {key}");
+            return false;
         }
-        else{
-            if (!PlayerPrefs.HasKey("DaySave"))
-                return false;
-            Debug.Log(PlayerPrefs.HasKey("DaySave"));
-            SetData(JsonConvert.DeserializeObject<PlayerData>(PlayerPrefs.GetString("DaySave")));
+
+        try
+        {
+            string json = PlayerPrefs.GetString(key);
+            SetData(JsonConvert.DeserializeObject<PlayerData>(json));
+            Debug.Log($"Loaded game data for key: {key}");
+        }
+        catch (JsonException ex)
+        {
+            Debug.LogError($"Failed to deserialize save data for key {key}: {ex.Message}");
+            return false;
         }
         return true;
     }
@@ -226,10 +250,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerTechModel = model;
         UpdatePlayerSaveData();
     }
-
-    private readonly int defaultMoney = 1;
-    private readonly int balanceValue = 20;
-    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
 
     public void Income()
     {
@@ -312,9 +332,9 @@ public class GameModel : MonoBehaviour, IGameModel
             {
                 _playerSystemModel = new PlayerSystemModel
                 (
-                    _playerSystemModel.Money - currentFactoryModel.ContractCosts[i], 
-                    _playerSystemModel.Employees, 
-                    _playerSystemModel.Resistance, 
+                    _playerSystemModel.Money - currentFactoryModel.ContractCosts[i],
+                    _playerSystemModel.Employees,
+                    _playerSystemModel.Resistance,
                     _playerSystemModel.CommunityOpinionValue
                 );
 
@@ -328,96 +348,56 @@ public class GameModel : MonoBehaviour, IGameModel
     }
     public void AddProduct()
     {
-        _playerMaterialModel = new
-        (
-            _playerMaterialModel.Alloy + GetProduct(ProductName.Alloy),
-            _playerMaterialModel.Microchip + GetProduct(ProductName.Microchip),
-            _playerMaterialModel.CarbonFiber + GetProduct(ProductName.CarbonFiber),
-            _playerMaterialModel.ConductiveFiber + GetProduct(ProductName.ConductiveFiber),
-            _playerMaterialModel.Pump + GetProduct(ProductName.Pump),
-            _playerMaterialModel.RubberTube + GetProduct(ProductName.RubberTube)
-        );
-        UpdatePlayerSaveData();
+        UpdateMaterialModel(GetProduct);
     }
-    private int GetProduct(ProductName productName)
-    {
-        switch (productName)
-        {
-            case ProductName.Alloy:
-                return _playerFactoryModel.Products[0];
 
-            case ProductName.Microchip:
-                return _playerFactoryModel.Products[1];
-
-            case ProductName.CarbonFiber:
-                return _playerFactoryModel.Products[2];
-
-            case ProductName.ConductiveFiber:
-                return _playerFactoryModel.Products[3];
-
-            case ProductName.Pump:
-                return _playerFactoryModel.Products[4];
-
-            case ProductName.RubberTube:
-                return _playerFactoryModel.Products[5];
-
-            default:
-                break;
-        }
-        Debug.LogError("does not match enum value");
-        return -1;
-    }
     public void AddContractProduct()
     {
+        UpdateMaterialModel(GetContractProduct);
+    }
+
+    private void UpdateMaterialModel(Func<ProductName, int> productGetter)
+    {
         _playerMaterialModel = new
         (
-            _playerMaterialModel.Alloy + GetContractProduct(ProductName.Alloy),
-            _playerMaterialModel.Microchip + GetContractProduct(ProductName.Microchip),
-            _playerMaterialModel.CarbonFiber + GetContractProduct(ProductName.CarbonFiber),
-            _playerMaterialModel.ConductiveFiber + GetContractProduct(ProductName.ConductiveFiber),
-            _playerMaterialModel.Pump + GetContractProduct(ProductName.Pump),
-            _playerMaterialModel.RubberTube + GetContractProduct(ProductName.RubberTube)
+            _playerMaterialModel.Alloy + productGetter(ProductName.Alloy),
+            _playerMaterialModel.Microchip + productGetter(ProductName.Microchip),
+            _playerMaterialModel.CarbonFiber + productGetter(ProductName.CarbonFiber),
+            _playerMaterialModel.ConductiveFiber + productGetter(ProductName.ConductiveFiber),
+            _playerMaterialModel.Pump + productGetter(ProductName.Pump),
+            _playerMaterialModel.RubberTube + productGetter(ProductName.RubberTube)
         );
         UpdatePlayerSaveData();
     }
+
+    private int GetProduct(ProductName productName)
+    {
+        return TryGetProduct(_playerFactoryModel.Products, productName);
+    }
+
     private int GetContractProduct(ProductName productName)
     {
-        switch (productName)
+        if (_playerFactoryContractModel.IsContracts[(int)productName])
         {
-            case ProductName.Alloy:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Alloy])
-                    return _playerFactoryContractModel.Products[(int)ProductName.Alloy];
-                return 0;
-
-            case ProductName.Microchip:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Microchip])
-                    return _playerFactoryContractModel.Products[(int)ProductName.Microchip];
-                return 0;
-
-            case ProductName.CarbonFiber:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.CarbonFiber])
-                    return _playerFactoryContractModel.Products[(int)ProductName.CarbonFiber];
-                return 0;
-
-            case ProductName.ConductiveFiber:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.ConductiveFiber])
-                    return _playerFactoryContractModel.Products[(int)ProductName.ConductiveFiber];
-                return 0;
-
-            case ProductName.Pump:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.Pump])
-                    return _playerFactoryContractModel.Products[(int)ProductName.Pump];
-                return 0;
-
-            case ProductName.RubberTube:
-                if (_playerFactoryContractModel.IsContracts[(int)ProductName.RubberTube])
-                    return _playerFactoryContractModel.Products[(int)ProductName.RubberTube];
-                return 0;
-
-            default:
-                break;
+            return TryGetProduct(_playerFactoryContractModel.Products, productName);
         }
-        Debug.LogError("does not match enum value");
-        return -1;
+        return 0;
+    }
+    private int TryGetProduct(int[] products, ProductName productName)
+    {
+        if (!Enum.IsDefined(typeof(ProductName), productName))
+        {
+            Debug.LogError($"Invalid product name: {productName}");
+            return -1;
+        }
+
+        int index = (int)productName;
+        if (index < 0 || index >= products.Length)
+        {
+            Debug.LogError($"Product index out of range: {index}");
+            return -1;
+        }
+
+        return products[index];
     }
 }

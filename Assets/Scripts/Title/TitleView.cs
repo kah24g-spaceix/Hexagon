@@ -8,13 +8,6 @@ using UnityEngine.UI;
 
 public class TitleView : MonoBehaviour
 {
-    private enum TitleButton
-    {
-        Option,
-        Exit
-    }
-    
-
     [Header("Button")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button loadButton;
@@ -38,34 +31,31 @@ public class TitleView : MonoBehaviour
     private void AddListeners()
     {
         // Title buttons
-        startButton.onClick.AddListener(() => 
+        startButton.onClick.AddListener(() =>
         {
+            StoryButton.onClick.RemoveAllListeners();
+            SimulationButton.onClick.RemoveAllListeners();
             StoryButton.onClick.AddListener(() => StartSelectMode(true));
             SimulationButton.onClick.AddListener(() => StartSelectMode(false));
             ShowUI(SelectModeUI);
         });
-        loadButton.onClick.AddListener(() => 
+        loadButton.onClick.AddListener(() =>
         {
+            StoryButton.onClick.RemoveAllListeners();
+            SimulationButton.onClick.RemoveAllListeners();
             StoryButton.onClick.AddListener(() => LoadSelectMode(true));
             SimulationButton.onClick.AddListener(() => LoadSelectMode(false));
             ShowUI(SelectModeUI);
         });
-        optionsButton.onClick.AddListener(() => ButtonType(TitleButton.Option));
-        exitButton.onClick.AddListener(() => ButtonType(TitleButton.Exit));
-    }
-    private void ButtonType(TitleButton buttonType)
-    {
-        switch (buttonType)
+        optionsButton.onClick.AddListener(() => PopupTrigger(optionPopup));
+        exitButton.onClick.AddListener(() =>
         {
-            case TitleButton.Option: PopupTrigger(optionPopup); break;
-            case TitleButton.Exit: 
-                #if UNITY_EDITOR
-                        UnityEditor.EditorApplication.isPlaying = false;
-                #else
-                        Application.Quit();
-                #endif
-            break;
-        }
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+        });
     }
     private void StartSelectMode(bool isStoryMode)
     {
@@ -74,7 +64,7 @@ public class TitleView : MonoBehaviour
             QuestionDialogUI.Instance.ShowQuestion(
                 "Warning!!\nPlay data remains.\nDo you want to continue?", () =>
                 {
-                    ChangeScene();
+                    SetGameState(false, isStoryMode);
                 }, () => { });
         }
         else SetGameState(false, isStoryMode);
@@ -87,23 +77,38 @@ public class TitleView : MonoBehaviour
         }
         else SetGameState(true, isStoryMode);
     }
-    private void ChangeScene()
+    public void SetGameState(bool isLoad, bool isStoryMode)
     {
+        // 씬 로드 완료 후 상태 전달을 위한 람다식으로 이벤트 핸들러 연결
+        SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded(scene, mode, isLoad, isStoryMode);
         SceneManager.LoadScene("MainGameScene");
     }
 
-    private void SetGameState(bool isLoad, bool isStoryMode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode, bool isLoad, bool isStoryMode)
     {
-        ChangeScene();
-        GameModel gameManager = GameObject.Find("GameManager").GetComponent<GameModel>();
-        if (gameManager != null)
+        if (scene.name == "MainGameScene") // 특정 씬인지 확인
         {
+            // GameManager 확인
+            GameObject gameManagerObject = GameObject.Find("GameManager");
+            if (gameManagerObject == null)
+            {
+                Debug.LogError("GameManager GameObject를 씬에서 찾을 수 없습니다.");
+                return;
+            }
+
+            GameModel gameManager = gameManagerObject.GetComponent<GameModel>();
+            if (gameManager == null)
+            {
+                Debug.LogError("GameManager GameObject에 GameModel 컴포넌트가 없습니다.");
+                return;
+            }
+
+            // 상태 설정
             gameManager.isLoad = isLoad;
             gameManager.isStoryMode = isStoryMode;
-        }
-        else
-        {
-            Debug.LogError("GameManager not found in the scene.");
+
+            // 이벤트 등록 해제
+            SceneManager.sceneLoaded -= (sceneArg, modeArg) => OnSceneLoaded(sceneArg, modeArg, isLoad, isStoryMode);
         }
     }
 

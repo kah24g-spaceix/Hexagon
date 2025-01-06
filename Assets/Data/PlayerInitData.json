@@ -1,6 +1,6 @@
 {
   "P_SystemData": {
-    "Money": 1000000,
+    "Money": 0,
     "Employees": 50,
     "Resistance": 20,
     "CommunityOpinionValue": 75.5
@@ -40,7 +40,7 @@
   },
   "P_TechData": {
     "TechPoint": 120,
-    "RevenueValue": 5000,
+    "RevenueValue": 0,
     "MaxEmployee": 100,
     "TechLevels": []
   }

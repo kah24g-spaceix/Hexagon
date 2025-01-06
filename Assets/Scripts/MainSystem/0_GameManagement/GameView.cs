@@ -119,7 +119,8 @@ public class GameView : MonoBehaviour, IGameView
                                 {
                                     gamePresenter.DoSaveGame(false);
                                     SceneManager.LoadScene("TitleScene");
-                                }, () => {SceneManager.LoadScene("TitleScene"); });
+                                    gamePresenter.Resume();
+                                }, () => {SceneManager.LoadScene("TitleScene"); gamePresenter.Resume();});
                         }, () => { });
                 }, () => { });
                 break;
