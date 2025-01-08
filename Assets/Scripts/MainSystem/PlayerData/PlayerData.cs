@@ -17,13 +17,13 @@ public class PlayerDayData
 {
     public int Day { get; set; }
     public int LastDay { get; set; }
-    public float CurrentTime { get; set; }
+    public float DayLength { get; set; }
 
-    public PlayerDayData (int day, int lastDay, float currentTime)
+    public PlayerDayData (int day, int lastDay, float dayLength)
     {
         Day = day;
         LastDay = lastDay;
-        CurrentTime = currentTime;
+        DayLength = dayLength;
     }
 }
 public class PlayerMaterialData

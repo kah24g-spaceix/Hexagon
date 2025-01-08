@@ -4,11 +4,11 @@ using Unity.VisualScripting;
 public interface IGamePresenter
 {
     //void BindView(IGameView pView);
-    void SystemUpdate();
     string GetDay();
     string GetMoney();
-    void MoneyPerSecond();
     void OnDaySkipButton();
+    void SystemUpdate();
+    void SystemSkipUpdate(float skipTime);
     void OnNextDayButton();
     void OnRestartDayButton();
     void DoTodayResult();

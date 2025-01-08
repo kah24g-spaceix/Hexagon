@@ -49,7 +49,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             else
                 constructionCostText.SetText($"Max Level");
         }
-        contractCostText.SetText($"{model.ContractCosts[ID]}H$");
+        contractCostText.SetText($"{model.ContractCosts[ID]:N0}$");
 
 
         FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"");

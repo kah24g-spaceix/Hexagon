@@ -25,12 +25,12 @@ public class PlayerDayModel
 {
     public int Day { get; }
     public int LastDay { get; }
-    public float CurrentTime { get; }
-    public PlayerDayModel (int day,int lastDay, float currentTime)
+    public float DayLength { get; }
+    public PlayerDayModel (int day,int lastDay, float dayLength)
     {
         Day = day;
         LastDay = lastDay;
-        CurrentTime = currentTime;
+        DayLength = dayLength;
     }
 }
 public enum ProductName
@@ -157,7 +157,7 @@ public interface IPlayerSystemModelHandler
     void DoSystemResult(PlayerSystemModel model);
     PlayerDayModel GetPlayerDayModel();
     void DoDayResult(PlayerDayModel model);
-    void Income();
+    void Income(float skipTime);
     void ExchangeTechPoint(int value);
 }
 public interface IPlayerMaterialModelHandler

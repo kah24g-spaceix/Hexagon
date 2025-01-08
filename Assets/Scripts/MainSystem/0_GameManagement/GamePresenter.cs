@@ -32,7 +32,12 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
 
     public void SystemUpdate()
     {
-        MoneyPerSecond();
+        SystemSkipUpdate(1);
+    }
+    public void SystemSkipUpdate(float skipTime)
+    {
+        _model.Income(skipTime);
+        ReloadData();
     }
     public string GetDay()
     {
@@ -42,11 +47,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         return $"{_playerSystemModel.Money:N0} $";
     }
-    public void MoneyPerSecond()
-    {
-        _model.Income();
-        ReloadData();
-    }
+
 
     public void OnExchangeTechPointButton(int value)
     {
@@ -68,7 +69,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public void OnDaySkipButton()
     {
-        _model.SetTimeScale(100);
+        
     }
     public void OnNextDayButton()
     {

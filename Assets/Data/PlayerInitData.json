@@ -8,7 +8,7 @@
   "P_DayData": {
     "Day": 1,
     "LastDay": 20,
-    "CurrentTime": 2400
+    "DayLength": 2400
   },
   "P_MaterialData": {
     "Alloy": 200,

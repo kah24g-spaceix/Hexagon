@@ -20,9 +20,7 @@ public class GameModel : MonoBehaviour, IGameModel
     [HideInInspector] public bool isLoad;
     [HideInInspector] public bool isStoryMode;
 
-    private readonly int defaultMoney = 1;
-    private readonly int balanceValue = 20;
-    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
+
     private void Awake()
     {
         if (isLoad)
@@ -76,7 +74,7 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerData.P_DayData = new PlayerDayData(
             _playerDayModel.Day,
             _playerDayModel.LastDay,
-            _playerDayModel.CurrentTime
+            _playerDayModel.DayLength
         );
         _playerData.P_MaterialData = new PlayerMaterialData(
             _playerMaterialModel.Alloy,
@@ -132,7 +130,7 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             data.P_DayData.Day,
             data.P_DayData.LastDay,
-            data.P_DayData.CurrentTime
+            data.P_DayData.DayLength
         );
         _playerMaterialModel = new PlayerMaterialModel(
             data.P_MaterialData.Alloy,
@@ -251,23 +249,12 @@ public class GameModel : MonoBehaviour, IGameModel
         UpdatePlayerSaveData();
     }
 
-    public void Income()
+    public void Income(float skipTime)
     {
         int currentEmployees = _playerSystemModel.Employees;
-        int maxIncome = Mathf.FloorToInt(_playerTechModel.MaxEmployee - (_playerSystemModel.Employees / balanceValue));
-
-        // 수익 증가율 조정
         float revenue = 1 + (_playerTechModel.RevenueValue * revenueMultiplier);
-
-        // 무작위 범위 최소값을 조정해 과도한 증가 방지
-        int randomIncome = Mathf.Clamp(UnityEngine.Random.Range(currentEmployees / 2, maxIncome), 0, maxIncome);
-
-        // 기본 증가 방식 조정
-        int money = currentEmployees <= maxIncome
-            ? _playerSystemModel.Money + Mathf.FloorToInt(randomIncome * defaultMoney * revenue)
-            : _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue);
-
-        // 새로운 PlayerSystemModel 생성 및 저장
+        int money = _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue * skipTime);
+        
         _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
         UpdatePlayerSaveData();
     }
@@ -289,7 +276,9 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         UpdatePlayerSaveData();
     }
-
+    private readonly int defaultMoney = 1;
+    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
+    
     public void TodayResult()
     {
         int techPoint = _playerTechModel.TechPoint + 50 + (_playerDayModel.Day * 2);
@@ -316,7 +305,7 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day + 1,
             _playerDayModel.LastDay,
-            _playerDayModel.CurrentTime
+            _playerDayModel.DayLength
         );
 
         ProcessContractCancellations();
