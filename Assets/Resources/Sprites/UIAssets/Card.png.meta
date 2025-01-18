@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c371858d58fed4c4092d3053f47ea653
+guid: a10d3491528151f4b88c6b8642083111
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 50
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: button_headCount_0
+      name: Card_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36f39226555b9ee4f9078b2225dc56e5
-      internalID: 163604835
+      spriteID: 915de1cdcce150e409e5766315f34e8a
+      internalID: -951314448
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: button_headCount_1
+      name: Card_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10a9747cd0c83ff4eba4a224c03b9174
-      internalID: 98870314
+      spriteID: 5539fe5626cd44f469d2285536ff2526
+      internalID: 774777070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Card_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44f0e8a08f6101347923a9b8e7a954f5
+      internalID: -398858511
       vertices: []
       indices: 
       edges: []
@@ -162,8 +183,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      button_headCount_0: 163604835
-      button_headCount_1: 98870314
+      Card_0: -951314448
+      Card_1: 774777070
+      Card_2: -398858511
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

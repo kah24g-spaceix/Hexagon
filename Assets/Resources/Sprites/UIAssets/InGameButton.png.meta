@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4f33af6b949b58744bc5a62b1ca7bd39
+guid: edd4233ff2da1f641a0848b77200eb0e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: button_menu_0
+      name: InGameButton_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,41 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cd21b24b6f91784582e4655d1892b06
-      internalID: 38661362
+      spriteID: a15be287e13fd62459c1442e35a380b5
+      internalID: -325305754
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: button_menu_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 21896940bdb51064981a32db6fe5406c
-      internalID: -1449180398
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: button_menu_2
+      name: InGameButton_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,41 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b1536072da50cf4980c7809a03e9288
-      internalID: -1564579017
+      spriteID: f6573b2d9d9a76e49af0d23f1612d206
+      internalID: -746417986
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: button_menu_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c779a0ab9afca4448b54d8224485c667
-      internalID: -2126516479
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: button_menu_4
+      name: InGameButton_2
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,41 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68c7faddcc3f88543b4c8614f97a1a90
-      internalID: 1086779018
+      spriteID: 0c10c47e57042d240947db92b956bd16
+      internalID: -293418826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: button_menu_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: aaf2a36e4917daa4e8bfa68a25c4c3cd
-      internalID: 221852450
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: button_menu_6
+      name: InGameButton_3
       rect:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,41 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e8f68c6d79c2354599a5171cd805858
-      internalID: 1712025895
+      spriteID: 60498672028c246418f302974113b744
+      internalID: 1556125375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: button_menu_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43ebc19d987885a46af343ad94cccfc0
-      internalID: 1616513386
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: button_menu_8
+      name: InGameButton_4
       rect:
         serializedVersion: 2
         x: 256
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,29 +208,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1537803c06c46cf4e9c1972b78430b8b
-      internalID: -387984356
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: button_menu_9
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 406bccc903fb1664393f95e87c121475
-      internalID: -424582852
+      spriteID: f1a4d122dc3310e4ea6356f9b098ebea
+      internalID: 1626003395
       vertices: []
       indices: 
       edges: []
@@ -330,16 +225,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      button_menu_0: 38661362
-      button_menu_1: -1449180398
-      button_menu_2: -1564579017
-      button_menu_3: -2126516479
-      button_menu_4: 1086779018
-      button_menu_5: 221852450
-      button_menu_6: 1712025895
-      button_menu_7: 1616513386
-      button_menu_8: -387984356
-      button_menu_9: -424582852
+      InGameButton_0: -325305754
+      InGameButton_1: -746417986
+      InGameButton_2: -293418826
+      InGameButton_3: 1556125375
+      InGameButton_4: 1626003395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

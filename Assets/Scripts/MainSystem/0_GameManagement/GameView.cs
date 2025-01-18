@@ -112,16 +112,12 @@ public class GameView : MonoBehaviour, IGameView
                 () =>
                 {
                     QuestionDialogUI.Instance.ShowQuestion(
-                        "Are you really sure?", () =>
+                        "Do you want to save your progress?", () =>
                         {
-                            QuestionDialogUI.Instance.ShowQuestion(
-                                "Do you want to save your progress?", () =>
-                                {
-                                    gamePresenter.DoSaveGame(false);
-                                    SceneManager.LoadScene("TitleScene");
-                                    gamePresenter.Resume();
-                                }, () => {SceneManager.LoadScene("TitleScene"); gamePresenter.Resume();});
-                        }, () => { });
+                            gamePresenter.DoSaveGame(false);
+                            SceneManager.LoadScene("TitleScene");
+                            gamePresenter.Resume();
+                        }, () => { SceneManager.LoadScene("TitleScene"); gamePresenter.Resume(); });
                 }, () => { });
                 break;
             case InGameButton.Exit:
@@ -130,14 +126,10 @@ public class GameView : MonoBehaviour, IGameView
                 () =>
                 {
                     QuestionDialogUI.Instance.ShowQuestion(
-                        "Are you really sure?", () =>
+                        "Do you want to save your progress?", () =>
                         {
-                            QuestionDialogUI.Instance.ShowQuestion(
-                                "Do you want to save your progress?", () =>
-                                {
-                                    gamePresenter.DoSaveGame(false);
-                                    Application.Quit();
-                                }, () => { });
+                            gamePresenter.DoSaveGame(false);
+                            Application.Quit();
                         }, () => { });
                 }, () => { });
                 break;

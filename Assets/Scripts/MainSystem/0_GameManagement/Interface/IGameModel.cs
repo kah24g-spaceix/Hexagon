@@ -26,7 +26,7 @@ public class PlayerDayModel
     public int Day { get; }
     public int LastDay { get; }
     public float DayLength { get; }
-    public PlayerDayModel (int day,int lastDay, float dayLength)
+    public PlayerDayModel(int day, int lastDay, float dayLength)
     {
         Day = day;
         LastDay = lastDay;
@@ -81,11 +81,11 @@ public class PlayerHyperFrameModel
 
     public PlayerHyperFrameModel
     (
-        int eye, 
-        int arm, 
-        int hand, 
-        int lag, 
-        int foot, 
+        int eye,
+        int arm,
+        int hand,
+        int lag,
+        int foot,
         int body,
         int head)
     {
@@ -104,7 +104,7 @@ public class PlayerFactoryModel
     public int[] Products { get; }
     public int[] Levels { get; }
     public bool[] IsConstructions { get; }
-    
+
 
     public PlayerFactoryModel(
         int[] upgradeCosts,
@@ -150,7 +150,15 @@ public class PlayerTechModel
         TechLevels = techLevels;
     }
 }
-
+public interface IGameProgressHandler
+{
+    void InitData();
+    void SaveGame(bool useDateData);
+    bool LoadGame(bool useDateData);
+    void TodayResult();
+    void SetTimeScale(float scale);
+    void NextDay();
+}
 public interface IPlayerSystemModelHandler
 {
     PlayerSystemModel GetPlayerSystemModel();
@@ -164,6 +172,7 @@ public interface IPlayerMaterialModelHandler
 {
     PlayerMaterialModel GetPlayerMaterialModel();
     void DoMaterialResult(PlayerMaterialModel model);
+    List<int> GetProductList();
 }
 public interface IPlayerHyperFrameModelHandler
 {
@@ -186,21 +195,12 @@ public interface IPlayerTechModelHandler
     void DoTechResult(PlayerTechModel model);
 }
 
-public interface IGameProgressHandler
-{
-    void InitData();
-    void SaveGame(bool useDateData);
-    bool LoadGame(bool useDateData);
-    void TodayResult();
-    void SetTimeScale(float scale);
-    void NextDay();
-}
+
 public interface IGameModel :
+    IGameProgressHandler,
     IPlayerSystemModelHandler,
     IPlayerMaterialModelHandler,
     IPlayerFactoryModelHandler,
     IPlayerHyperFrameModelHandler,
-    IPlayerTechModelHandler,
-    IGameProgressHandler
-{
-}
+    IPlayerTechModelHandler
+{ }

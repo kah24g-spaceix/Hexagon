@@ -28,10 +28,6 @@ public class ResolutionOption : MonoBehaviour
         resolutionDropdown.onValueChanged.AddListener(DropboxOptionChange);
         fullScreenToggle.onValueChanged.AddListener(FullScreenButton);
         Invoke("SetResolution", 0.1f);
-        
-        #if !UNITY_EDITOR
-                    Invoke("SetResolution", 0.1f);
-        #endif
     }
 
     void SetResolution()
@@ -44,7 +40,7 @@ public class ResolutionOption : MonoBehaviour
         // only 16:9
         if (is16v9)
         {
-            float tolerance = 0.01f; // ��� ���� ����
+            float tolerance = 0.01f;
             resolutions = resolutions.FindAll(x => Mathf.Abs((float)x.width / x.height - 16f / 9) < tolerance);
         }
         // Hz Visibility

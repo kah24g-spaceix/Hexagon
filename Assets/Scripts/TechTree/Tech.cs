@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class Tech : MonoBehaviour, IView<TechModel>
 {
-    [SerializeField] private TMP_Text levelText;
-    [SerializeField] private TMP_Text titleText;
-    [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text costText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+    [SerializeField] private TextMeshProUGUI costText;
 
     private IGameModel playerModel;
 

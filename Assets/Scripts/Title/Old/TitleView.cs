@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class TitleView : MonoBehaviour
 {
     [Header("Button")]
@@ -24,71 +23,77 @@ public class TitleView : MonoBehaviour
 
     private void Start()
     {
-        HideUI(SelectModeUI);
-        HideUI(optionPopup);
+        InitializeUI();
         AddListeners();
     }
+
+    #region Initialization
+
+    private void InitializeUI()
+    {
+        HideUI(SelectModeUI);
+        HideUI(optionPopup);
+    }
+
     private void AddListeners()
     {
         // Title buttons
-        startButton.onClick.AddListener(() =>
-        {
-            StoryButton.onClick.RemoveAllListeners();
-            SimulationButton.onClick.RemoveAllListeners();
-            StoryButton.onClick.AddListener(() => StartSelectMode(true));
-            SimulationButton.onClick.AddListener(() => StartSelectMode(false));
-            ShowUI(SelectModeUI);
-        });
-        loadButton.onClick.AddListener(() =>
-        {
-            StoryButton.onClick.RemoveAllListeners();
-            SimulationButton.onClick.RemoveAllListeners();
-            StoryButton.onClick.AddListener(() => LoadSelectMode(true));
-            SimulationButton.onClick.AddListener(() => LoadSelectMode(false));
-            ShowUI(SelectModeUI);
-        });
+        startButton.onClick.AddListener(() => SetupModeSelection(StartSelectMode));
+        loadButton.onClick.AddListener(() => SetupModeSelection(LoadSelectMode));
         optionsButton.onClick.AddListener(() => PopupTrigger(optionPopup));
-        exitButton.onClick.AddListener(() =>
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-                Application.Quit();
-#endif
-        });
+        exitButton.onClick.AddListener(ExitGame);
     }
+
+    private void SetupModeSelection(Action<bool> modeAction)
+    {
+        StoryButton.onClick.RemoveAllListeners();
+        SimulationButton.onClick.RemoveAllListeners();
+        StoryButton.onClick.AddListener(() => modeAction(true));
+        SimulationButton.onClick.AddListener(() => modeAction(false));
+        ShowUI(SelectModeUI);
+    }
+
+    #endregion
+
+    #region Game Mode Management
+
     private void StartSelectMode(bool isStoryMode)
     {
         if (PlayerPrefs.HasKey("Save"))
         {
             QuestionDialogUI.Instance.ShowQuestion(
-                "Warning!!\nPlay data remains.\nDo you want to continue?", () =>
-                {
-                    SetGameState(false, isStoryMode);
-                }, () => { });
+                "Warning!!\nPlay data remains.\nDo you want to continue?", 
+                () => SetGameState(false, isStoryMode), 
+                () => { });
         }
-        else SetGameState(false, isStoryMode);
+        else
+        {
+            SetGameState(false, isStoryMode);
+        }
     }
+
     private void LoadSelectMode(bool isStoryMode)
     {
         if (!PlayerPrefs.HasKey("Save"))
         {
             WarningDialogUI.Instance.ShowWarning("Warning!!\nThere is no data to load.", () => { });
         }
-        else SetGameState(true, isStoryMode);
+        else
+        {
+            SetGameState(true, isStoryMode);
+        }
     }
+
     public void SetGameState(bool isLoad, bool isStoryMode)
     {
-        // 씬 로드 완료 후 상태 전달을 위한 람다식으로 이벤트 핸들러 연결
         SceneManager.sceneLoaded += (scene, mode) => OnSceneLoaded(scene, mode, isLoad, isStoryMode);
         SceneManager.LoadScene("MainGameScene");
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode, bool isLoad, bool isStoryMode)
     {
-        if (scene.name == "MainGameScene") // 특정 씬인지 확인
+        if (scene.name == "MainGameScene")
         {
-            // GameManager 확인
             GameObject gameManagerObject = GameObject.Find("GameManager");
             if (gameManagerObject == null)
             {
@@ -103,14 +108,16 @@ public class TitleView : MonoBehaviour
                 return;
             }
 
-            // 상태 설정
             gameManager.isLoad = isLoad;
             gameManager.isStoryMode = isStoryMode;
 
-            // 이벤트 등록 해제
             SceneManager.sceneLoaded -= (sceneArg, modeArg) => OnSceneLoaded(sceneArg, modeArg, isLoad, isStoryMode);
         }
     }
+
+    #endregion
+
+    #region UI Management
 
     private void ShowUI(GameObject UI)
     {
@@ -121,8 +128,20 @@ public class TitleView : MonoBehaviour
     {
         UI.SetActive(false);
     }
+
     private void PopupTrigger(GameObject UI)
     {
         UI.SetActive(!UI.activeSelf);
     }
+
+    private void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    #endregion
 }

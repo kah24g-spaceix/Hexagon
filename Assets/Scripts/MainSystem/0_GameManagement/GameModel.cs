@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -16,9 +17,11 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerFactoryContractModel _playerFactoryContractModel;
 
     private PlayerTechModel _playerTechModel;
-
-    [HideInInspector] public bool isLoad;
-    [HideInInspector] public bool isStoryMode;
+    private readonly int defaultMoney = 1;
+    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
+    public bool isLoad { get; set; }
+    public bool isStoryMode { get; set; }
+    public int dailyPlaytime { get; set; }
 
 
     private void Awake()
@@ -37,6 +40,8 @@ public class GameModel : MonoBehaviour, IGameModel
             InitData();
         }
     }
+
+    #region GameProgress
     public void InitData()
     {
         PlayerData initData = JsonConvert.DeserializeObject<PlayerData>(_playerDataInit.text);
@@ -205,80 +210,6 @@ public class GameModel : MonoBehaviour, IGameModel
         }
         return true;
     }
-    public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
-    public PlayerDayModel GetPlayerDayModel() => _playerDayModel;
-    public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
-    public PlayerHyperFrameModel GetPlayerHyperFrameModel() => _playerHyperFrameModel;
-    public PlayerFactoryModel GetPlayerFactoryModel() => _playerFactoryModel;
-    public PlayerFactoryContractModel GetPlayerFactoryContractModel() => _playerFactoryContractModel;
-    public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
-
-    public void DoSystemResult(PlayerSystemModel model)
-    {
-        _playerSystemModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoDayResult(PlayerDayModel model)
-    {
-        _playerDayModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoMaterialResult(PlayerMaterialModel model)
-    {
-        _playerMaterialModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoHyperFrameResult(PlayerHyperFrameModel model)
-    {
-        _playerHyperFrameModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoFactoryResult(PlayerFactoryModel model)
-    {
-        _playerFactoryModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoFactoryContractResult(PlayerFactoryContractModel model)
-    {
-        _playerFactoryContractModel = model;
-        UpdatePlayerSaveData();
-    }
-    public void DoTechResult(PlayerTechModel model)
-    {
-        _playerTechModel = model;
-        UpdatePlayerSaveData();
-    }
-
-    public void Income(float skipTime)
-    {
-        int currentEmployees = _playerSystemModel.Employees;
-        float revenue = 1 + (_playerTechModel.RevenueValue * revenueMultiplier);
-        int money = _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue * skipTime);
-        
-        _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
-        UpdatePlayerSaveData();
-    }
-
-    public void ExchangeTechPoint(int value)
-    {
-        _playerSystemModel = new PlayerSystemModel(
-            _playerSystemModel.Money + _playerSystemModel.Employees * 100 * value,
-            _playerSystemModel.Employees,
-            _playerSystemModel.Resistance,
-            _playerSystemModel.CommunityOpinionValue
-        );
-
-        _playerTechModel = new PlayerTechModel(
-            _playerTechModel.TechPoint - value,
-            _playerTechModel.RevenueValue,
-            _playerTechModel.MaxEmployee,
-            _playerTechModel.TechLevels
-        );
-        UpdatePlayerSaveData();
-    }
-    private readonly int defaultMoney = 1;
-    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
-    
     public void TodayResult()
     {
         int techPoint = _playerTechModel.TechPoint + 50 + (_playerDayModel.Day * 2);
@@ -309,6 +240,81 @@ public class GameModel : MonoBehaviour, IGameModel
         );
 
         ProcessContractCancellations();
+        UpdatePlayerSaveData();
+    }
+    #endregion
+
+    #region PlayerSystemModel
+    public PlayerSystemModel GetPlayerSystemModel() => _playerSystemModel;
+    public void DoSystemResult(PlayerSystemModel model)
+    {
+        _playerSystemModel = model;
+        UpdatePlayerSaveData();
+    }
+    public PlayerDayModel GetPlayerDayModel() => _playerDayModel;
+    public void DoDayResult(PlayerDayModel model)
+    {
+        _playerDayModel = model;
+        UpdatePlayerSaveData();
+    }
+    public void Income(float skipTime)
+    {
+        int currentEmployees = _playerSystemModel.Employees;
+        float revenue = 1 + (_playerTechModel.RevenueValue * revenueMultiplier);
+        int money = _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue * skipTime);
+
+        _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
+        UpdatePlayerSaveData();
+    }
+    public void ExchangeTechPoint(int value)
+    {
+        _playerSystemModel = new PlayerSystemModel(
+            _playerSystemModel.Money + _playerSystemModel.Employees * 100 * value,
+            _playerSystemModel.Employees,
+            _playerSystemModel.Resistance,
+            _playerSystemModel.CommunityOpinionValue
+        );
+
+        _playerTechModel = new PlayerTechModel(
+            _playerTechModel.TechPoint - value,
+            _playerTechModel.RevenueValue,
+            _playerTechModel.MaxEmployee,
+            _playerTechModel.TechLevels
+        );
+        UpdatePlayerSaveData();
+    }
+    #endregion
+
+    #region PlayerMaterialModel
+    public PlayerMaterialModel GetPlayerMaterialModel() => _playerMaterialModel;
+    public void DoMaterialResult(PlayerMaterialModel model)
+    {
+        _playerMaterialModel = model;
+        UpdatePlayerSaveData();
+    }
+    #endregion
+
+    #region PlayerHyperFrameModel
+
+    public PlayerHyperFrameModel GetPlayerHyperFrameModel() => _playerHyperFrameModel;
+    public void DoHyperFrameResult(PlayerHyperFrameModel model)
+    {
+        _playerHyperFrameModel = model;
+        UpdatePlayerSaveData();
+    }
+    #endregion
+
+    #region PlayerFactoryModel
+    public PlayerFactoryModel GetPlayerFactoryModel() => _playerFactoryModel;
+    public void DoFactoryResult(PlayerFactoryModel model)
+    {
+        _playerFactoryModel = model;
+        UpdatePlayerSaveData();
+    }
+    public PlayerFactoryContractModel GetPlayerFactoryContractModel() => _playerFactoryContractModel;
+    public void DoFactoryContractResult(PlayerFactoryContractModel model)
+    {
+        _playerFactoryContractModel = model;
         UpdatePlayerSaveData();
     }
     private void ProcessContractCancellations()
@@ -358,7 +364,16 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         UpdatePlayerSaveData();
     }
-
+    public List<int> GetProductList() // Only View
+    {
+        return new List<int> {
+            _playerMaterialModel.Alloy,
+            _playerMaterialModel.Microchip,
+            _playerMaterialModel.CarbonFiber,
+            _playerMaterialModel.ConductiveFiber,
+            _playerMaterialModel.Pump,
+            _playerMaterialModel.RubberTube};
+    }
     private int GetProduct(ProductName productName)
     {
         return TryGetProduct(_playerFactoryModel.Products, productName);
@@ -389,4 +404,17 @@ public class GameModel : MonoBehaviour, IGameModel
 
         return products[index];
     }
+    #endregion
+
+    #region PlayerTechModel
+    public PlayerTechModel GetPlayerTechModel() => _playerTechModel;
+    public void DoTechResult(PlayerTechModel model)
+    {
+        _playerTechModel = model;
+        UpdatePlayerSaveData();
+    }
+    #endregion
+
+
+
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,13 +6,12 @@ using UnityEngine.UI;
 public class Factory : MonoBehaviour, IView<FactoryModel>
 {
     [SerializeField] private Image image;
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text levelText;
-    [SerializeField] private TMP_Text constructionCostText;
-    [SerializeField] private TMP_Text contractCostText;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI constructionCostText;
+    [SerializeField] private TextMeshProUGUI contractCostText;
     [SerializeField] private Button constructionButton;
     [SerializeField] private Button contractButton;
-
     private IGameModel playerModel;
 
     public int ID { get; set; }
@@ -35,7 +35,8 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         string spriteMaterialPath = $"Sprites/FactoryMaterials/FactoryMaterial_{ID}";
         Sprite loadedMaterialSprite = Resources.Load<Sprite>(spriteMaterialPath) ?? Resources.Load<Sprite>(isNotImage);
         FactoryGroup.Instance.MaterialList[ID].image.sprite = loadedMaterialSprite;
-
+        
+        //model.PendingContractCancellations[ID] ;
         nameText.SetText(model.Names[ID]);
         levelText.SetText($"{model.Levels[ID]}/{model.LevelCaps[ID]}");
         if (!model.IsContructions[ID])
@@ -50,9 +51,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
                 constructionCostText.SetText($"Max Level");
         }
         contractCostText.SetText($"{model.ContractCosts[ID]:N0}$");
-
-
-        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"");
+        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
     }
 
     public void Construction()
@@ -107,6 +106,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             // 계약 시작
             Debug.Log($"Contract cancellation requested for Plant {ID}");
             currentFactoryModel.IsContracts[ID] = true;
+            currentFactoryModel.PendingContractCancellations[ID] = false;
             playerModel.DoFactoryContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
         }
         else
