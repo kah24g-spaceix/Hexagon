@@ -9,19 +9,22 @@ public class TitleUIManager : MonoBehaviour
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button exitButton;
 
-    [Header("Options Popup")]
+    [Header("Popups")]
     [SerializeField] private GameObject optionPopup;
-
+    [SerializeField] private GameObject simulationPopup;
+    
     [Header("Mode Select")]
     [SerializeField] private GameObject selectModeUI;
     [SerializeField] private Button storyButton;
     [SerializeField] private Button simulationButton;
 
     private GameStateManager gameStateManager;
+    private PlaytimeManager playtimeManager;
 
     private void Start()
     {
-        gameStateManager = FindObjectOfType<GameStateManager>();
+        gameStateManager = GetComponent<GameStateManager>();
+        playtimeManager = GetComponent<PlaytimeManager>();
         InitializeUI();
         AddListeners();
     }
@@ -34,10 +37,41 @@ public class TitleUIManager : MonoBehaviour
 
     private void AddListeners()
     {
-        startButton.onClick.AddListener(() => SetupModeSelection(isLoad: false));
-        loadButton.onClick.AddListener(() => SetupModeSelection(isLoad: true));
+        startButton.onClick.AddListener(() => StartSelectMode());
+        loadButton.onClick.AddListener(() => LoadSelectMode());
         optionsButton.onClick.AddListener(() => PopupTrigger(optionPopup));
         exitButton.onClick.AddListener(ExitGame);
+    }
+
+    private void StartSelectMode()
+    {
+        if (PlayerPrefs.HasKey("Save"))
+        {
+            QuestionDialogUI.Instance.ShowQuestion(
+                "Warning!!\nPlay data remains.\nDo you want to continue?",
+                () => SetupModeSelection(isLoad: false),
+                () => { }
+            );
+        }
+        else
+        {
+            SetupModeSelection(isLoad: false);
+        }
+    }
+
+    private void LoadSelectMode()
+    {
+        if (!PlayerPrefs.HasKey("Save"))
+        {
+            WarningDialogUI.Instance.ShowWarning(
+                "Warning!!\nThere is no data to load.",
+                () => { }
+            );
+        }
+        else
+        {
+            SetupModeSelection(isLoad: true);
+        }
     }
 
     private void SetupModeSelection(bool isLoad)
@@ -53,8 +87,9 @@ public class TitleUIManager : MonoBehaviour
 
     private void OnGameModeSelected(bool isLoad, bool isStoryMode)
     {
-        int dailyPlaytime = 120; // 예제: 이 값을 UI에서 얻을 수 있도록 수정 가능
-        gameStateManager.SetGameState(isLoad, isStoryMode, dailyPlaytime);
+        int playtime = playtimeManager.PlaytimeValue;
+        int lastDay = 0;
+        gameStateManager.SetGameState(isLoad, isStoryMode, playtime, lastDay);
     }
 
     private void ShowUI(GameObject UI) => UI.SetActive(true);

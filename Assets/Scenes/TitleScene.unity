@@ -1907,7 +1907,7 @@ GameObject:
   - component: {fileID: 499136690}
   - component: {fileID: 499136691}
   m_Layer: 5
-  m_Name: Holder
+  m_Name: InputButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1987,8 +1987,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 531386096}
-  - component: {fileID: 531386097}
+  - component: {fileID: 531386100}
   - component: {fileID: 531386098}
+  - component: {fileID: 531386099}
   m_Layer: 0
   m_Name: TitleManager
   m_TagString: Untagged
@@ -2011,26 +2012,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &531386097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531386095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f360d2f7f4dca1148aee6a8d971ef5d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startButton: {fileID: 2142026800}
-  loadButton: {fileID: 92201277}
-  optionsButton: {fileID: 1273551928}
-  exitButton: {fileID: 428356207}
-  optionPopup: {fileID: 3098964684402943576}
-  SelectModeUI: {fileID: 1103494414}
-  StoryButton: {fileID: 1560266417}
-  SimulationButton: {fileID: 1667528842}
 --- !u!114 &531386098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2046,6 +2027,41 @@ MonoBehaviour:
   textHolder: {fileID: 1508531371}
   upHolder: {fileID: 634718899}
   downHolder: {fileID: 1770035602}
+  InputField: {fileID: 1110008214}
+  InputFieldButton: {fileID: 499136691}
+--- !u!114 &531386099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531386095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c9f9d95bf61234085dd4c19b942f24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &531386100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531386095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35006888555e9fd4fb5999c9475d4439, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButton: {fileID: 2142026800}
+  loadButton: {fileID: 92201277}
+  optionsButton: {fileID: 1273551928}
+  exitButton: {fileID: 428356207}
+  optionPopup: {fileID: 3098964684402943576}
+  simulationPopup: {fileID: 1510176214}
+  selectModeUI: {fileID: 1103494414}
+  storyButton: {fileID: 1560266417}
+  simulationButton: {fileID: 1667528842}
 --- !u!1 &553734255
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 841028201}
   m_Layer: 5
-  m_Name: Number
+  m_Name: Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4467,7 +4483,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1110008215
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6035,7 +6051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1510176215}
   m_Layer: 5
-  m_Name: SimulationValue
+  m_Name: SimulationPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6525,7 +6541,7 @@ GameObject:
   - component: {fileID: 1560266417}
   - component: {fileID: 1560266421}
   m_Layer: 5
-  m_Name: StoryMode
+  m_Name: StoryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6883,7 +6899,7 @@ GameObject:
   - component: {fileID: 1667528842}
   - component: {fileID: 1667528846}
   m_Layer: 5
-  m_Name: Simulation
+  m_Name: SimulationButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,17 +8,19 @@ public class GameStateManager : MonoBehaviour
         public bool IsLoad { get; set; }
         public bool IsStoryMode { get; set; }
         public int DailyPlaytime { get; set; }
+        public int LastDay { get; set; }
     }
 
     private GameStateData gameStateData;
 
-    public void SetGameState(bool isLoad, bool isStoryMode, int dailyPlaytime)
+    public void SetGameState(bool isLoad, bool isStoryMode, int dailyPlaytime, int lastDay)
     {
         gameStateData = new GameStateData
         {
             IsLoad = isLoad,
             IsStoryMode = isStoryMode,
-            DailyPlaytime = dailyPlaytime
+            DailyPlaytime = dailyPlaytime,
+            LastDay = lastDay
         };
 
         SceneManager.sceneLoaded += OnSceneLoaded;
