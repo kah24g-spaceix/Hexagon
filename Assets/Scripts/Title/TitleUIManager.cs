@@ -17,6 +17,7 @@ public class TitleUIManager : MonoBehaviour
     [SerializeField] private GameObject selectModeUI;
     [SerializeField] private Button storyButton;
     [SerializeField] private Button simulationButton;
+    [SerializeField] private Button simulationPlayButton;
 
     private GameStateManager gameStateManager;
     private PlaytimeManager playtimeManager;

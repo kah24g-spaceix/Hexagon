@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 public class PlaytimeManager : MonoBehaviour
 {
     [Header("Value")]
@@ -12,6 +13,7 @@ public class PlaytimeManager : MonoBehaviour
     [SerializeField] private GameObject InputField;
     [SerializeField] private Button InputFieldButton;
     private InputField inputField;
+
     private TextMeshProUGUI[] numberTexts;
     private Button[] upButtons;
     private Button[] downButtons;
@@ -34,7 +36,8 @@ public class PlaytimeManager : MonoBehaviour
             upButtons[i].onClick.AddListener(() => ChangeNumber(index, 1));
             downButtons[i].onClick.AddListener(() => ChangeNumber(index, -1));
         }
-        //InputFieldButton.onClick.AddListener();
+        InputFieldButton.onClick.AddListener(DoubleClick);
+        inputField.onEndEdit.AddListener(ValueChanged);
         UpdateDisplay();
     }
 
@@ -56,6 +59,7 @@ public class PlaytimeManager : MonoBehaviour
         {
             numberTexts[i].text = digits[i].ToString();
         }
+        inputField.SetTextWithoutNotify($"{playtimeValue}");
     }
 
     private int[] GetDigits(int value)
@@ -81,20 +85,24 @@ public class PlaytimeManager : MonoBehaviour
 
     float interval = 0.25f;
     float doubleClickedTime = -1.0f;
-    bool isDoubleClicked = false;
     private void DoubleClick()
     {
         if ((Time.time - doubleClickedTime) < interval)
         {
-            isDoubleClicked = true;
             doubleClickedTime = -1.0f;
 
             Debug.Log("double click!");
+            InputField.SetActive(true);
         }
         else
         {
-            isDoubleClicked = false;
             doubleClickedTime = Time.time;
         }
+    }
+    private void ValueChanged(string text)
+    {
+        playtimeValue = Convert.ToInt32(text);
+        UpdateDisplay();
+        InputField.SetActive(false);
     }
 }
