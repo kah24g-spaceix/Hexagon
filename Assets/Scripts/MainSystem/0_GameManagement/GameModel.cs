@@ -22,6 +22,8 @@ public class GameModel : MonoBehaviour, IGameModel
     public bool isLoad { get; set; }
     public bool isStoryMode { get; set; }
     public int dailyPlaytime { get; set; }
+    public int lastDay { get; set; }
+    public int initialMoney { get; set; }
 
 
     private void Awake()
@@ -123,20 +125,37 @@ public class GameModel : MonoBehaviour, IGameModel
         if (data == null)
         {
             Debug.LogError("SetData received null data. Aborting.");
-            return; // 수정: Null 데이터 체크
+            return;
+        }
+        if (isStoryMode || (dailyPlaytime == 0 && lastDay == 0 && initialMoney == 0))
+        {
+            _playerSystemModel = new PlayerSystemModel(
+                data.P_SystemData.Money,
+                data.P_SystemData.Employees,
+                data.P_SystemData.Resistance,
+                data.P_SystemData.CommunityOpinionValue
+            );
+            _playerDayModel = new PlayerDayModel(
+                data.P_DayData.Day,
+                data.P_DayData.LastDay,
+                data.P_DayData.DayLength
+            );
+        }
+        else
+        {
+            _playerSystemModel = new PlayerSystemModel(
+                initialMoney,
+                data.P_SystemData.Employees,
+                data.P_SystemData.Resistance,
+                data.P_SystemData.CommunityOpinionValue
+            );
+            _playerDayModel = new PlayerDayModel(
+                data.P_DayData.Day,
+                lastDay,
+                dailyPlaytime
+            );
         }
 
-        _playerSystemModel = new PlayerSystemModel(
-            data.P_SystemData.Money,
-            data.P_SystemData.Employees,
-            data.P_SystemData.Resistance,
-            data.P_SystemData.CommunityOpinionValue
-        );
-        _playerDayModel = new PlayerDayModel(
-            data.P_DayData.Day,
-            data.P_DayData.LastDay,
-            data.P_DayData.DayLength
-        );
         _playerMaterialModel = new PlayerMaterialModel(
             data.P_MaterialData.Alloy,
             data.P_MaterialData.Microchip,

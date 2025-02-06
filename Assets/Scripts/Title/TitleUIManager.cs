@@ -21,11 +21,20 @@ public class TitleUIManager : MonoBehaviour
 
     private GameStateManager gameStateManager;
     private PlaytimeManager playtimeManager;
+    private LastDayManager lastDayManager;
+    private InitialMoneyManager initialMoneyManager;
 
-    private void Start()
+
+    private void Awake()
     {
         gameStateManager = GetComponent<GameStateManager>();
         playtimeManager = GetComponent<PlaytimeManager>();
+        lastDayManager = GetComponent<LastDayManager>();
+        initialMoneyManager = GetComponent<InitialMoneyManager>();
+    }
+    private void Start()
+    {
+
         InitializeUI();
         AddListeners();
     }
@@ -34,6 +43,7 @@ public class TitleUIManager : MonoBehaviour
     {
         HideUI(selectModeUI);
         HideUI(optionPopup);
+        HideUI(simulationPopup);
     }
 
     private void AddListeners()
@@ -42,6 +52,8 @@ public class TitleUIManager : MonoBehaviour
         loadButton.onClick.AddListener(() => LoadSelectMode());
         optionsButton.onClick.AddListener(() => PopupTrigger(optionPopup));
         exitButton.onClick.AddListener(ExitGame);
+
+        simulationPlayButton.onClick.AddListener(() => OnGameModeSelected(false, isStoryMode: false));
     }
 
     private void StartSelectMode()
@@ -81,16 +93,17 @@ public class TitleUIManager : MonoBehaviour
         simulationButton.onClick.RemoveAllListeners();
 
         storyButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: true));
-        simulationButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: false));
-
+        if (isLoad) simulationButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: false));
+        else simulationButton.onClick.AddListener(() => ShowUI(simulationPopup));
         ShowUI(selectModeUI);
     }
 
     private void OnGameModeSelected(bool isLoad, bool isStoryMode)
     {
         int playtime = playtimeManager.PlaytimeValue;
-        int lastDay = 0;
-        gameStateManager.SetGameState(isLoad, isStoryMode, playtime, lastDay);
+        int lastDay = lastDayManager.LastDay;
+        int initialMoney = initialMoneyManager.InitialMoney;
+        gameStateManager.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
     }
 
     private void ShowUI(GameObject UI) => UI.SetActive(true);

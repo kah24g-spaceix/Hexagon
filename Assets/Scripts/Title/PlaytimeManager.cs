@@ -8,15 +8,15 @@ public class PlaytimeManager : MonoBehaviour
     [SerializeField] private GameObject textHolder;
     [SerializeField] private GameObject upHolder;
     [SerializeField] private GameObject downHolder;
-    
-    [Header("Input")]
-    [SerializeField] private GameObject InputField;
-    [SerializeField] private Button InputFieldButton;
-    private InputField inputField;
-
     private TextMeshProUGUI[] numberTexts;
     private Button[] upButtons;
     private Button[] downButtons;
+    
+    [Header("Input")]
+    [SerializeField] private GameObject dataInput;
+    [SerializeField] private Button InputFieldButton;
+    private TMP_InputField dataInputField;
+
     private int playtimeValue;
     public int PlaytimeValue => playtimeValue;
 
@@ -25,33 +25,31 @@ public class PlaytimeManager : MonoBehaviour
         numberTexts = textHolder.GetComponentsInChildren<TextMeshProUGUI>();
         upButtons = upHolder.GetComponentsInChildren<Button>();
         downButtons = downHolder.GetComponentsInChildren<Button>();
-        inputField = InputField.GetComponent<InputField>();
+        dataInputField = dataInput.GetComponent<TMP_InputField>();
     }
     private void Start()
     {
-        // 버튼에 동적으로 AddListener 연결
         for (int i = 0; i < 3; i++)
         {
-            int index = i; // 로컬 변수로 캡처
-            upButtons[i].onClick.AddListener(() => ChangeNumber(index, 1));
-            downButtons[i].onClick.AddListener(() => ChangeNumber(index, -1));
+            int index = i;
+            upButtons[i].onClick.AddListener(() => ChangeValue(index, 1));
+            downButtons[i].onClick.AddListener(() => ChangeValue(index, -1));
         }
         InputFieldButton.onClick.AddListener(DoubleClick);
-        inputField.onEndEdit.AddListener(ValueChanged);
+        dataInputField.onEndEdit.AddListener(ValueChanged);
+        dataInput.SetActive(false);
         UpdateDisplay();
     }
 
-    // 특정 자릿수의 숫자를 변경
-    private void ChangeNumber(int index, int delta)
+    private void ChangeValue(int index, int delta)
     {
         int[] digits = GetDigits(playtimeValue);
-        digits[index] = Mathf.Clamp(digits[index] + delta, 0, 9); // 0~9로 제한
+        digits[index] = Mathf.Clamp(digits[index] + delta, 0, 9);
         playtimeValue = CombineDigits(digits);
 
         UpdateDisplay();
     }
 
-    // 화면에 숫자 갱신
     private void UpdateDisplay()
     {
         int[] digits = GetDigits(playtimeValue);
@@ -59,7 +57,7 @@ public class PlaytimeManager : MonoBehaviour
         {
             numberTexts[i].text = digits[i].ToString();
         }
-        inputField.SetTextWithoutNotify($"{playtimeValue}");
+        dataInputField.SetTextWithoutNotify($"{playtimeValue}");
     }
 
     private int[] GetDigits(int value)
@@ -83,16 +81,14 @@ public class PlaytimeManager : MonoBehaviour
         return value;
     }
 
-    float interval = 0.25f;
+    readonly float interval = 0.25f;
     float doubleClickedTime = -1.0f;
     private void DoubleClick()
     {
         if ((Time.time - doubleClickedTime) < interval)
         {
             doubleClickedTime = -1.0f;
-
-            Debug.Log("double click!");
-            InputField.SetActive(true);
+            InputActive(true);
         }
         else
         {
@@ -101,8 +97,20 @@ public class PlaytimeManager : MonoBehaviour
     }
     private void ValueChanged(string text)
     {
+        if (text == "") 
+        {
+            InputActive(false);
+            return;
+        }
         playtimeValue = Convert.ToInt32(text);
         UpdateDisplay();
-        InputField.SetActive(false);
+        InputActive(false);
+    }
+
+    private void InputActive(bool isActive)
+    {
+        upHolder.SetActive(!isActive);
+        downHolder.SetActive(!isActive);
+        dataInput.SetActive(isActive);
     }
 }

@@ -1,3 +1,4 @@
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,18 +10,20 @@ public class GameStateManager : MonoBehaviour
         public bool IsStoryMode { get; set; }
         public int DailyPlaytime { get; set; }
         public int LastDay { get; set; }
+        public int InitialMoney { get; set; }
     }
 
     private GameStateData gameStateData;
 
-    public void SetGameState(bool isLoad, bool isStoryMode, int dailyPlaytime, int lastDay)
+    public void SetGameState(bool isLoad, bool isStoryMode, int dailyPlaytime, int lastDay, int initialMoney)
     {
         gameStateData = new GameStateData
         {
             IsLoad = isLoad,
             IsStoryMode = isStoryMode,
             DailyPlaytime = dailyPlaytime,
-            LastDay = lastDay
+            LastDay = lastDay,
+            InitialMoney = initialMoney
         };
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -50,10 +53,12 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
-    private void ApplyGameState(GameModel gameManager, GameStateData data)
+    private void ApplyGameState(GameModel gameModel, GameStateData data)
     {
-        gameManager.isLoad = data.IsLoad;
-        gameManager.isStoryMode = data.IsStoryMode;
-        gameManager.dailyPlaytime = data.DailyPlaytime;
+        gameModel.isLoad = data.IsLoad;
+        gameModel.isStoryMode = data.IsStoryMode;
+        gameModel.dailyPlaytime = data.DailyPlaytime;
+        gameModel.lastDay = data.LastDay;
+        gameModel.initialMoney = data.InitialMoney;
     }
 }

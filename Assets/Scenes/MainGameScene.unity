@@ -737,8 +737,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDataInit: {fileID: 4900000, guid: e3415bb1c4b40f4418317de40501a794, type: 3}
-  isLoad: 0
-  isStoryMode: 0
 --- !u!114 &85819884
 MonoBehaviour:
   m_ObjectHideFlags: 0
