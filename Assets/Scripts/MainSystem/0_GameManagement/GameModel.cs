@@ -69,7 +69,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerTechModel == null)
         {
             Debug.LogError("Cannot update save data. Some models are not initialized.");
-            return; // 수정: 모델 초기화 여부 확인
+            return;
         }
 
         _playerData.P_SystemData = new PlayerSystemData(
