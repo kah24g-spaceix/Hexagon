@@ -59,8 +59,24 @@ public class GameModel : MonoBehaviour, IGameModel
             Debug.LogError("One or more fields in PlayerData are null. Check JSON structure.");
             return;
         }
-
         SetData(initData);
+        IsSimulationMode();
+    }
+    private void IsSimulationMode()
+    {
+        if (isStoryMode || (dailyPlaytime == 0 && lastDay == 0 && initialMoney == 0)) return;
+        _playerSystemModel = new PlayerSystemModel(
+            initialMoney,
+            _playerSystemModel.Employees,
+            _playerSystemModel.Resistance,
+            _playerSystemModel.CommunityOpinionValue
+        );
+        _playerDayModel = new PlayerDayModel(
+            _playerDayModel.Day,
+            lastDay,
+            dailyPlaytime
+        );
+        UpdatePlayerSaveData();
     }
     private void UpdatePlayerSaveData()
     {
@@ -127,35 +143,17 @@ public class GameModel : MonoBehaviour, IGameModel
             Debug.LogError("SetData received null data. Aborting.");
             return;
         }
-        if (isStoryMode || (dailyPlaytime == 0 && lastDay == 0 && initialMoney == 0))
-        {
-            _playerSystemModel = new PlayerSystemModel(
-                data.P_SystemData.Money,
-                data.P_SystemData.Employees,
-                data.P_SystemData.Resistance,
-                data.P_SystemData.CommunityOpinionValue
-            );
-            _playerDayModel = new PlayerDayModel(
-                data.P_DayData.Day,
-                data.P_DayData.LastDay,
-                data.P_DayData.DayLength
-            );
-        }
-        else
-        {
-            _playerSystemModel = new PlayerSystemModel(
-                initialMoney,
-                data.P_SystemData.Employees,
-                data.P_SystemData.Resistance,
-                data.P_SystemData.CommunityOpinionValue
-            );
-            _playerDayModel = new PlayerDayModel(
-                data.P_DayData.Day,
-                lastDay,
-                dailyPlaytime
-            );
-        }
-
+        _playerSystemModel = new PlayerSystemModel(
+            data.P_SystemData.Money,
+            data.P_SystemData.Employees,
+            data.P_SystemData.Resistance,
+            data.P_SystemData.CommunityOpinionValue
+        );
+        _playerDayModel = new PlayerDayModel(
+            data.P_DayData.Day,
+            data.P_DayData.LastDay,
+            data.P_DayData.DayLength
+        );
         _playerMaterialModel = new PlayerMaterialModel(
             data.P_MaterialData.Alloy,
             data.P_MaterialData.Microchip,

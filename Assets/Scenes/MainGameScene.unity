@@ -773,11 +773,8 @@ MonoBehaviour:
   Money: {fileID: 1381595933}
   DayCycleButton: {fileID: 65553677}
   DaySkipButton: {fileID: 429544156}
-  FactoryUI: {fileID: 1083867444}
-  HyperFrameUI: {fileID: 1152058679}
-  TechTreeUI: {fileID: 654135593}
-  HeadCountUI: {fileID: 584438596}
-  StoreUI: {fileID: 1748804131}
+  InGameButtonHolder: {fileID: 747229460}
+  InGamePopupHolder: {fileID: 2146485142}
   ToDayResultUI: {fileID: 713442813}
   NextDayButton: {fileID: 881350520}
   RestartDayButton: {fileID: 1312307038}
@@ -4368,7 +4365,7 @@ GameObject:
   m_Component:
   - component: {fileID: 654135594}
   m_Layer: 5
-  m_Name: TechTreeUI
+  m_Name: TechTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5027,7 +5024,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2021794339}
-  - {fileID: 2146485143}
   - {fileID: 2014828015}
   - {fileID: 713442814}
   - {fileID: 1533302546}
@@ -6094,7 +6090,7 @@ GameObject:
   - component: {fileID: 1004823005}
   - component: {fileID: 1004823004}
   m_Layer: 5
-  m_Name: 5
+  m_Name: Wab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8920,7 +8916,7 @@ GameObject:
   - component: {fileID: 1583469133}
   - component: {fileID: 1583469132}
   m_Layer: 5
-  m_Name: 3
+  m_Name: TechTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9722,7 +9718,7 @@ GameObject:
   - component: {fileID: 1713834360}
   - component: {fileID: 1713834359}
   m_Layer: 5
-  m_Name: 4
+  m_Name: News
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11416,7 +11412,7 @@ GameObject:
   - component: {fileID: 1959758771}
   - component: {fileID: 1959758770}
   m_Layer: 5
-  m_Name: 1
+  m_Name: Factory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11896,8 +11892,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 659.5134, y: 0}
-  m_SizeDelta: {x: 319.0348, y: 425.7817}
+  m_AnchoredPosition: {x: 660, y: 0}
+  m_SizeDelta: {x: 300, y: 430}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1991724947
 MonoBehaviour:
@@ -12030,6 +12026,7 @@ RectTransform:
   - {fileID: 747229461}
   - {fileID: 65553676}
   - {fileID: 429544155}
+  - {fileID: 2146485143}
   m_Father: {fileID: 780985253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12694,7 +12691,7 @@ GameObject:
   - component: {fileID: 2116707549}
   - component: {fileID: 2116707548}
   m_Layer: 5
-  m_Name: 2
+  m_Name: HyperFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13099,7 +13096,7 @@ RectTransform:
   - {fileID: 654135594}
   - {fileID: 584438597}
   - {fileID: 1748804132}
-  m_Father: {fileID: 780985253}
+  m_Father: {fileID: 2021794339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

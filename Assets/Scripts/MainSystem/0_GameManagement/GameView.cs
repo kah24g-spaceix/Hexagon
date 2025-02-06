@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 
 public class GameView : MonoBehaviour, IGameView
 {
-    private enum InGameButton 
+    private enum MenuButton 
     {
         Resume,
         Option,
@@ -15,7 +16,14 @@ public class GameView : MonoBehaviour, IGameView
         Title,
         Exit,
     }
-    
+    private enum InGameButton
+    {
+        Factory,
+        HyperFrame,
+        TechTree,
+        News,
+        Wab,
+    }
     [Header("Menu Popup")]
     [SerializeField] private GameObject MenuPopup;
     [SerializeField] private GameObject OptionPopup;
@@ -38,11 +46,10 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private Button DaySkipButton;
 
     [Header("In Game Popup")]
-    [SerializeField] private GameObject FactoryUI;
-    [SerializeField] private GameObject HyperFrameUI;
-    [SerializeField] private GameObject TechTreeUI;
-    [SerializeField] private GameObject HeadCountUI;
-    [SerializeField] private GameObject StoreUI;
+    [SerializeField] private GameObject InGameButtonHolder;
+    private List<Button> InGameButtons;
+    [SerializeField] private GameObject InGamePopupHolder;
+    private List<GameObject> InGamePopups;
 
     [Header("To Day Result UI")]
     [SerializeField] private GameObject ToDayResultUI;
@@ -59,9 +66,19 @@ public class GameView : MonoBehaviour, IGameView
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
+        InitInGameUI();
         ToDayResult = ToDayResultUI;
     }
-
+    private void InitInGameUI()
+    {
+        InGameButtons = new List<Button>(InGameButtonHolder.GetComponentsInChildren<Button>());
+        InGamePopups = new List<GameObject>();
+        foreach (Transform child in InGamePopupHolder.transform)
+        {
+            InGamePopups.Add(child.gameObject);
+            
+        }
+    }
     private void Start()
     {
         TextUIUpdate();
@@ -69,21 +86,23 @@ public class GameView : MonoBehaviour, IGameView
         HideUI(OptionPopup);
         HideUI(ToDayResultUI);
 
-        HideUI(FactoryUI);
-        HideUI(HyperFrameUI);
-        HideUI(TechTreeUI);
-        HideUI(HeadCountUI);
-        HideUI(StoreUI);
 
-        ResumeButton.onClick.AddListener(() => ButtonType(InGameButton.Resume));
-        OptionButton.onClick.AddListener(() => ButtonType(InGameButton.Option));
-        SaveButton.onClick.AddListener(() => ButtonType(InGameButton.Save));
-        TitleButton.onClick.AddListener(() => ButtonType(InGameButton.Title));
-        ExitButton.onClick.AddListener(() => ButtonType(InGameButton.Exit));
+        for (int i = 0; i < InGamePopups.Count; i++)
+        {
+            int index = i;
+            HideUI(InGamePopups[i]);
+            InGameButtons[i].onClick.AddListener(() => PopupTriggerButton(InGamePopups[index]));
+        }
+
+        ResumeButton.onClick.AddListener(() => ButtonType(MenuButton.Resume));
+        OptionButton.onClick.AddListener(() => ButtonType(MenuButton.Option));
+        SaveButton.onClick.AddListener(() => ButtonType(MenuButton.Save));
+        TitleButton.onClick.AddListener(() => ButtonType(MenuButton.Title));
+        ExitButton.onClick.AddListener(() => ButtonType(MenuButton.Exit));
 
         DayCycleButton.onClick.AddListener(() => {PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
-        
+
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
                 "Do you want to move forward to the next day?", () => {gamePresenter.OnNextDayButton(); HideUI(ToDayResult); }, () => { }));
@@ -91,22 +110,22 @@ public class GameView : MonoBehaviour, IGameView
             QuestionDialogUI.Instance.ShowQuestion(
                 "Do you want to begin the day again?", () => { gamePresenter.OnRestartDayButton(); HideUI(ToDayResult); }, () => { }));
     }
-    private void ButtonType(InGameButton buttonType)
+    private void ButtonType(MenuButton buttonType)
     {
         switch (buttonType)
         {
-            case InGameButton.Resume:
+            case MenuButton.Resume:
                 HideUI(MenuPopup);
                 gamePresenter.Resume();
                 break;
-            case InGameButton.Option:
+            case MenuButton.Option:
                 ShowUI(OptionPopup);
                 break;
-            case InGameButton.Save:
+            case MenuButton.Save:
                 QuestionDialogUI.Instance.ShowQuestion(
                     "Do you want to save your progress?", () => gamePresenter.DoSaveGame(false), () => { });
                 break;
-            case InGameButton.Title:
+            case MenuButton.Title:
                 QuestionDialogUI.Instance.ShowQuestion(
                 "Are you sure you want to return to the title screen?",
                 () =>
@@ -120,7 +139,7 @@ public class GameView : MonoBehaviour, IGameView
                         }, () => { SceneManager.LoadScene("TitleScene"); gamePresenter.Resume(); });
                 }, () => { });
                 break;
-            case InGameButton.Exit:
+            case MenuButton.Exit:
                 QuestionDialogUI.Instance.ShowQuestion(
                 "Are you sure you want to exit the game?",
                 () =>
@@ -155,11 +174,11 @@ public class GameView : MonoBehaviour, IGameView
     }
     private void HandleInGameInput()
     {
-        PopUpTrigger(FactoryUI, KeyCode.Alpha1);
-        PopUpTrigger(HyperFrameUI, KeyCode.Alpha2);
-        PopUpTrigger(TechTreeUI, KeyCode.Alpha3);
-        PopUpTrigger(HeadCountUI, KeyCode.Alpha4);
-        PopUpTrigger(StoreUI, KeyCode.Alpha5);
+        PopupTrigger(InGamePopups[0], KeyCode.Alpha1);
+        PopupTrigger(InGamePopups[1], KeyCode.Alpha2);
+        PopupTrigger(InGamePopups[2], KeyCode.Alpha3);
+        PopupTrigger(InGamePopups[3], KeyCode.Alpha4);
+        PopupTrigger(InGamePopups[4], KeyCode.Alpha5);
     }
     private void PauseTrigger()
     {
@@ -191,14 +210,17 @@ public class GameView : MonoBehaviour, IGameView
     {
         UI.SetActive(false);
     }
-    public void PopUpTrigger(GameObject UI, KeyCode key)
+    public void PopupTrigger(GameObject UI, KeyCode key)
     {
         if (Input.GetKeyDown(key))
         {
             UI.SetActive(!UI.activeSelf);
         }
     }
-
+    public void PopupTriggerButton(GameObject UI)
+    {
+        UI.SetActive(!UI.activeSelf);
+    }
 
 
 }
