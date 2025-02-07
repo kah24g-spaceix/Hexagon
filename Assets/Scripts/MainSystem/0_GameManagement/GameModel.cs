@@ -381,7 +381,7 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         UpdatePlayerSaveData();
     }
-    public List<int> GetProductList() // Only View
+    public List<int> GetProductList()
     {
         return new List<int> {
             _playerMaterialModel.Alloy,
@@ -390,6 +390,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerMaterialModel.ConductiveFiber,
             _playerMaterialModel.Pump,
             _playerMaterialModel.RubberTube};
+        
     }
     private int GetProduct(ProductName productName)
     {
@@ -415,7 +416,7 @@ public class GameModel : MonoBehaviour, IGameModel
         int index = (int)productName;
         if (index < 0 || index >= products.Length)
         {
-            Debug.LogError($"Product index out of range: {index}");
+            Debug.LogError($"Product index out of range: {index} | products Length: {products.Length}");
             return -1;
         }
 

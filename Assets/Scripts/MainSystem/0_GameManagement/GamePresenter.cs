@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GamePresenter : MonoBehaviour, IGamePresenter
@@ -47,8 +48,6 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         return $"{_playerSystemModel.Money:N0} $";
     }
-
-
     public void OnExchangeTechPointButton(int value)
     {
         if (_playerTechModel.TechPoint == 0)

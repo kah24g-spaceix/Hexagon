@@ -84,6 +84,7 @@ public class GameDateManager : MonoBehaviour
         // UI 업데이트
         _gameView.ClockUpdate(GetHour(), GetMinute());
         _gameView.ViewUpdate();
+        
 
         // 스킵 후 처리
         if (currentTime <= 0)
@@ -106,6 +107,8 @@ public class GameDateManager : MonoBehaviour
         while (currentTime >= 0)
         {
             _gamePresenter.SystemUpdate();
+            _gameModel.AddProduct();
+            _gameModel.AddContractProduct();
             yield return new WaitForSeconds(1f);
         }
         yield break;

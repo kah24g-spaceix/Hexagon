@@ -5,11 +5,18 @@ using UnityEngine.UI;
 
 public class Factory : MonoBehaviour, IView<FactoryModel>
 {
+    [Header("Image")]
     [SerializeField] private Image image;
+
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI constructionCostText;
     [SerializeField] private TextMeshProUGUI contractCostText;
+    [SerializeField] private TextMeshProUGUI contractInfo;
+    [SerializeField] private TextMeshProUGUI currentContractInfo;
+    
+    [Header("Button")]
     [SerializeField] private Button constructionButton;
     [SerializeField] private Button contractButton;
     private IGameModel playerModel;
@@ -22,7 +29,10 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         constructionButton.onClick.AddListener(Construction);
         contractButton.onClick.AddListener(Contract);
     }
-
+    private void Update()
+    {
+        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
+    }
     public void Bind(FactoryModel model)
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
@@ -36,7 +46,16 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         Sprite loadedMaterialSprite = Resources.Load<Sprite>(spriteMaterialPath) ?? Resources.Load<Sprite>(isNotImage);
         FactoryGroup.Instance.MaterialList[ID].image.sprite = loadedMaterialSprite;
         
-        //model.PendingContractCancellations[ID] ;
+        if (!model.PendingContractCancellations[ID] && model.IsContracts[ID])
+            currentContractInfo.SetText("current contract: O");
+        else
+            currentContractInfo.SetText("current contract: X");
+        
+        if (model.IsContracts[ID])
+            contractInfo.SetText("[ O ]");
+        else
+            contractInfo.SetText("[ X ]");
+
         nameText.SetText(model.Names[ID]);
         levelText.SetText($"{model.Levels[ID]}/{model.LevelCaps[ID]}");
         if (!model.IsContructions[ID])
@@ -51,7 +70,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
                 constructionCostText.SetText($"Max Level");
         }
         contractCostText.SetText($"{model.ContractCosts[ID]:N0}$");
-        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
+        
     }
 
     public void Construction()
@@ -111,9 +130,14 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         }
         else
         {
-            // 계약 취소 요청 기록
-            currentFactoryModel.PendingContractCancellations[ID] = true;
-            Debug.Log($"Contract cancellation requested for Factory {ID}. It will take effect the next day.");
+            if (currentFactoryModel.PendingContractCancellations[ID])
+                currentFactoryModel.PendingContractCancellations[ID] = false;
+            else
+            {
+                currentFactoryModel.PendingContractCancellations[ID] = true;
+                Debug.Log($"Contract cancellation requested for Factory {ID}. It will take effect the next day.");
+            }
+
         }
 
         FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
