@@ -133,9 +133,9 @@ public class PlayerFactoryContractModel
 }
 public class PlayerTechModel
 {
-    public int TechPoint { get; } // ��ũ ����Ʈ
-    public int RevenueValue { get; } // ���ͼ�ġ
-    public int MaxEmployee { get; } // �ִ� ���� �����ο� ��
+    public int TechPoint { get; }
+    public int RevenueValue { get; }
+    public int MaxEmployee { get; }
     public int[] TechLevels { get; }
 
     public PlayerTechModel(
@@ -150,8 +150,18 @@ public class PlayerTechModel
         TechLevels = techLevels;
     }
 }
+
+public class GameSettings
+{
+    public bool IsLoad { get; set; }
+    public bool IsStoryMode { get; set; }
+    public int DailyPlaytime { get; set; }
+    public int LastDay { get; set; }
+    public int InitialMoney { get; set; }
+}
 public interface IGameProgressHandler
 {
+    
     void InitData();
     void SaveGame(bool useDateData);
     bool LoadGame(bool useDateData);

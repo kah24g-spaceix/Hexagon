@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class TitleUIManager : MonoBehaviour
 {
     [Header("Button")]
@@ -12,29 +12,26 @@ public class TitleUIManager : MonoBehaviour
     [Header("Popups")]
     [SerializeField] private GameObject optionPopup;
     [SerializeField] private GameObject simulationPopup;
-    
+
     [Header("Mode Select")]
     [SerializeField] private GameObject selectModeUI;
     [SerializeField] private Button storyButton;
     [SerializeField] private Button simulationButton;
     [SerializeField] private Button simulationPlayButton;
 
-    private GameStateManager gameStateManager;
     private PlaytimeManager playtimeManager;
     private LastDayManager lastDayManager;
     private InitialMoneyManager initialMoneyManager;
 
-
     private void Awake()
     {
-        gameStateManager = GetComponent<GameStateManager>();
         playtimeManager = GetComponent<PlaytimeManager>();
         lastDayManager = GetComponent<LastDayManager>();
         initialMoneyManager = GetComponent<InitialMoneyManager>();
     }
+
     private void Start()
     {
-
         InitializeUI();
         AddListeners();
     }
@@ -103,7 +100,9 @@ public class TitleUIManager : MonoBehaviour
         int playtime = playtimeManager.PlaytimeValue;
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
-        gameStateManager.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
+
+        GameStateManager.Instance.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
+        SceneManager.LoadScene("MainGameScene");
     }
 
     private void ShowUI(GameObject UI) => UI.SetActive(true);

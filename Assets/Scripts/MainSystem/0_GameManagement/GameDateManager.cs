@@ -27,8 +27,8 @@ public class GameDateManager : MonoBehaviour
         playerDayModel = _gameModel.GetPlayerDayModel();
         time = playerDayModel.DayLength;
         timeScale = gameDayInHours / time;
+        
     }
-
     public IEnumerator DayCycle()
     {
         currentTime = playerDayModel.DayLength;
@@ -43,7 +43,6 @@ public class GameDateManager : MonoBehaviour
 
             minute = (hour - GetHour()) * 60f;
 
-            // UI 업데이트
             _gameView.ClockUpdate(GetHour(), GetMinute());
             _gameView.ViewUpdate();
 
@@ -84,7 +83,7 @@ public class GameDateManager : MonoBehaviour
         // UI 업데이트
         _gameView.ClockUpdate(GetHour(), GetMinute());
         _gameView.ViewUpdate();
-        
+
 
         // 스킵 후 처리
         if (currentTime <= 0)

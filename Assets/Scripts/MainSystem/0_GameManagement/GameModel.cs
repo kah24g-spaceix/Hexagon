@@ -17,20 +17,23 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerFactoryContractModel _playerFactoryContractModel;
 
     private PlayerTechModel _playerTechModel;
+    private GameSettings _gameSettings;
     private readonly int defaultMoney = 1;
-    private readonly float revenueMultiplier = 0.1f; // 수익 증가 비율 조정
-    public bool isLoad { get; set; }
-    public bool isStoryMode { get; set; }
-    public int dailyPlaytime { get; set; }
-    public int lastDay { get; set; }
-    public int initialMoney { get; set; }
-
+    private readonly float revenueMultiplier = 0.1f;
 
     private void Awake()
     {
-        if (isLoad)
+        _gameSettings = new GameSettings(); // 초기화
+
+        // SimulationManager 싱글톤 인스턴스에서 값 가져오기
+        var simulationManager = GameStateManager.Instance;
+
+        // 시뮬레이션 매니저 값을 GameSettings에 반영
+        ApplySimulationManagerSettings(simulationManager);
+
+        if (_gameSettings.IsLoad)
         {
-            if (!LoadGame(false)) // 수정: LoadGame의 성공 여부 확인 추가
+            if (!LoadGame(false))
             {
                 Debug.LogError("Failed to load the game data. Initializing data instead.");
                 //InitData(); // 로드 실패 시 데이터 초기화
@@ -43,6 +46,16 @@ public class GameModel : MonoBehaviour, IGameModel
         }
     }
 
+    private void ApplySimulationManagerSettings(GameStateManager simulationManager)
+    {
+        _gameSettings.IsLoad = simulationManager.IsLoad;
+        _gameSettings.IsStoryMode = simulationManager.IsStoryMode;
+        _gameSettings.DailyPlaytime = simulationManager.Playtime;
+        _gameSettings.LastDay = simulationManager.LastDay;
+        _gameSettings.InitialMoney = simulationManager.InitialMoney;
+
+        Debug.Log($"Simulation settings applied: IsStoryMode: {_gameSettings.IsStoryMode}, DailyPlaytime: {_gameSettings.DailyPlaytime}, LastDay: {_gameSettings.LastDay}, InitialMoney: {_gameSettings.InitialMoney}");
+    }
     #region GameProgress
     public void InitData()
     {
@@ -62,19 +75,30 @@ public class GameModel : MonoBehaviour, IGameModel
         SetData(initData);
         IsSimulationMode();
     }
+
     private void IsSimulationMode()
     {
-        if (isStoryMode || (dailyPlaytime == 0 && lastDay == 0 && initialMoney == 0)) return;
+        Debug.Log($"{_gameSettings.IsLoad} {_gameSettings.IsStoryMode} {_gameSettings.DailyPlaytime} {_gameSettings.LastDay} {_gameSettings.InitialMoney}");
+        if (_gameSettings.IsStoryMode) 
+        {
+            Debug.Log("Story Mode");
+            return;
+        }
+        if (_gameSettings.DailyPlaytime == 0 && _gameSettings.LastDay == 0 && _gameSettings.InitialMoney == 0) 
+        {
+            Debug.Log("Simulation Initial Value is 0");
+            return;
+        }
         _playerSystemModel = new PlayerSystemModel(
-            initialMoney,
+            _gameSettings.InitialMoney,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
             _playerSystemModel.CommunityOpinionValue
         );
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day,
-            lastDay,
-            dailyPlaytime
+            _gameSettings.LastDay,
+            _gameSettings.DailyPlaytime
         );
         UpdatePlayerSaveData();
     }
@@ -194,7 +218,7 @@ public class GameModel : MonoBehaviour, IGameModel
     public void SaveGame(bool useDateData)
     {
         string key;
-        if (isStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
+        if (_gameSettings.IsStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
         else key = useDateData ? "DaySave" : "Save";
 
         string json = JsonConvert.SerializeObject(_playerData);
@@ -205,7 +229,7 @@ public class GameModel : MonoBehaviour, IGameModel
     public bool LoadGame(bool useDateData)
     {
         string key;
-        if (isStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
+        if (_gameSettings.IsStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
         else key = useDateData ? "DaySave" : "Save";
 
         if (!PlayerPrefs.HasKey(key))
