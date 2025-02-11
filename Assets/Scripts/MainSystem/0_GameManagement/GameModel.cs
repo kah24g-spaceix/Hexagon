@@ -302,7 +302,7 @@ public class GameModel : MonoBehaviour, IGameModel
     {
         int currentEmployees = _playerSystemModel.Employees;
         float revenue = 1 + (_playerTechModel.RevenueValue * revenueMultiplier);
-        int money = _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue * skipTime);
+        long money = _playerSystemModel.Money + Mathf.FloorToInt(currentEmployees * defaultMoney * revenue * skipTime);
 
         _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
         UpdatePlayerSaveData();

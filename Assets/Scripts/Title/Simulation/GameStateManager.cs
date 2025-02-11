@@ -30,11 +30,8 @@ public class GameStateManager : MonoBehaviour
         this.playtime = playtime;
         this.lastDay = lastDay;
         this.initialMoney = initialMoney;
-
-        Debug.Log($"Game Mode Set: Load({isLoad}), Story({isStoryMode}), Playtime({playtime}), LastDay({lastDay}), InitialMoney({initialMoney})");
     }
 
-    // Getter methods to retrieve values
     public bool IsLoad => isLoad;
     public bool IsStoryMode => isStoryMode;
     public int Playtime => playtime;

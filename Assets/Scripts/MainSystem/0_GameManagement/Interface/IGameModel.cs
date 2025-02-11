@@ -3,13 +3,13 @@ using Unity.VisualScripting;
 
 public class PlayerSystemModel
 {
-    public int Money { get; } // ��
-    public int Employees { get; } // ����
-    public int Resistance { get; } // ���ױ�
-    public double CommunityOpinionValue { get; } // �νɵ�
+    public long Money { get; }
+    public int Employees { get; }
+    public int Resistance { get; }
+    public double CommunityOpinionValue { get; }
 
     public PlayerSystemModel(
-        int money,
+        long money,
         int employees,
         int resistance,
         double communityOpinionValue

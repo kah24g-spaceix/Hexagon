@@ -1,11 +1,12 @@
+using System.Numerics;
 public class PlayerSystemData
 {
-    public int Money { get; set; }
+    public long Money { get; set; }
     public int Employees { get; set; }
     public int Resistance { get; set; }
     public double CommunityOpinionValue { get; set; }
 
-    public PlayerSystemData(int money, int employees, int resistance, double communityOpinionValue)
+    public PlayerSystemData(long money, int employees, int resistance, double communityOpinionValue)
     {
         Money = money;
         Employees = employees;

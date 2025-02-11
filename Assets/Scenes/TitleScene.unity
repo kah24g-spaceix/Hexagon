@@ -2037,7 +2037,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Total play time
 
-    4m  20s'
+    00m  00s'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2188,6 +2188,7 @@ MonoBehaviour:
   storyButton: {fileID: 1560266417}
   simulationButton: {fileID: 1667528842}
   simulationPlayButton: {fileID: 553734257}
+  TotalPlayTime: {fileID: 525701948}
 --- !u!114 &531386101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5077,7 +5078,7 @@ MonoBehaviour:
   m_CharacterValidation: 2
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 10
+  m_CharacterLimit: 9
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -10498,7 +10499,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6244678674795786691, guid: 1f91b23fa71d76f49b31d93bd6905de3, type: 3}
       propertyPath: m_Name
-      value: SimulationManager
+      value: GameStateManager
       objectReference: {fileID: 0}
     - target: {fileID: 7488626414021717199, guid: 1f91b23fa71d76f49b31d93bd6905de3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11712,5 +11713,5 @@ SceneRoots:
   - {fileID: 780985253}
   - {fileID: 531386096}
   - {fileID: 1543669497}
-  - {fileID: 1829268244}
   - {fileID: 6016496643251286327}
+  - {fileID: 1829268244}

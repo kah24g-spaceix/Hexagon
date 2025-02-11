@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class TitleUIManager : MonoBehaviour
 {
     [Header("Button")]
@@ -19,6 +20,13 @@ public class TitleUIManager : MonoBehaviour
     [SerializeField] private Button simulationButton;
     [SerializeField] private Button simulationPlayButton;
 
+    [Header("Other")]
+    [SerializeField] private TextMeshProUGUI TotalPlayTime;
+    private int hour;
+    private int min;
+    private int sec;
+
+
     private PlaytimeManager playtimeManager;
     private LastDayManager lastDayManager;
     private InitialMoneyManager initialMoneyManager;
@@ -36,6 +44,15 @@ public class TitleUIManager : MonoBehaviour
         AddListeners();
     }
 
+    private void Update()
+    {
+        int playTimeValue = playtimeManager.PlaytimeValue * lastDayManager.LastDay;
+        const int timeValue = 60;
+        hour = min / timeValue;
+        min = playTimeValue / timeValue;
+        sec = playTimeValue % timeValue;
+        TotalPlayTime.SetText($"Total play time\n{min}m : {sec}s");
+    }
     private void InitializeUI()
     {
         HideUI(selectModeUI);
@@ -100,8 +117,16 @@ public class TitleUIManager : MonoBehaviour
         int playtime = playtimeManager.PlaytimeValue;
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
-
         GameStateManager.Instance.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
+       
+        if (playtimeManager.PlaytimeValue == 0 || lastDayManager.LastDay == 0)
+        {
+            WarningDialogUI.Instance.ShowWarning(
+                "Warning!!\nPlaytime ot Day is 0",
+                () => { }
+            );
+            return;
+        }
         SceneManager.LoadScene("MainGameScene");
     }
 
