@@ -10,7 +10,7 @@
     "LastDay": 20,
     "DayLength": 2400
   },
-  "P_MaterialData": {
+  "P_ProductData": {
     "Alloy": 0,
     "Microchip": 0,
     "CarbonFiber": 0,

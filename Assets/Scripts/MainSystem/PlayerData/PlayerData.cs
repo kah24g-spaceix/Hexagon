@@ -27,7 +27,7 @@ public class PlayerDayData
         DayLength = dayLength;
     }
 }
-public class PlayerMaterialData
+public class PlayerProductData
 {
     public int Alloy { get; set; }
     public int Microchip { get; set; }
@@ -36,7 +36,7 @@ public class PlayerMaterialData
     public int Pump { get; set; }
     public int RubberTube { get; set; }
 
-    public PlayerMaterialData(int alloy, int microchip, int carbonFiber, int conductiveFiber, int pump, int tube)
+    public PlayerProductData(int alloy, int microchip, int carbonFiber, int conductiveFiber, int pump, int tube)
     {
         Alloy = alloy;
         Microchip = microchip;
@@ -130,7 +130,7 @@ public class PlayerData
 {
     public PlayerSystemData P_SystemData { get; set; }
     public PlayerDayData P_DayData { get; set; }
-    public PlayerMaterialData P_MaterialData { get; set; }
+    public PlayerProductData P_ProductData { get; set; }
     public PlayerHyperFrameData P_HyperFrameData { get; set; }
 
     public PlayerFactoryData P_FactoryData { get; set; }
@@ -140,7 +140,7 @@ public class PlayerData
     public PlayerData(
         PlayerSystemData p_systemData,
         PlayerDayData p_dayData,
-        PlayerMaterialData p_materialData,
+        PlayerProductData p_productData,
         PlayerHyperFrameData p_hyperFrameData,
         PlayerFactoryData p_plantData,
         PlayerFactoryContractData p_plantContractData,
@@ -148,7 +148,7 @@ public class PlayerData
     {
         P_SystemData = p_systemData;
         P_DayData = p_dayData;
-        P_MaterialData = p_materialData;
+        P_ProductData = p_productData;
         P_HyperFrameData = p_hyperFrameData;
 
         P_FactoryData = p_plantData;

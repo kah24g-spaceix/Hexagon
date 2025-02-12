@@ -23,9 +23,9 @@ public class FactoryGroup : MonoBehaviour
     }
 
     [SerializeField] private GameObject factoryHolder;
-    [SerializeField] private GameObject materialHolder;
+    [SerializeField] private GameObject productHolder;
     public List<Factory> List { get; private set; }
-    public List<MaterialValue> MaterialList {get; private set;}
+    public List<ProductValue> ProductList {get; private set;}
     public FactoryModel Model { get; private set; }
 
     private void Awake()
@@ -52,7 +52,7 @@ public class FactoryGroup : MonoBehaviour
             Debug.LogError("Factory Holder is not assigned in FactoryGroup.");
             return;
         }
-        if (materialHolder == null)
+        if (productHolder == null)
         {
             Debug.LogError("Material Holder is not assigned in FactoryGroup.");
             return;
@@ -72,7 +72,7 @@ public class FactoryGroup : MonoBehaviour
         );
 
         List = new List<Factory>(factoryHolder.GetComponentsInChildren<Factory>());
-        MaterialList = new List<MaterialValue>(materialHolder.GetComponentsInChildren<MaterialValue>());
+        ProductList = new List<ProductValue>(productHolder.GetComponentsInChildren<ProductValue>());
         for (int i = 0; i < List.Count; i++)
         {
             List[i].ID = i;

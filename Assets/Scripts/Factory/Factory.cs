@@ -31,7 +31,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     }
     private void Update()
     {
-        FactoryGroup.Instance.MaterialList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
+        FactoryGroup.Instance.ProductList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
     }
     public void Bind(FactoryModel model)
     {
@@ -42,9 +42,9 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         Sprite loadedFactorySprite = Resources.Load<Sprite>(spriteFactoryPath) ?? Resources.Load<Sprite>(isNotImage);
         image.sprite = loadedFactorySprite;
 
-        string spriteMaterialPath = $"Sprites/FactoryMaterials/FactoryMaterial_{ID}";
-        Sprite loadedMaterialSprite = Resources.Load<Sprite>(spriteMaterialPath) ?? Resources.Load<Sprite>(isNotImage);
-        FactoryGroup.Instance.MaterialList[ID].image.sprite = loadedMaterialSprite;
+        string spriteProductPath = $"Sprites/Products/Product_{ID}";
+        Sprite loadedProductSprite = Resources.Load<Sprite>(spriteProductPath) ?? Resources.Load<Sprite>(isNotImage);
+        FactoryGroup.Instance.ProductList[ID].image.sprite = loadedProductSprite;
         
         if (!model.PendingContractCancellations[ID] && model.IsContracts[ID])
             currentContractInfo.SetText("current contract: O");

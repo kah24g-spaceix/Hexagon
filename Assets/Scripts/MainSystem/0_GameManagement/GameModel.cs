@@ -67,7 +67,7 @@ public class GameModel : MonoBehaviour, IGameModel
             return;
         }
 
-        if (initData.P_SystemData == null || initData.P_MaterialData == null)
+        if (initData.P_SystemData == null || initData.P_ProductData == null)
         {
             Debug.LogError("One or more fields in PlayerData are null. Check JSON structure.");
             return;
@@ -123,7 +123,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
-        _playerData.P_MaterialData = new PlayerMaterialData(
+        _playerData.P_ProductData = new PlayerProductData(
             _playerMaterialModel.Alloy,
             _playerMaterialModel.Microchip,
             _playerMaterialModel.CarbonFiber,
@@ -179,12 +179,12 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_DayData.DayLength
         );
         _playerMaterialModel = new PlayerMaterialModel(
-            data.P_MaterialData.Alloy,
-            data.P_MaterialData.Microchip,
-            data.P_MaterialData.CarbonFiber,
-            data.P_MaterialData.ConductiveFiber,
-            data.P_MaterialData.Pump,
-            data.P_MaterialData.RubberTube
+            data.P_ProductData.Alloy,
+            data.P_ProductData.Microchip,
+            data.P_ProductData.CarbonFiber,
+            data.P_ProductData.ConductiveFiber,
+            data.P_ProductData.Pump,
+            data.P_ProductData.RubberTube
         );
         _playerHyperFrameModel = new PlayerHyperFrameModel(
             data.P_HyperFrameData.Eye,
