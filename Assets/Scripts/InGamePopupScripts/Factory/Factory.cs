@@ -42,7 +42,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         Sprite loadedFactorySprite = Resources.Load<Sprite>(spriteFactoryPath) ?? Resources.Load<Sprite>(isNotImage);
         image.sprite = loadedFactorySprite;
 
-        string spriteProductPath = $"Sprites/Products/Product{ID}";
+        string spriteProductPath = $"Sprites/Products/Product_{ID}";
         Sprite loadedProductSprite = Resources.Load<Sprite>(spriteProductPath) ?? Resources.Load<Sprite>(isNotImage);
         FactoryGroup.Instance.ProductList[ID].image.sprite = loadedProductSprite;
         

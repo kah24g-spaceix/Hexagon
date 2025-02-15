@@ -61,7 +61,7 @@ public class FactoryDocumentInjector : MonoBehaviour
             return;
         }
 
-        FactoryGroup.Instance.InitializePlantModel(data);
+        FactoryGroup.Instance.InitializeModel(data);
         controller.Show(data);
     }
 }

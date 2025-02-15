@@ -30,7 +30,7 @@ public class FactoryController : MonoBehaviour
             yield break;
         }
 
-        if (FactoryGroup.Instance.List == null)
+        if (FactoryGroup.Instance.FactoryList == null)
         {
             Debug.LogError("PlantList is not initialized in PlantGroup.");
             yield break;
@@ -38,21 +38,21 @@ public class FactoryController : MonoBehaviour
 
         for (int i = startIndex; i < data.Length; i++)
         {
-            if (i >= FactoryGroup.Instance.List.Count)
+            if (i >= FactoryGroup.Instance.FactoryList.Count)
             {
                 Debug.LogError($"Index {i} is out of range for PlantList.");
                 yield break;
             }
 
-            Factory plantComponent = FactoryGroup.Instance.List[i];
-            if (plantComponent == null)
+            Factory factoryComponent = FactoryGroup.Instance.FactoryList[i];
+            if (factoryComponent == null)
             {
                 Debug.LogWarning($"Plant component at index {i} is null.");
                 continue;
             }
 
-            plantComponent.ID = i;
-            plantComponent.Bind(FactoryGroup.Instance.Model);
+            factoryComponent.ID = i;
+            factoryComponent.Bind(FactoryGroup.Instance.Model);
         }
     }
 }

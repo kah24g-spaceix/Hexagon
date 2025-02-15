@@ -24,7 +24,7 @@ public class FactoryGroup : MonoBehaviour
 
     [SerializeField] private GameObject factoryHolder;
     [SerializeField] private GameObject productHolder;
-    public List<Factory> List { get; private set; }
+    public List<Factory> FactoryList { get; private set; }
     public List<ProductValue> ProductList {get; private set;}
     public FactoryModel Model { get; private set; }
 
@@ -40,9 +40,9 @@ public class FactoryGroup : MonoBehaviour
         }
     }
 
-    public void InitializePlantModel(FactoryData factoryData)
+    public void InitializeModel(FactoryData data)
     {
-        if (factoryData == null)
+        if (data == null)
         {
             Debug.LogError("FactoryData is not assigned.");
             return;
@@ -58,24 +58,24 @@ public class FactoryGroup : MonoBehaviour
             return;
         }
         Model = new FactoryModel(
-            factoryData.FactoryDataLines.Select(t => t.Name).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.ConstructionCost).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.ContractCost).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.UpgradeCost).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.Product).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.ContractProduct).ToArray(),
-            factoryData.FactoryDataLines.Select(t => t.LevelCap).ToArray(),
-            new int[factoryData.FactoryDataLines.Length],
-            new bool[factoryData.FactoryDataLines.Length],
-            new bool[factoryData.FactoryDataLines.Length],
-            new bool[factoryData.FactoryDataLines.Length]
+            data.FactoryDataLines.Select(t => t.Name).ToArray(),
+            data.FactoryDataLines.Select(t => t.ConstructionCost).ToArray(),
+            data.FactoryDataLines.Select(t => t.ContractCost).ToArray(),
+            data.FactoryDataLines.Select(t => t.UpgradeCost).ToArray(),
+            data.FactoryDataLines.Select(t => t.Product).ToArray(),
+            data.FactoryDataLines.Select(t => t.ContractProduct).ToArray(),
+            data.FactoryDataLines.Select(t => t.LevelCap).ToArray(),
+            new int[data.FactoryDataLines.Length],
+            new bool[data.FactoryDataLines.Length],
+            new bool[data.FactoryDataLines.Length],
+            new bool[data.FactoryDataLines.Length]
         );
 
-        List = new List<Factory>(factoryHolder.GetComponentsInChildren<Factory>());
+        FactoryList = new List<Factory>(factoryHolder.GetComponentsInChildren<Factory>());
         ProductList = new List<ProductValue>(productHolder.GetComponentsInChildren<ProductValue>());
-        for (int i = 0; i < List.Count; i++)
+        for (int i = 0; i < FactoryList.Count; i++)
         {
-            List[i].ID = i;
+            FactoryList[i].ID = i;
         }
 
         UpdateAllPlantUI(Model);
@@ -83,7 +83,7 @@ public class FactoryGroup : MonoBehaviour
 
     public void UpdateAllPlantUI(FactoryModel model)
     {
-        foreach (var plant in List)
+        foreach (var plant in FactoryList)
         {
             plant.Bind(model);
         }
