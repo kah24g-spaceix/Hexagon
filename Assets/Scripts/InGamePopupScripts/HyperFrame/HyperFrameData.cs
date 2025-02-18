@@ -4,16 +4,19 @@ using System.Collections.Generic;
 public class HyperFrameDataLine
 {
     public string Name { get; }
+    public string Description { get; }
     public int Price { get; }
     public int[] MaterialsCost { get; }
 
     public HyperFrameDataLine(
         string name,
+        string description,
         int price,
         int[] materialsCost
     )
     {
         Name = name;
+        Description = description;
         Price = price;
         MaterialsCost = materialsCost;
     }

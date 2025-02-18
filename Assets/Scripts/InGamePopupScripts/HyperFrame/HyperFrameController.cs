@@ -19,10 +19,10 @@ public class HyperFrameController : MonoBehaviour
             return;
         }
 
-        routine = StartCoroutine(PlantDataRoutine(data.HyperFrameDataLines));
+        routine = StartCoroutine(DataRoutine(data.HyperFrameDataLines));
     }
 
-    private IEnumerator PlantDataRoutine(HyperFrameDataLine[] data, int startIndex = 0)
+    private IEnumerator DataRoutine(HyperFrameDataLine[] data, int startIndex = 0)
     {
         if (data == null)
         {
@@ -30,7 +30,7 @@ public class HyperFrameController : MonoBehaviour
             yield break;
         }
 
-        if (HyperFrameGroup.Instance.HyperFrameList == null)
+        if (HyperFrameGroup.Instance.FrameList == null)
         {
             Debug.LogError("HyperFrameList is not initialized in HyperFrameGroup.");
             yield break;
@@ -38,21 +38,21 @@ public class HyperFrameController : MonoBehaviour
 
         for (int i = startIndex; i < data.Length; i++)
         {
-            if (i >= HyperFrameGroup.Instance.HyperFrameList.Count)
+            if (i >= HyperFrameGroup.Instance.FrameList.Count)
             {
                 Debug.LogError($"Index {i} is out of range for HyperFrameList.");
                 yield break;
             }
 
-            HyperFrame hyperFrameComponent = HyperFrameGroup.Instance.HyperFrameList[i];
-            if (hyperFrameComponent == null)
+            Frame frameComponent = HyperFrameGroup.Instance.FrameList[i];
+            if (frameComponent == null)
             {
                 Debug.LogWarning($"HyperFrame component at index {i} is null.");
                 continue;
             }
 
-            hyperFrameComponent.ID = i;
-            hyperFrameComponent.Bind(HyperFrameGroup.Instance.Model);
+            frameComponent.ID = i;
+            frameComponent.Bind(HyperFrameGroup.Instance.Model);
         }
     }
 }

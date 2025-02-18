@@ -20,10 +20,14 @@ public class HyperFrameGroup : MonoBehaviour
             return _instance;
         }
     }
+    [SerializeField] private GameObject hyperFrameValue;
     [SerializeField] private GameObject hyperFrameHolder;
-    public List<HyperFrame> HyperFrameList { get; private set; }
-    public HyperFrameModel Model { get; private set; }
+    [SerializeField] private GameObject costHolder;
 
+    public FrameInformation FrameInfo { get; private set; }
+    public List<Frame> FrameList { get; private set; }
+    public List<ProductValue> CostList { get; private set; }
+    public HyperFrameModel Model { get; private set; }
     private void Awake()
     {
         if (_instance == null)
@@ -34,8 +38,8 @@ public class HyperFrameGroup : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        FrameInfo = hyperFrameValue.GetComponent<FrameInformation>();
     }
-
     public void InitializeModel(HyperFrameData data)
     {
         if (data == null)
@@ -50,21 +54,23 @@ public class HyperFrameGroup : MonoBehaviour
         }
         Model = new HyperFrameModel(
             data.HyperFrameDataLines.Select(t => t.Name).ToArray(),
+            data.HyperFrameDataLines.Select(t => t.Description).ToArray(),
             data.HyperFrameDataLines.Select(t => t.Price).ToArray(),
             data.HyperFrameDataLines.Select(t => t.MaterialsCost).ToArray(),
             new int[data.HyperFrameDataLines.Length]
         );
-        HyperFrameList = new List<HyperFrame>(hyperFrameHolder.GetComponentsInChildren<HyperFrame>());
-        for (int i = 0; i < HyperFrameList.Count; i++)
+        FrameList = new List<Frame>(hyperFrameHolder.GetComponentsInChildren<Frame>());
+        CostList = new List<ProductValue>(costHolder.GetComponentsInChildren<ProductValue>());
+        for (int i = 0; i < FrameList.Count; i++)
         {
-            HyperFrameList[i].ID = i;
+            FrameList[i].ID = i;
         }
     }
     public void UpdateAllHyperFrameUI(HyperFrameModel model)
     {
-        foreach (var hyperFrame in HyperFrameList)
+        foreach (var frame in FrameList)
         {
-            hyperFrame.Bind(model);
+            frame.Bind(model);
         }
     }
 }

@@ -19,19 +19,19 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     [Header("Button")]
     [SerializeField] private Button constructionButton;
     [SerializeField] private Button contractButton;
-    private IGameModel playerModel;
+    private IGameModel gameModel;
 
     public int ID { get; set; }
 
     private void Awake()
     {
-        playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
+        gameModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         constructionButton.onClick.AddListener(Construction);
         contractButton.onClick.AddListener(Contract);
     }
     private void Update()
     {
-        FactoryGroup.Instance.ProductList[ID].valueText.SetText($"{playerModel.GetProductList()[ID]}");
+        FactoryGroup.Instance.ProductList[ID].valueText.SetText($"{gameModel.GetProductList()[ID]}");
     }
     public void Bind(FactoryModel model)
     {
@@ -76,7 +76,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     public void Construction()
     {
         FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
-        PlayerSystemModel playerSystemModel = playerModel.GetPlayerSystemModel();
+        PlayerSystemModel playerSystemModel = gameModel.GetPlayerSystemModel();
         Debug.Log("Construction method called.");
         int cost;
         if (!currentFactoryModel.IsContructions[ID])
@@ -100,14 +100,14 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             cost = currentFactoryModel.UpgradeCosts[ID];
         }
 
-        playerModel.DoFactoryResult(new
+        gameModel.DoFactoryResult(new
         (
             currentFactoryModel.UpgradeCosts,
             currentFactoryModel.Products,
             currentFactoryModel.Levels,
             currentFactoryModel.IsContructions
             ));
-        playerModel.DoSystemResult(new
+        gameModel.DoSystemResult(new
         (
             playerSystemModel.Money - cost,
             playerSystemModel.Employees,
@@ -126,7 +126,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             Debug.Log($"Contract cancellation requested for Plant {ID}");
             currentFactoryModel.IsContracts[ID] = true;
             currentFactoryModel.PendingContractCancellations[ID] = false;
-            playerModel.DoFactoryContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
+            gameModel.DoFactoryContractResult(new(currentFactoryModel.ContractCosts, currentFactoryModel.ContractProducts, currentFactoryModel.IsContracts));
         }
         else
         {

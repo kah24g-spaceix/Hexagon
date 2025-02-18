@@ -65,10 +65,10 @@ public class TechTree : MonoBehaviour
             TechList[i].ConnectedTechs = TechModel.ConnectedTechs[i];
         }
 
-        UpdateAllTechUI(TechModel);
+        UpdateAllUI(TechModel);
     }
 
-    public void UpdateAllTechUI(TechModel model)
+    public void UpdateAllUI(TechModel model)
     {
         foreach (var tech in TechList)
         {

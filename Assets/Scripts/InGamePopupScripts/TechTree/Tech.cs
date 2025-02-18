@@ -9,7 +9,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI costText;
 
-    private IGameModel playerModel;
+    private IGameModel gameModel;
 
     public int ID { get; set; }
     public int[] ConnectedTechs { get; set; }
@@ -18,7 +18,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     private void Awake()
     {
-        playerModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
+        gameModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         button = GetComponent<Button>();
         button.onClick.AddListener(Buy);
 
@@ -27,9 +27,9 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     public void Bind(TechModel model)
     {
-        if (playerModel == null || ID < 0 || ID >= model.TechLevels.Length) return;
+        if (gameModel == null || ID < 0 || ID >= model.TechLevels.Length) return;
 
-        PlayerTechModel playerTechData = playerModel.GetPlayerTechModel();
+        PlayerTechModel playerTechData = gameModel.GetPlayerTechModel();
 
         levelText.SetText($"{model.TechLevels[ID]}/{model.TechCaps[ID]}");
         titleText.SetText($"{model.TechNames[ID]}");
@@ -71,19 +71,19 @@ public class Tech : MonoBehaviour, IView<TechModel>
     public void Buy()
     {
         TechModel currentTechModel = TechTree.Instance.TechModel;
-        PlayerTechModel playerTechModel = playerModel.GetPlayerTechModel();
+        PlayerTechModel playerTechModel = gameModel.GetPlayerTechModel();
 
         if (playerTechModel.TechPoint - currentTechModel.TechCosts[ID] < 0) return;
         if (currentTechModel.TechLevels[ID] >= currentTechModel.TechCaps[ID]) return;
 
         currentTechModel.TechLevels[ID]++;
-        playerModel.DoTechResult(new PlayerTechModel(
+        gameModel.DoTechResult(new PlayerTechModel(
             playerTechModel.TechPoint - currentTechModel.TechCosts[ID],
             playerTechModel.RevenueValue + currentTechModel.Revenue[ID],
             playerTechModel.MaxEmployee + currentTechModel.MaxEmployee[ID],
             currentTechModel.TechLevels
         ));
 
-        TechTree.Instance.UpdateAllTechUI(currentTechModel);
+        TechTree.Instance.UpdateAllUI(currentTechModel);
     }
 }
