@@ -1,44 +1,44 @@
 [
     {
         "Name":"BNI",
-        "Description":"",
+        "Description":"Brain Neuron Interface",
         "Price": 100,
         "MaterialsCost":[12,10,7,8,2,5]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Eyeball",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[3,5,1,4,1,2]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Arm",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[12,6,8,6,3,5]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Hand",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[8,3,6,5,1,3]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Body",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[20,8,15,10,5,8]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Leg",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[15,5,10,8,4,6]
     },
     {
-        "Name":"Head",
-        "Description":"",
+        "Name":"Foot",
+        "Description":"1",
         "Price": 100,
-        "MaterialsCost":[0,0,0,0,0,0]
+        "MaterialsCost":[10,3,7,4,3,4]
     }
 ]

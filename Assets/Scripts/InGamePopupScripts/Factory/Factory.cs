@@ -20,7 +20,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     [SerializeField] private Button constructionButton;
     [SerializeField] private Button contractButton;
     private IGameModel gameModel;
-
+    readonly string isNotImage = "Sprites/DebugImage/IsNotImage";
     public int ID { get; set; }
 
     private void Awake()
@@ -37,7 +37,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
 
-        string isNotImage = "Sprites/DebugImage/IsNotImage";
+        
         string spriteFactoryPath = $"Sprites/Factorys/Factory_{ID}";
         Sprite loadedFactorySprite = Resources.Load<Sprite>(spriteFactoryPath) ?? Resources.Load<Sprite>(isNotImage);
         image.sprite = loadedFactorySprite;
@@ -139,7 +139,6 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             }
 
         }
-
         FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
 }

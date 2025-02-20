@@ -22,7 +22,7 @@ public class HyperFrameController : MonoBehaviour
         routine = StartCoroutine(DataRoutine(data.HyperFrameDataLines));
     }
 
-    private IEnumerator DataRoutine(HyperFrameDataLine[] data, int startIndex = 0)
+    private IEnumerator DataRoutine(HyperFrameDataLine[] data)
     {
         if (data == null)
         {
@@ -36,7 +36,7 @@ public class HyperFrameController : MonoBehaviour
             yield break;
         }
 
-        for (int i = startIndex; i < data.Length; i++)
+        for (int i = 0; i < data.Length; i++)
         {
             if (i >= HyperFrameGroup.Instance.FrameList.Count)
             {

@@ -382,15 +382,6 @@ public class GameModel : MonoBehaviour, IGameModel
 
         FactoryGroup.Instance.UpdateAllPlantUI(currentFactoryModel);
     }
-    public void AddProduct()
-    {
-        UpdateMaterialModel(GetProduct);
-    }
-
-    public void AddContractProduct()
-    {
-        UpdateMaterialModel(GetContractProduct);
-    }
 
     private void UpdateMaterialModel(Func<ProductName, int> productGetter)
     {
@@ -416,6 +407,18 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerMaterialModel.RubberTube};
         
     }
+    
+    public void AddProduct()
+    {
+        UpdateMaterialModel(GetProduct);
+    }
+
+    public void AddContractProduct()
+    {
+        UpdateMaterialModel(GetContractProduct);
+    }
+
+
     private int GetProduct(ProductName productName)
     {
         return TryGetProduct(_playerFactoryModel.Products, productName);

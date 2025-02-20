@@ -71,31 +71,31 @@ public class PlayerMaterialModel
 }
 public class PlayerHyperFrameModel
 {
+    public int Head { get; }
     public int Eye { get; }
     public int Arm { get; }
     public int Hand { get; }
+    public int Body { get; }
     public int Lag { get; }
     public int Foot { get; }
-    public int Body { get; }
-    public int Head { get; }
 
     public PlayerHyperFrameModel
     (
+        int head,
         int eye,
         int arm,
         int hand,
-        int lag,
-        int foot,
         int body,
-        int head)
+        int lag,
+        int foot)
     {
+        Head = head;
         Eye = eye;
         Arm = arm;
         Hand = hand;
+        Body = body;
         Lag = lag;
         Foot = foot;
-        Body = body;
-        Head = head;
     }
 }
 public class PlayerFactoryModel

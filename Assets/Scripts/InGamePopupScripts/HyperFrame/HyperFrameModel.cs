@@ -1,23 +1,23 @@
 public class HyperFrameModel
 {
     public string[] Names { get; }
-    public string[] Description { get; }
+    public string[] Descriptions { get; }
     public int[] Prices { get; }
     public int[][] MaterialsCosts { get; }
-    public int[] Values { get; }
+    public int[] Counts { get; }
 
     public HyperFrameModel(
         string[] names,
-        string[] description,
+        string[] descriptions,
         int[] prices,
         int[][] materialsCosts,
-        int[] values
+        int[] counts
     )
     {
         Names = names;
-        Description = description;
+        Descriptions = descriptions;
         Prices = prices;
         MaterialsCosts = materialsCosts;
-        Values = values;
+        Counts = counts;
     }
 }

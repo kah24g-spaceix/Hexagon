@@ -24,10 +24,12 @@ public class HyperFrameGroup : MonoBehaviour
     [SerializeField] private GameObject hyperFrameHolder;
     [SerializeField] private GameObject costHolder;
 
-    public FrameInformation FrameInfo { get; private set; }
+    public GameObject HyperFrameValue { get; private set; }
     public List<Frame> FrameList { get; private set; }
-    public List<ProductValue> CostList { get; private set; }
+    public List<ProductValue> CostList { get; private set;}
     public HyperFrameModel Model { get; private set; }
+    
+    
     private void Awake()
     {
         if (_instance == null)
@@ -38,7 +40,7 @@ public class HyperFrameGroup : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        FrameInfo = hyperFrameValue.GetComponent<FrameInformation>();
+        HyperFrameValue = hyperFrameValue; 
     }
     public void InitializeModel(HyperFrameData data)
     {
@@ -64,6 +66,7 @@ public class HyperFrameGroup : MonoBehaviour
         for (int i = 0; i < FrameList.Count; i++)
         {
             FrameList[i].ID = i;
+            FrameList[i].Costs = Model.MaterialsCosts[i];
         }
     }
     public void UpdateAllHyperFrameUI(HyperFrameModel model)
