@@ -70,6 +70,7 @@ public class Tech : MonoBehaviour, IView<TechModel>
 
     public void Buy()
     {
+        AudioManager.Instance.PlaySFX("Select");
         TechModel currentTechModel = TechTree.Instance.TechModel;
         PlayerTechModel playerTechModel = gameModel.GetPlayerTechModel();
 

@@ -14,6 +14,11 @@ public class CloseButton : MonoBehaviour
     }
     void Start()
     {   
-        button.onClick.AddListener(()=>closeObject.SetActive(false));
+        button.onClick.AddListener(Close);
+    }
+    void Close()
+    {
+        closeObject.SetActive(false);
+        AudioManager.Instance.PlaySFX("Select");
     }
 }

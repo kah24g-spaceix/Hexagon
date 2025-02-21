@@ -16,14 +16,6 @@ public class GameView : MonoBehaviour, IGameView
         Title,
         Exit,
     }
-    private enum InGameButton
-    {
-        Factory,
-        HyperFrame,
-        TechTree,
-        News,
-        Wab,
-    }
     [Header("Menu Popup")]
     [SerializeField] private GameObject MenuPopup;
     [SerializeField] private GameObject OptionPopup;
@@ -100,7 +92,7 @@ public class GameView : MonoBehaviour, IGameView
         TitleButton.onClick.AddListener(() => ButtonType(MenuButton.Title));
         ExitButton.onClick.AddListener(() => ButtonType(MenuButton.Exit));
 
-        DayCycleButton.onClick.AddListener(() => {PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
+        DayCycleButton.onClick.AddListener(() => {AudioManager.Instance.PlaySFX("Select"); PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
 
         NextDayButton.onClick.AddListener(() =>
@@ -112,6 +104,7 @@ public class GameView : MonoBehaviour, IGameView
     }
     private void ButtonType(MenuButton buttonType)
     {
+        AudioManager.Instance.PlaySFX("Select");
         switch (buttonType)
         {
             case MenuButton.Resume:
@@ -214,11 +207,13 @@ public class GameView : MonoBehaviour, IGameView
     {
         if (Input.GetKeyDown(key))
         {
+            AudioManager.Instance.PlaySFX("Select");
             UI.SetActive(!UI.activeSelf);
         }
     }
     public void PopupTriggerButton(GameObject UI)
     {
+        AudioManager.Instance.PlaySFX("Select");
         UI.SetActive(!UI.activeSelf);
     }
 

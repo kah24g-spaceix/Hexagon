@@ -38,11 +38,12 @@ public class FrameInformation : MonoBehaviour
     }
     private void Creation()
     {
+        AudioManager.Instance.PlaySFX("Select");
         HyperFrameModel currentModel = HyperFrameGroup.Instance.Model;
         PlayerMaterialModel playerMaterialModel = gameModel.GetPlayerMaterialModel();
         if (IsBuy(playerMaterialModel))
         {
-            Debug.Log($"No material");
+            AudioManager.Instance.PlaySFX("Error");
             return;
         }
         
@@ -72,11 +73,11 @@ public class FrameInformation : MonoBehaviour
     {
         HyperFrameModel model = HyperFrameGroup.Instance.Model;
         return
-            materialModel.Alloy < model.MaterialsCosts[ID][0] &&
-            materialModel.Microchip < model.MaterialsCosts[ID][1] &&
-            materialModel.CarbonFiber < model.MaterialsCosts[ID][2] &&
-            materialModel.ConductiveFiber < model.MaterialsCosts[ID][3] &&
-            materialModel.Pump < model.MaterialsCosts[ID][4] &&
+            materialModel.Alloy < model.MaterialsCosts[ID][0] ||
+            materialModel.Microchip < model.MaterialsCosts[ID][1] ||
+            materialModel.CarbonFiber < model.MaterialsCosts[ID][2] ||
+            materialModel.ConductiveFiber < model.MaterialsCosts[ID][3] ||
+            materialModel.Pump < model.MaterialsCosts[ID][4] ||
             materialModel.RubberTube < model.MaterialsCosts[ID][5];
     }
 }

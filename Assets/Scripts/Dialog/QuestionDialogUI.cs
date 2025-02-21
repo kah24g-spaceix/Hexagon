@@ -22,10 +22,12 @@ public class QuestionDialogUI : MonoBehaviour
         yesBtn.onClick.AddListener(() => {
             Hide();
             yesAction();
+            AudioManager.Instance.PlaySFX("Select");
         });
         noBtn.onClick.AddListener(() => {
             Hide();
             noAction();
+            AudioManager.Instance.PlaySFX("Select");
         });
     }
 

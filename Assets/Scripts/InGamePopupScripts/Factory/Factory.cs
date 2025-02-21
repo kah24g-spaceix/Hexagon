@@ -75,13 +75,18 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
 
     public void Construction()
     {
+        AudioManager.Instance.PlaySFX("Select");
         FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
         PlayerSystemModel playerSystemModel = gameModel.GetPlayerSystemModel();
         Debug.Log("Construction method called.");
         int cost;
         if (!currentFactoryModel.IsContructions[ID])
         {
-            if (playerSystemModel.Money - currentFactoryModel.ConstructionCosts[ID] < 0) return;
+            if (playerSystemModel.Money - currentFactoryModel.ConstructionCosts[ID] < 0)
+            { 
+                AudioManager.Instance.PlaySFX("Error");
+                return;
+            }
             currentFactoryModel.IsContructions[ID] = true;
             cost = currentFactoryModel.ConstructionCosts[ID];
 
@@ -93,7 +98,11 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
                 currentFactoryModel.Levels[ID] = currentFactoryModel.LevelCaps[ID];
                 return;
             }
-            if (playerSystemModel.Money - currentFactoryModel.UpgradeCosts[ID] < 0) return;
+            if (playerSystemModel.Money - currentFactoryModel.UpgradeCosts[ID] < 0) 
+            {
+                AudioManager.Instance.PlaySFX("Error");
+                return;
+            }
             currentFactoryModel.Levels[ID]++;
             currentFactoryModel.UpgradeCosts[ID] += currentFactoryModel.UpgradeCosts[ID] / 2;
             currentFactoryModel.Products[ID] += 2;
@@ -119,6 +128,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
 
     public void Contract()
     {
+        AudioManager.Instance.PlaySFX("Select");
         FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
         if (!currentFactoryModel.IsContracts[ID])
         {

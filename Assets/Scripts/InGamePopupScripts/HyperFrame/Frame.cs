@@ -37,6 +37,7 @@ public class Frame : MonoBehaviour
     }
     public void ShowInformation()
     {
+        AudioManager.Instance.PlaySFX("Select");
         HyperFrameModel currentHyperFrameModel = HyperFrameGroup.Instance.Model;
         HyperFrameGroup.Instance.HyperFrameValue.SetActive(true);
         FrameInfoBind();
