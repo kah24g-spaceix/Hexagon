@@ -10,6 +10,8 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     private PlayerMaterialModel _playerMaterialModel;
     private PlayerTechModel _playerTechModel;
     GameDateManager _dayCycle;
+
+    private bool isDayCycleRunning = false;
     private void Awake()
     {
         _model = GetComponent<IGameModel>();
@@ -20,15 +22,27 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         ReloadData();
         TimerStart();
     }
+    private void Update()
+    {
+        ReloadData();
+    }
     private void TimerStop()
     {
-        StopCoroutine(_dayCycle.DayCycle());
-        StopCoroutine(_dayCycle.SystemUpdate());
+        if (isDayCycleRunning)
+        {
+            StopCoroutine(_dayCycle.DayCycle());
+            StopCoroutine(_dayCycle.SystemUpdate());
+            isDayCycleRunning = false;
+        }
     }
     private void TimerStart()
     {
-        StartCoroutine(_dayCycle.DayCycle());
-        StartCoroutine(_dayCycle.SystemUpdate());
+        if (!isDayCycleRunning)
+        {
+            StartCoroutine(_dayCycle.DayCycle());
+            StartCoroutine(_dayCycle.SystemUpdate());
+            isDayCycleRunning = true;
+        }
     }
 
     public void SystemUpdate()
@@ -40,14 +54,8 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _model.Income(skipTime);
         ReloadData();
     }
-    public string GetDay()
-    {
-        return $"Day {_playerDayModel.Day}";
-    }
-    public string GetMoney()
-    {
-        return $"{_playerSystemModel.Money:N0} $";
-    }
+    public string GetDay() => $"Day {_playerDayModel.Day}";
+    public string GetMoney() => $"{_playerSystemModel.Money:N0} $";
     public void OnExchangeTechPointButton(int value)
     {
         if (_playerTechModel.TechPoint == 0)
@@ -78,15 +86,17 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         Resume();
         _model.NextDay();
-        ReloadData();
         DoSaveGame(true);
         DoSaveGame(false);
+        DoLoadGame(true);
+        ReloadData();
         TimerStart();
     }
     public void OnRestartDayButton()
     {
         Resume();
         DoLoadGame(true);
+        ReloadData();
         TimerStart();
     }
     public void DoLoadGame(bool useDateData)
@@ -107,12 +117,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _playerTechModel = _model.GetPlayerTechModel();
     }
 
-    public void Resume()
-    {
-        Time.timeScale = 1;
-    }
-    public void Pause()
-    {
-        Time.timeScale = 0;
-    }
+    public void Resume() => Time.timeScale = 1;
+
+    public void Pause() => Time.timeScale = 0;
 }

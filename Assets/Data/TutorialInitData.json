@@ -11,12 +11,12 @@
     "DayLength": 2400
   },
   "P_ProductData": {
-    "Alloy": 0,
-    "Microchip": 0,
-    "CarbonFiber": 0,
-    "ConductiveFiber": 0,
-    "Pump": 0,
-    "RubberTube": 0
+    "Alloy": 100,
+    "Microchip": 100,
+    "CarbonFiber": 100,
+    "ConductiveFiber": 100,
+    "Pump": 100,
+    "RubberTube": 100
   },
   "P_HyperFrameData": {
     "Eye": 0,

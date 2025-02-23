@@ -8468,7 +8468,7 @@ GameObject:
   - component: {fileID: 1016816516}
   - component: {fileID: 1016816517}
   m_Layer: 5
-  m_Name: NextDayButton
+  m_Name: NextButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
