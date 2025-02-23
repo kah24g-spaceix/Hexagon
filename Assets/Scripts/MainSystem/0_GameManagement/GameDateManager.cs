@@ -44,7 +44,6 @@ public class GameDateManager : MonoBehaviour
             minute = (hour - GetHour()) * 60f;
 
             _gameView.ClockUpdate(GetHour(), GetMinute());
-            _gameView.ViewUpdate();
 
             yield return null;
 

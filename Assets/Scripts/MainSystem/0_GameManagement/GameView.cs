@@ -149,6 +149,7 @@ public class GameView : MonoBehaviour, IGameView
     }
     private void Update()
     {
+        ViewUpdate();
         HandlePauseInput();
         if (!MenuPopup.activeSelf) HandleInGameInput();
     }

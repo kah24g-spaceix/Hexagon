@@ -11,6 +11,7 @@ public class FrameInformation : MonoBehaviour
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI revenueText;
     [SerializeField] private Button creationButton;
+    [SerializeField] private Button sellButton;
     
     public int ID { get; set; }
     private IGameModel gameModel;
@@ -23,6 +24,7 @@ public class FrameInformation : MonoBehaviour
     {
         gameObject.SetActive(false);
         creationButton.onClick.AddListener(Creation);
+        sellButton.onClick.AddListener(Sell);
     }
     private void Update()
     {
@@ -79,5 +81,35 @@ public class FrameInformation : MonoBehaviour
             materialModel.ConductiveFiber < model.MaterialsCosts[ID][3] ||
             materialModel.Pump < model.MaterialsCosts[ID][4] ||
             materialModel.RubberTube < model.MaterialsCosts[ID][5];
+    }
+    private void Sell()
+    {
+        AudioManager.Instance.PlaySFX("Select");
+        HyperFrameModel currentModel = HyperFrameGroup.Instance.Model;
+        PlayerSystemModel playerSystemModel = gameModel.GetPlayerSystemModel();
+        if (currentModel.Counts[ID] <= 0)
+            Creation();
+        if (currentModel.Counts[ID] <= 0) return;
+        Debug.Log(currentModel.Prices[ID]);
+        currentModel.Counts[ID]--;
+        gameModel.DoSystemResult(new
+        (
+            playerSystemModel.Money + currentModel.Prices[ID],
+            playerSystemModel.Employees,
+            playerSystemModel.Resistance,
+            playerSystemModel.CommunityOpinionValue
+        ));
+
+        gameModel.DoHyperFrameResult(new 
+        (
+            currentModel.Counts[0],
+            currentModel.Counts[1],
+            currentModel.Counts[2],
+            currentModel.Counts[3],
+            currentModel.Counts[4],
+            currentModel.Counts[5],
+            currentModel.Counts[6]
+        ));
+        HyperFrameGroup.Instance.UpdateAllHyperFrameUI(currentModel);
     }
 }

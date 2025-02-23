@@ -72,6 +72,7 @@ public class TitleUIManager : MonoBehaviour
 
     private void StartSelectMode()
     {
+        AudioManager.Instance.PlaySFX("Select");
         if (PlayerPrefs.HasKey("Save"))
         {
             QuestionDialogUI.Instance.ShowQuestion(
@@ -88,6 +89,7 @@ public class TitleUIManager : MonoBehaviour
 
     private void LoadSelectMode()
     {
+        AudioManager.Instance.PlaySFX("Select");
         if (!PlayerPrefs.HasKey("Save"))
         {
             WarningDialogUI.Instance.ShowWarning(
@@ -107,13 +109,20 @@ public class TitleUIManager : MonoBehaviour
         simulationButton.onClick.RemoveAllListeners();
 
         storyButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: true));
-        if (isLoad) simulationButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: false));
-        else simulationButton.onClick.AddListener(() => ShowUI(simulationPopup));
+        if (isLoad)
+            simulationButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: false));
+        else
+            simulationButton.onClick.AddListener(() => {
+                AudioManager.Instance.PlaySFX("Select");
+                ShowUI(simulationPopup);
+            });
+
         ShowUI(selectModeUI);
     }
 
     private void OnGameModeSelected(bool isLoad, bool isStoryMode)
     {
+        AudioManager.Instance.PlaySFX("Select");
         int playtime = playtimeManager.PlaytimeValue;
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
@@ -127,12 +136,16 @@ public class TitleUIManager : MonoBehaviour
             );
             return;
         }
-        SceneManager.LoadScene("MainGameScene");
+        LoadingSceneManager.LoadScene("MainGameScene");
     }
 
     private void ShowUI(GameObject UI) => UI.SetActive(true);
     private void HideUI(GameObject UI) => UI.SetActive(false);
-    private void PopupTrigger(GameObject UI) => UI.SetActive(!UI.activeSelf);
+    private void PopupTrigger(GameObject UI) 
+    {
+        AudioManager.Instance.PlaySFX("Select");
+        UI.SetActive(!UI.activeSelf);
+    }
 
     private void ExitGame()
     {
