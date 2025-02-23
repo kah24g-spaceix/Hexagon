@@ -16,7 +16,6 @@ public class WarningDialogUI : MonoBehaviour
     }
     public void ShowWarning(string warningText, Action okAction)
     {
-        AudioManager.Instance.PlaySFX("Error");
         gameObject.SetActive(true);
 
         textMeshPro.text = warningText;

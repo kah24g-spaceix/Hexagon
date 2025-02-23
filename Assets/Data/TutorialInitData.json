@@ -1,0 +1,47 @@
+{
+  "P_SystemData": {
+    "Money": 0,
+    "Employees": 50,
+    "Resistance": 20,
+    "CommunityOpinionValue": 75.5
+  },
+  "P_DayData": {
+    "Day": 1,
+    "LastDay": 20,
+    "DayLength": 2400
+  },
+  "P_ProductData": {
+    "Alloy": 0,
+    "Microchip": 0,
+    "CarbonFiber": 0,
+    "ConductiveFiber": 0,
+    "Pump": 0,
+    "RubberTube": 0
+  },
+  "P_HyperFrameData": {
+    "Eye": 0,
+    "Arm": 0,
+    "Hand": 0,
+    "Lag": 0,
+    "Foot": 0,
+    "Body": 0,
+    "Head": 0
+  },
+  "P_FactoryData": {
+    "UpgradeCosts": [],
+    "Products": [0,0,0,0,0,0],
+    "Levels": [],
+    "IsContructions": [false,false,false,false,false,false]
+  },
+  "P_FactoryContractData": {
+    "Costs": [],
+    "Products": [0,0,0,0,0,0],
+    "IsContracts": [false,false,false,false,false,false]
+  },
+  "P_TechData": {
+    "TechPoint": 120,
+    "RevenueValue": 0,
+    "MaxEmployee": 100,
+    "TechLevels": []
+  }
+}

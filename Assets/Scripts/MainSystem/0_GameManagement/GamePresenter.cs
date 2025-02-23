@@ -66,12 +66,17 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _model.TodayResult();
         ReloadData();
     }
+    public void DoLastDayResult()
+    {
+        ReloadData();
+    }
     public void OnDaySkipButton()
     {
         
     }
     public void OnNextDayButton()
     {
+        Resume();
         _model.NextDay();
         ReloadData();
         DoSaveGame(true);
@@ -80,6 +85,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public void OnRestartDayButton()
     {
+        Resume();
         DoLoadGame(true);
         TimerStart();
     }

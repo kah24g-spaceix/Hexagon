@@ -16,7 +16,6 @@ public class QuestionDialogUI : MonoBehaviour
     }
     public void ShowQuestion(string questionText, Action yesAction, Action noAction)
     {
-        AudioManager.Instance.PlaySFX("Error");
         gameObject.SetActive(true);
 
         textMeshPro.text = questionText;

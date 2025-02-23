@@ -23,12 +23,9 @@ public class GameModel : MonoBehaviour, IGameModel
 
     private void Awake()
     {
-        _gameSettings = new GameSettings(); // 초기화
+        _gameSettings = new GameSettings();
 
-        // SimulationManager 싱글톤 인스턴스에서 값 가져오기
         var simulationManager = GameStateManager.Instance;
-
-        // 시뮬레이션 매니저 값을 GameSettings에 반영
         ApplySimulationManagerSettings(simulationManager);
 
         if (_gameSettings.IsLoad)
@@ -36,7 +33,7 @@ public class GameModel : MonoBehaviour, IGameModel
             if (!LoadGame(false))
             {
                 Debug.LogError("Failed to load the game data. Initializing data instead.");
-                //InitData(); // 로드 실패 시 데이터 초기화
+                //InitData();
             }
         }
         else
@@ -265,6 +262,10 @@ public class GameModel : MonoBehaviour, IGameModel
 
         _playerSystemModel = new PlayerSystemModel(_playerSystemModel.Money, employees, resistance, _playerSystemModel.CommunityOpinionValue);
         _playerTechModel = new PlayerTechModel(techPoint, _playerTechModel.RevenueValue, _playerTechModel.MaxEmployee, _playerTechModel.TechLevels);
+        UpdatePlayerSaveData();
+    }
+    public void LastDayResult()
+    {
         UpdatePlayerSaveData();
     }
     public void SetTimeScale(float scale)

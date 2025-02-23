@@ -51,8 +51,12 @@ public class GameDateManager : MonoBehaviour
             {
                 currentTime = 0;
                 _gameModel.SetTimeScale(1);
-                _gamePresenter.DoTodayResult();
-                _gameView.ShowUI(_gameView.ToDayResult);
+                _gamePresenter.Pause();
+                if (playerDayModel.Day == playerDayModel.LastDay)
+                    _gameView.ShowUI(_gameView.LastDayResult);
+                else
+                    _gamePresenter.DoTodayResult();
+                    _gameView.ShowUI(_gameView.ToDayResult);
                 yield break;
             }
 

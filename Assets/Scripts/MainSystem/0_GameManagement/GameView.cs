@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class GameView : MonoBehaviour, IGameView
 {
-    private enum MenuButton 
+    private enum MenuButton
     {
         Resume,
         Option,
@@ -45,9 +45,14 @@ public class GameView : MonoBehaviour, IGameView
 
     [Header("To Day Result UI")]
     [SerializeField] private GameObject ToDayResultUI;
-    public GameObject ToDayResult {get; private set;}
+    public GameObject ToDayResult { get; private set; }
     [SerializeField] private Button NextDayButton;
     [SerializeField] private Button RestartDayButton;
+
+    [Header("Last Day Result UI")]
+    [SerializeField] private GameObject LastDayResultUI;
+    public GameObject LastDayResult { get; private set; }
+    [SerializeField] private Button NextButton;
 
     private IGamePresenter gamePresenter;
 
@@ -60,6 +65,7 @@ public class GameView : MonoBehaviour, IGameView
         gamePresenter = GetComponent<IGamePresenter>();
         InitInGameUI();
         ToDayResult = ToDayResultUI;
+        LastDayResult = LastDayResultUI;
     }
     private void InitInGameUI()
     {
@@ -68,7 +74,7 @@ public class GameView : MonoBehaviour, IGameView
         foreach (Transform child in InGamePopupHolder.transform)
         {
             InGamePopups.Add(child.gameObject);
-            
+
         }
     }
     private void Start()
@@ -77,6 +83,7 @@ public class GameView : MonoBehaviour, IGameView
         HideUI(MenuPopup);
         HideUI(OptionPopup);
         HideUI(ToDayResultUI);
+        HideUI(LastDayResultUI);
 
 
         for (int i = 0; i < InGamePopups.Count; i++)
@@ -92,15 +99,16 @@ public class GameView : MonoBehaviour, IGameView
         TitleButton.onClick.AddListener(() => ButtonType(MenuButton.Title));
         ExitButton.onClick.AddListener(() => ButtonType(MenuButton.Exit));
 
-        DayCycleButton.onClick.AddListener(() => {AudioManager.Instance.PlaySFX("Select"); PauseTrigger(); isDayCycleButton = !isDayCycleButton;});
+        DayCycleButton.onClick.AddListener(() => { AudioManager.Instance.PlaySFX("Select"); PauseTrigger(); isDayCycleButton = !isDayCycleButton; });
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
 
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
-                "Do you want to move forward to the next day?", () => {gamePresenter.OnNextDayButton(); HideUI(ToDayResult); }, () => { }));
+                "Do you want to move forward to the next day?", () => { gamePresenter.OnNextDayButton(); HideUI(ToDayResult); }, () => { }));
         RestartDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
                 "Do you want to begin the day again?", () => { gamePresenter.OnRestartDayButton(); HideUI(ToDayResult); }, () => { }));
+        NextButton.onClick.AddListener(()=>SceneManager.LoadScene("EndingScene"));
     }
     private void ButtonType(MenuButton buttonType)
     {
@@ -178,7 +186,7 @@ public class GameView : MonoBehaviour, IGameView
     {
         if (!gameIsPaused)
             gamePresenter.Pause();
-            
+
         else
             gamePresenter.Resume();
         gameIsPaused = !gameIsPaused;

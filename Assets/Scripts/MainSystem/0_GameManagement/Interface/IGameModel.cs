@@ -166,6 +166,7 @@ public interface IGameProgressHandler
     void SaveGame(bool useDateData);
     bool LoadGame(bool useDateData);
     void TodayResult();
+    void LastDayResult();
     void SetTimeScale(float scale);
     void NextDay();
 }

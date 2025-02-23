@@ -12,6 +12,7 @@ public interface IGamePresenter
     void OnNextDayButton();
     void OnRestartDayButton();
     void DoTodayResult();
+    void DoLastDayResult();
     void OnExchangeTechPointButton(int value);
 
     void DoLoadGame(bool useDateData);
