@@ -1,4 +1,5 @@
 using System.Numerics;
+using Unity.VisualScripting;
 public class PlayerSystemData
 {
     public long Money { get; set; }
@@ -17,12 +18,16 @@ public class PlayerSystemData
 public class PlayerDayData
 {
     public int Day { get; set; }
+    public float CurrentTime { get; set; }
+    public float Hour { get; set; }
+    public float Minute { get; set; }
     public int LastDay { get; set; }
     public float DayLength { get; set; }
 
-    public PlayerDayData (int day, int lastDay, float dayLength)
+    public PlayerDayData (int day, float currentTime, float hour, float minute, int lastDay, float dayLength)
     {
         Day = day;
+        CurrentTime = currentTime;
         LastDay = lastDay;
         DayLength = dayLength;
     }
@@ -125,7 +130,19 @@ public class PlayerTechTreeData
         TechLevels = techLevels;
     }
 }
+public class PlayerSetting
+{
+    public int DailyPlaytime { get; set; }
+    public int LastDay { get; set; }
+    public int InitialMoney { get; set; }
 
+    public PlayerSetting(int dailyPlayTime, int lastDay, int initialMoney)
+    {
+        DailyPlaytime = dailyPlayTime;
+        LastDay = lastDay;
+        InitialMoney = initialMoney;
+    }
+}
 public class PlayerData
 {
     public PlayerSystemData P_SystemData { get; set; }
@@ -137,6 +154,8 @@ public class PlayerData
     public PlayerFactoryContractData P_FactoryContractData { get; set; }
     public PlayerTechTreeData P_TechData { get; set; }
 
+    public PlayerSetting P_Setting {get; set; }
+
     public PlayerData(
         PlayerSystemData p_systemData,
         PlayerDayData p_dayData,
@@ -144,7 +163,8 @@ public class PlayerData
         PlayerHyperFrameData p_hyperFrameData,
         PlayerFactoryData p_plantData,
         PlayerFactoryContractData p_plantContractData,
-        PlayerTechTreeData p_techTreeData)
+        PlayerTechTreeData p_techTreeData,
+        PlayerSetting p_Setting)
     {
         P_SystemData = p_systemData;
         P_DayData = p_dayData;
@@ -155,6 +175,7 @@ public class PlayerData
         P_FactoryContractData = p_plantContractData;
 
         P_TechData = p_techTreeData;
+        P_Setting = p_Setting;
     }
 
 }

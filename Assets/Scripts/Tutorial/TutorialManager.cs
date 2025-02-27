@@ -31,6 +31,7 @@ public class TutorialManager : MonoBehaviour
         if (index >= tutorials.Length)
         {
             LoadingSceneManager.LoadScene("TitleScene");
+            Time.timeScale = 1;
             return;
         }
         RectTransform targetRect = tutorials[index].tutorial_Object.GetComponent<RectTransform>();

@@ -24,13 +24,19 @@ public class PlayerSystemModel
 public class PlayerDayModel
 {
     public int Day { get; }
+    public float CurrentTime { get; }
+    public float Hour { get; set; }
+    public float Minute { get; set; }
     public int LastDay { get; }
     public float DayLength { get; }
-    public PlayerDayModel(int day, int lastDay, float dayLength)
+    public PlayerDayModel(int day, float currentTime, float hour, float minute, int lastDay, float dayLength)
     {
         Day = day;
+        CurrentTime = currentTime;
         LastDay = lastDay;
         DayLength = dayLength;
+        Hour = hour;
+        Minute = minute;
     }
 }
 public enum ProductName
@@ -163,12 +169,14 @@ public interface IGameProgressHandler
 {
     
     void InitData();
-    void SaveGame(bool useDateData);
-    bool LoadGame(bool useDateData);
+    void SaveGame(bool isDayData);
+    bool LoadGame(bool isDayData);
+    void ResetData();
     void TodayResult();
     void LastDayResult();
     void SetTimeScale(float scale);
     void NextDay();
+    void ResetTime();
 }
 public interface IPlayerSystemModelHandler
 {

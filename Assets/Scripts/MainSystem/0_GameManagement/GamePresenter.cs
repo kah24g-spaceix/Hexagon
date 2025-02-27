@@ -26,22 +26,29 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     {
         ReloadData();
     }
+    private Coroutine dayCycleCoroutine;
+    private Coroutine systemUpdateCoroutine;
+
+    private void TimerStart()
+    {
+        
+        if (!isDayCycleRunning)
+        {
+            dayCycleCoroutine = StartCoroutine(_dayCycle.DayCycle());
+            systemUpdateCoroutine = StartCoroutine(_dayCycle.SystemUpdate());
+            isDayCycleRunning = true;
+        }
+    }
+
     private void TimerStop()
     {
         if (isDayCycleRunning)
         {
-            StopCoroutine(_dayCycle.DayCycle());
-            StopCoroutine(_dayCycle.SystemUpdate());
+            if(dayCycleCoroutine != null)
+                StopCoroutine(dayCycleCoroutine);
+            if(systemUpdateCoroutine != null)
+                StopCoroutine(systemUpdateCoroutine);
             isDayCycleRunning = false;
-        }
-    }
-    private void TimerStart()
-    {
-        if (!isDayCycleRunning)
-        {
-            StartCoroutine(_dayCycle.DayCycle());
-            StartCoroutine(_dayCycle.SystemUpdate());
-            isDayCycleRunning = true;
         }
     }
 
@@ -71,12 +78,16 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
 
     public void DoTodayResult()
     {
+        TimerStop();
         _model.TodayResult();
+        _model.NextDay();
         ReloadData();
+        Pause();
     }
     public void DoLastDayResult()
     {
         ReloadData();
+        _model.ResetData();
     }
     public void OnDaySkipButton()
     {
@@ -84,24 +95,22 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public void OnNextDayButton()
     {
-        Resume();
-        _model.NextDay();
         DoSaveGame(true);
         DoSaveGame(false);
-        DoLoadGame(true);
-        ReloadData();
         TimerStart();
+        ReloadData();
+        Resume();
     }
     public void OnRestartDayButton()
     {
         Resume();
         DoLoadGame(true);
-        ReloadData();
         TimerStart();
+        ReloadData();
     }
-    public void DoLoadGame(bool useDateData)
+    public void DoLoadGame(bool isDayData)
     {
-        if (!_model.LoadGame(useDateData))
+        if (!_model.LoadGame(isDayData))
             _model.InitData();
         ReloadData();
     }
@@ -116,7 +125,6 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         _playerMaterialModel = _model.GetPlayerMaterialModel();
         _playerTechModel = _model.GetPlayerTechModel();
     }
-
     public void Resume() => Time.timeScale = 1;
 
     public void Pause() => Time.timeScale = 0;

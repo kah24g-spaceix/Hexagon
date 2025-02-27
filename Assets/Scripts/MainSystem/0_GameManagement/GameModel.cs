@@ -33,13 +33,15 @@ public class GameModel : MonoBehaviour, IGameModel
             if (!LoadGame(false))
             {
                 Debug.LogError("Failed to load the game data. Initializing data instead.");
-                //InitData();
+                return;
             }
+            
         }
         else
         {
             Debug.Log("Initializing data");
             InitData();
+            ResetTime();
         }
     }
 
@@ -94,9 +96,14 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day,
+            _playerDayModel.CurrentTime,
+            _playerDayModel.Hour,
+            _playerDayModel.Minute,
             _gameSettings.LastDay,
             _gameSettings.DailyPlaytime
+
         );
+        
         UpdatePlayerSaveData();
     }
     private void UpdatePlayerSaveData()
@@ -117,6 +124,9 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         _playerData.P_DayData = new PlayerDayData(
             _playerDayModel.Day,
+            _playerDayModel.CurrentTime,
+            _playerDayModel.Hour,
+            _playerDayModel.Minute,
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
@@ -156,6 +166,11 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
         );
+        _playerData.P_Setting = new PlayerSetting(
+            _gameSettings.DailyPlaytime,
+            _gameSettings.LastDay,
+            _gameSettings.InitialMoney
+        );
     }
     private void SetData(PlayerData data)
     {
@@ -172,6 +187,9 @@ public class GameModel : MonoBehaviour, IGameModel
         );
         _playerDayModel = new PlayerDayModel(
             data.P_DayData.Day,
+            data.P_DayData.CurrentTime,
+            data.P_DayData.Hour,
+            data.P_DayData.Minute,
             data.P_DayData.LastDay,
             data.P_DayData.DayLength
         );
@@ -209,25 +227,24 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_TechData.MaxEmployee,
             data.P_TechData.TechLevels
         );
-
         _playerData = data;
     }
-    public void SaveGame(bool useDateData)
+    public void SaveGame(bool isDayData)
     {
         string key;
-        if (_gameSettings.IsStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
-        else key = useDateData ? "DaySave" : "Save";
+        if (_gameSettings.IsStoryMode) key = isDayData ? "StoryDaySave" : "StorySave";
+        else key = isDayData ? "DaySave" : "Save";
 
         string json = JsonConvert.SerializeObject(_playerData);
         Debug.Log($"Saving game data for key: {key}");
         PlayerPrefs.SetString(key, json);
     }
 
-    public bool LoadGame(bool useDateData)
+    public bool LoadGame(bool isDayData)
     {
         string key;
-        if (_gameSettings.IsStoryMode) key = useDateData ? "StoryDaySave" : "StorySave";
-        else key = useDateData ? "DaySave" : "Save";
+        if (_gameSettings.IsStoryMode) key = isDayData ? "StoryDaySave" : "StorySave";
+        else key = isDayData ? "DaySave" : "Save";
 
         if (!PlayerPrefs.HasKey(key))
         {
@@ -247,6 +264,19 @@ public class GameModel : MonoBehaviour, IGameModel
             return false;
         }
         return true;
+    }
+    public void ResetData()
+    {
+        if (_gameSettings.IsStoryMode)
+        {
+            PlayerPrefs.DeleteKey("StoryDaySave");
+            PlayerPrefs.DeleteKey("StorySave");
+        }
+        else
+        {
+            PlayerPrefs.DeleteKey("DaySave");
+            PlayerPrefs.DeleteKey("Save");
+        }
     }
     public void TodayResult()
     {
@@ -277,11 +307,26 @@ public class GameModel : MonoBehaviour, IGameModel
     {
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day + 1,
+            _playerDayModel.CurrentTime,
+            _playerDayModel.Hour,
+            _playerDayModel.Minute,
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
 
         ProcessContractCancellations();
+        UpdatePlayerSaveData();
+    }
+    public void ResetTime()
+    {
+        _playerDayModel = new PlayerDayModel(
+            _playerDayModel.Day,
+            _playerDayModel.DayLength,
+            _playerDayModel.Hour,
+            _playerDayModel.Minute,
+            _playerDayModel.LastDay,
+            _playerDayModel.DayLength
+        );
         UpdatePlayerSaveData();
     }
     #endregion

@@ -67,40 +67,20 @@ public class TitleUIManager : MonoBehaviour
         optionsButton.onClick.AddListener(() => PopupTrigger(optionPopup));
         exitButton.onClick.AddListener(ExitGame);
 
-        simulationPlayButton.onClick.AddListener(() => OnGameModeSelected(false, isStoryMode: false));
+        simulationPlayButton.onClick.AddListener(() => PlaySimulationMode(false, isStoryMode: false));
     }
 
     private void StartSelectMode()
     {
         AudioManager.Instance.PlaySFX("Select");
-        if (PlayerPrefs.HasKey("Save"))
-        {
-            QuestionDialogUI.Instance.ShowQuestion(
-                "Warning!!\nPlay data remains.\nDo you want to continue?",
-                () => SetupModeSelection(isLoad: false),
-                () => { }
-            );
-        }
-        else
-        {
-            SetupModeSelection(isLoad: false);
-        }
+        SetupModeSelection(isLoad: false);
+
     }
 
     private void LoadSelectMode()
     {
         AudioManager.Instance.PlaySFX("Select");
-        if (!PlayerPrefs.HasKey("Save"))
-        {
-            WarningDialogUI.Instance.ShowWarning(
-                "Warning!!\nThere is no data to load.",
-                () => { }
-            );
-        }
-        else
-        {
-            SetupModeSelection(isLoad: true);
-        }
+        SetupModeSelection(isLoad: true);
     }
 
     private void SetupModeSelection(bool isLoad)
@@ -108,18 +88,57 @@ public class TitleUIManager : MonoBehaviour
         storyButton.onClick.RemoveAllListeners();
         simulationButton.onClick.RemoveAllListeners();
 
-        storyButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: true));
+        storyButton.onClick.AddListener(() => OnStoryButton(isLoad));
         if (isLoad)
-            simulationButton.onClick.AddListener(() => OnGameModeSelected(isLoad, isStoryMode: false));
+            simulationButton.onClick.AddListener(() => OnSimulationButton(isLoad));
         else
-            simulationButton.onClick.AddListener(() => {
+            simulationButton.onClick.AddListener(() =>
+            {
                 AudioManager.Instance.PlaySFX("Select");
                 ShowUI(simulationPopup);
             });
 
         ShowUI(selectModeUI);
     }
-
+    private void OnStoryButton(bool isLoad)
+    {
+        if (!isLoad && PlayerPrefs.HasKey("StorySave"))
+        {
+            QuestionDialogUI.Instance.ShowQuestion(
+                "Warning!!\nStory data remains.\nDo you want to continue?",
+                () => SetupModeSelection(isLoad: false),
+                () => { }
+            );
+            return;
+        }
+        if (isLoad && !PlayerPrefs.HasKey("StorySave"))
+        {
+            WarningDialogUI.Instance.ShowWarning(
+                "Warning!!\nThere is no data to load.",
+                () => { }
+            );
+            return;
+        }
+        OnGameModeSelected(isLoad, isStoryMode: true);
+    }
+    private void OnSimulationButton(bool isLoad)
+    {
+        if (!isLoad && PlayerPrefs.HasKey("Save"))
+        {
+            QuestionDialogUI.Instance.ShowQuestion(
+                "Warning!!\nSimulation data remains.\nDo you want to continue?",
+                () => SetupModeSelection(isLoad: false),
+                () => { }
+            );
+            return;
+        }
+        if (isLoad && !PlayerPrefs.HasKey("Save"))
+        {
+            WarningDialogUI.Instance.ShowWarning("Warning!!\nThere is no data to load.", () => { });
+            return;
+        }
+        OnGameModeSelected(isLoad, isStoryMode: false);
+    }
     private void OnGameModeSelected(bool isLoad, bool isStoryMode)
     {
         AudioManager.Instance.PlaySFX("Select");
@@ -127,21 +146,32 @@ public class TitleUIManager : MonoBehaviour
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
         GameStateManager.Instance.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
-       
-        if (playtimeManager.PlaytimeValue == 0 || lastDayManager.LastDay == 0)
+        LoadingSceneManager.LoadScene("MainGameScene");
+    }
+    private void PlaySimulationMode(bool isLoad, bool isStoryMode)
+    {
+        AudioManager.Instance.PlaySFX("Select");
+        int playtime = playtimeManager.PlaytimeValue;
+        int lastDay = lastDayManager.LastDay;
+        int initialMoney = initialMoneyManager.InitialMoney;
+        GameStateManager.Instance.SetGameState(isLoad, isStoryMode, playtime, lastDay, initialMoney);
+
+        if (!isStoryMode || !isLoad)
         {
-            WarningDialogUI.Instance.ShowWarning(
-                "Warning!!\nPlaytime ot Day is 0",
-                () => { }
-            );
-            return;
+            if (playtimeManager.PlaytimeValue == 0 || lastDayManager.LastDay == 0)
+            {
+                WarningDialogUI.Instance.ShowWarning(
+                    "Warning!!\nPlaytime or Day is 0",
+                    () => { });
+                return;
+            }
+
         }
         LoadingSceneManager.LoadScene("MainGameScene");
     }
-
     private void ShowUI(GameObject UI) => UI.SetActive(true);
     private void HideUI(GameObject UI) => UI.SetActive(false);
-    private void PopupTrigger(GameObject UI) 
+    private void PopupTrigger(GameObject UI)
     {
         AudioManager.Instance.PlaySFX("Select");
         UI.SetActive(!UI.activeSelf);
