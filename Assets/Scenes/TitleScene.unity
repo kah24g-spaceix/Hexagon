@@ -602,7 +602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 130}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &89852207
@@ -6857,6 +6857,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5477184933387780743, guid: ad4fdd748f66d3e4c8cd28ebd95803a6, type: 3}
+      propertyPath: sfxSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5477184933387780743, guid: ad4fdd748f66d3e4c8cd28ebd95803a6, type: 3}
+      propertyPath: sfxSounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c03872a9c8c702249a0aaeb0248ff758, type: 3}
+    - target: {fileID: 5477184933387780743, guid: ad4fdd748f66d3e4c8cd28ebd95803a6, type: 3}
+      propertyPath: sfxSounds.Array.data[2].name
+      value: Select
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7283,7 +7295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -60}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652870368

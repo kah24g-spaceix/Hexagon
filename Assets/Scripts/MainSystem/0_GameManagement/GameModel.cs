@@ -35,7 +35,7 @@ public class GameModel : MonoBehaviour, IGameModel
                 Debug.LogError("Failed to load the game data. Initializing data instead.");
                 return;
             }
-            
+            IsSimulationMode();
         }
         else
         {
@@ -227,6 +227,10 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_TechData.MaxEmployee,
             data.P_TechData.TechLevels
         );
+        _gameSettings.DailyPlaytime = data.P_Setting.DailyPlaytime;
+        _gameSettings.LastDay = data.P_Setting.LastDay;
+        _gameSettings.InitialMoney = data.P_Setting.InitialMoney;
+
         _playerData = data;
     }
     public void SaveGame(bool isDayData)

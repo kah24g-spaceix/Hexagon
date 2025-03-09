@@ -25,25 +25,29 @@ public class GameDateManager : MonoBehaviour
         _gameModel = GetComponent<IGameModel>();
         playerDayModel = _gameModel.GetPlayerDayModel();
         time = playerDayModel.DayLength;
-        hour = playerDayModel.Hour;
-        minute = playerDayModel.Minute;
+
         timeScale = gameDayInHours / time;
 
     }
+
     public IEnumerator DayCycle()
     {
         currentTime = playerDayModel.CurrentTime;
+        hour = playerDayModel.Hour;
+        minute = playerDayModel.Minute;
+        Debug.Log($"Awake Clock: {hour}:{minute}");
+
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
             hour = (hour + Time.deltaTime * timeScale) % 24f;
             minute = (hour - Mathf.Floor(hour)) * 60f;
 
-            _gameView.ClockUpdate(GetHour(), GetMinute());
-            _gameModel.DoDayResult(new (playerDayModel.Day, currentTime, GetHour(), GetMinute(), playerDayModel.LastDay, playerDayModel.DayLength));
-            Debug.Log($"{playerDayModel.Hour} : {playerDayModel.Minute}");
-            Debug.Log($"Updating Clock: {GetHour()}:{GetMinute()}");
             playerDayModel = _gameModel.GetPlayerDayModel();
+            _gameView.ClockUpdate(GetHour(), GetMinute());
+            _gameModel.DoDayResult(new (playerDayModel.Day, playerDayModel.DayLength, GetHour(), GetMinute(), playerDayModel.LastDay, playerDayModel.DayLength));
+            //Debug.Log($"{playerDayModel.Hour} : {playerDayModel.Minute}");
+            //Debug.Log($"Updating Clock: {GetHour()}:{GetMinute()}");
             yield return null;
         }
 

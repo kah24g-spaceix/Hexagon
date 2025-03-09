@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
         if (sound == null)
         {
-            Debug.Log("Sound Not Found");
+            Debug.Log("[ Sound Not Found ] or [ the names are different ]");
         }
         else
         {
@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
 
         if (sound == null)
         {
-            Debug.Log("Sound Not Found");
+            Debug.Log("[ Sound Not Found ] or [ the names are different ]");
         }
         else
         {

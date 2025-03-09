@@ -1,0 +1,18 @@
+{
+    "locales": [
+        { "languageCode": "en", "displayName": "English"},
+        { "languageCode": "ko", "displayName": "한국어"}
+    ],
+    "translations": {
+        "en": {
+            "hello": "Hello",
+            "goodbye": "Goodbye",
+            "score": "Score"
+        },
+        "ko": {
+            "hello": "안녕하세요",
+            "goodbye": "안녕히 가세요",
+            "score": "점수"
+        }
+    }
+}

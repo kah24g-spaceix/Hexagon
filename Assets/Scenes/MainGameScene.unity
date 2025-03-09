@@ -864,7 +864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hour: 0
   minute: 0
-  second: 0
   currentTime: 0
 --- !u!1 &96415985
 GameObject:
@@ -4854,7 +4853,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 4.21875
+  orthographic size: 0
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
