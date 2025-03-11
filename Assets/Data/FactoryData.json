@@ -1,6 +1,6 @@
 [
     {
-        "Name": "Alloy",
+        "Name": "alloy",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,
@@ -9,7 +9,7 @@
         "LevelCap":10
     },
     {
-        "Name": "Microchip",
+        "Name": "microchip",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,
@@ -18,7 +18,7 @@
         "LevelCap":10
     },
     {
-        "Name": "CarbonFiber",
+        "Name": "carbonFiber",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,
@@ -27,7 +27,7 @@
         "LevelCap":10
     },
     {
-        "Name": "ConductiveFiber",
+        "Name": "conductiveFiber",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,
@@ -36,7 +36,7 @@
         "LevelCap":10
     },
     {
-        "Name": "Pump",
+        "Name": "pump",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,
@@ -45,7 +45,7 @@
         "LevelCap":10
     },
     {
-        "Name": "RubberTube",
+        "Name": "rubberTube",
         "ConstructionCost": 5000000,
         "ContractCost":1000,
         "UpgradeCost":1000000,

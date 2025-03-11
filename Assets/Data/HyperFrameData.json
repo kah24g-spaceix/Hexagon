@@ -6,37 +6,37 @@
         "MaterialsCost":[12,10,7,8,2,5]
     },
     {
-        "Name":"Eyeball",
+        "Name":"eyeball",
         "Description":"",
         "Price": 10000,
         "MaterialsCost":[3,5,1,4,1,2]
     },
     {
-        "Name":"Arm",
+        "Name":"arm",
         "Description":"1",
         "Price": 10000,
         "MaterialsCost":[12,6,8,6,3,5]
     },
     {
-        "Name":"Hand",
+        "Name":"hand",
         "Description":"1",
         "Price": 10000,
         "MaterialsCost":[8,3,6,5,1,3]
     },
     {
-        "Name":"Body",
+        "Name":"body",
         "Description":"1",
         "Price": 10000,
         "MaterialsCost":[20,8,15,10,5,8]
     },
     {
-        "Name":"Leg",
+        "Name":"leg",
         "Description":"1",
         "Price": 10000,
         "MaterialsCost":[15,5,10,8,4,6]
     },
     {
-        "Name":"Foot",
+        "Name":"foot",
         "Description":"1",
         "Price": 10000,
         "MaterialsCost":[10,3,7,4,3,4]

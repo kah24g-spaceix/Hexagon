@@ -8,9 +8,7 @@ public class LocalizationManager : MonoBehaviour
     public static LocalizationManager Instance;
     [SerializeField] private TextAsset jsonFile;
     private Dictionary<string, Dictionary<string, string>> translations;
-    private Dictionary<string, string> fonts;
     private string currentLanguage = "en";
-    private Font currentFont;
     void Awake()
     {
         if (Instance == null)
@@ -36,12 +34,6 @@ public class LocalizationManager : MonoBehaviour
 
         LocalizationData data = JsonConvert.DeserializeObject<LocalizationData>(jsonFile.text);
         translations = data.translations;
-        fonts = new Dictionary<string, string>();
-
-        foreach (var locale in data.locales)
-        {
-            fonts[locale.languageCode] = locale.font;
-        }
     }
 
     public void LoadLanguage(string languageCode)

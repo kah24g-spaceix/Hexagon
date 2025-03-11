@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4495715749636825211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1604837114033502536}
+  - component: {fileID: 1872148483515135708}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1604837114033502536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4495715749636825211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1872148483515135708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4495715749636825211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68e9b2783b324840bb91dc1490ff3bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blocks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  tutorials:
+  - explanation: "Hello, I\u2019m your assistant, Exinal."
+    tutorial_Object: {fileID: 0}
+  - explanation: I will guide you through managing \nthe Hexagonal Human project.
+    tutorial_Object: {fileID: 0}
+  - explanation: First, let's start with the Factory Contract.
+    tutorial_Object: {fileID: 0}
+  - explanation: Press the first button to open the popup window.
+    tutorial_Object: {fileID: 0}
+  - explanation: Click the Contract Button.
+    tutorial_Object: {fileID: 0}
+  - explanation: By signing a factory contract, you will receive materials that can
+      be used to manufacture products.
+    tutorial_Object: {fileID: 0}
+  - explanation: Now, let's try Selling Products.
+    tutorial_Object: {fileID: 0}
+  - explanation: Press the second button to open the popup window.
+    tutorial_Object: {fileID: 0}
+  - explanation: Use the provided materials to create an Eyeball.
+    tutorial_Object: {fileID: 0}
+  - explanation: Use the provided materials to create an Eyeball.
+    tutorial_Object: {fileID: 0}
+  - explanation: Now, let's sell the Eyeball.
+    tutorial_Object: {fileID: 0}
+  - explanation: Maintain the project budget while working towards its successful
+      completion.
+    tutorial_Object: {fileID: 0}
+  - explanation: That concludes the explanation.
+    tutorial_Object: {fileID: 0}
+  - explanation: Thank you.
+    tutorial_Object: {fileID: 0}
+  text: {fileID: 0}
