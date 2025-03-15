@@ -35,7 +35,7 @@ public class FrameInformation : MonoBehaviour
         HyperFrameModel currentModel = HyperFrameGroup.Instance.Model;
         image.sprite = Resources.Load<Sprite>($"Sprites/HyperFrames/HyperFrame_{ID}");
         countText.SetText($"x{currentModel.Counts[ID]}");
-        descriptionText.SetText($"{currentModel.Descriptions[ID]}");
+        descriptionText.SetText($"{LocalizationManager.Instance.GetLocalizedText(currentModel.Descriptions[ID])}");
         revenueText.SetText($"{currentModel.Prices[ID]:N0} $");
     }
     private void Creation()

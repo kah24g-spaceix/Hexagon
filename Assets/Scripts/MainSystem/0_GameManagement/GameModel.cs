@@ -39,7 +39,7 @@ public class GameModel : MonoBehaviour, IGameModel
         }
         else
         {
-            Debug.Log("Initializing data");
+            Debug.Log("GameModel Awake - Initializing Data...");
             InitData();
             ResetTime();
         }
@@ -59,7 +59,6 @@ public class GameModel : MonoBehaviour, IGameModel
     public void InitData()
     {
         PlayerData initData = JsonConvert.DeserializeObject<PlayerData>(_playerDataInit.text);
-
         if (initData == null)
         {
             Debug.LogError("PlayerData deserialization failed. Check _playerDataInit.");
@@ -78,12 +77,12 @@ public class GameModel : MonoBehaviour, IGameModel
     private void IsSimulationMode()
     {
         Debug.Log($"{_gameSettings.IsLoad} {_gameSettings.IsStoryMode} {_gameSettings.DailyPlaytime} {_gameSettings.LastDay} {_gameSettings.InitialMoney}");
-        if (_gameSettings.IsStoryMode) 
+        if (_gameSettings.IsStoryMode)
         {
             Debug.Log("Story Mode");
             return;
         }
-        if (_gameSettings.DailyPlaytime == 0 && _gameSettings.LastDay == 0 && _gameSettings.InitialMoney == 0) 
+        if (_gameSettings.DailyPlaytime == 0 && _gameSettings.LastDay == 0 && _gameSettings.InitialMoney == 0)
         {
             Debug.Log("Simulation Initial Value is 0");
             return;
@@ -103,7 +102,7 @@ public class GameModel : MonoBehaviour, IGameModel
             _gameSettings.DailyPlaytime
 
         );
-        
+
         UpdatePlayerSaveData();
     }
     private void UpdatePlayerSaveData()
@@ -227,6 +226,7 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_TechData.MaxEmployee,
             data.P_TechData.TechLevels
         );
+        Debug.Log(data.P_Setting.DailyPlaytime);
         _gameSettings.DailyPlaytime = data.P_Setting.DailyPlaytime;
         _gameSettings.LastDay = data.P_Setting.LastDay;
         _gameSettings.InitialMoney = data.P_Setting.InitialMoney;
@@ -455,9 +455,9 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerMaterialModel.ConductiveFiber,
             _playerMaterialModel.Pump,
             _playerMaterialModel.RubberTube};
-        
+
     }
-    
+
     public void AddProduct()
     {
         UpdateMaterialModel(GetProduct);

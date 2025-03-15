@@ -99,7 +99,7 @@ public class GameView : MonoBehaviour, IGameView
         TitleButton.onClick.AddListener(() => ButtonType(MenuButton.Title));
         ExitButton.onClick.AddListener(() => ButtonType(MenuButton.Exit));
 
-        DayCycleButton.onClick.AddListener(() => { AudioManager.Instance.PlaySFX("Select"); PauseTrigger(); isDayCycleButton = !isDayCycleButton; });
+        DayCycleButton.onClick.AddListener(PauseButton);
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
 
         NextDayButton.onClick.AddListener(() =>
@@ -109,6 +109,12 @@ public class GameView : MonoBehaviour, IGameView
             QuestionDialogUI.Instance.ShowQuestion(
                 "Do you want to begin the day again?", () => { gamePresenter.OnRestartDayButton(); HideUI(ToDayResult); }, () => { }));
         NextButton.onClick.AddListener(()=>SceneManager.LoadScene("EndingScene"));
+    }
+    public void PauseButton()
+    {
+        AudioManager.Instance.PlaySFX("Select"); 
+        PauseTrigger(); 
+        isDayCycleButton = !isDayCycleButton;
     }
     private void ButtonType(MenuButton buttonType)
     {

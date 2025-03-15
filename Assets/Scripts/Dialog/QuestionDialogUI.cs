@@ -9,6 +9,10 @@ public class QuestionDialogUI : MonoBehaviour
     [SerializeField] private Button yesBtn;
     [SerializeField] private Button noBtn;
 
+    [Header("Text")]
+    [SerializeField] private TextMeshProUGUI yesText;
+    [SerializeField] private TextMeshProUGUI noText;
+
     private void Awake()
     {
         Instance = this;
@@ -19,6 +23,8 @@ public class QuestionDialogUI : MonoBehaviour
         gameObject.SetActive(true);
 
         textMeshPro.text = questionText;
+        yesText.text = LocalizationManager.Instance.GetLocalizedText("question.yes");
+        noText.text = LocalizationManager.Instance.GetLocalizedText("question.no");
         yesBtn.onClick.AddListener(() => {
             Hide();
             yesAction();

@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 928140065337462564}
   - component: {fileID: 6593891499900502878}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: no
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,7 +701,7 @@ GameObject:
   - component: {fileID: 8746055091946306361}
   - component: {fileID: 1897563884866253211}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: yes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -958,3 +958,5 @@ MonoBehaviour:
   textMeshPro: {fileID: 3287170762848775247}
   yesBtn: {fileID: 8572096506245069733}
   noBtn: {fileID: 3161453393027698573}
+  yesText: {fileID: 1897563884866253211}
+  noText: {fileID: 6593891499900502878}

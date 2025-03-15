@@ -13,7 +13,11 @@ public class TutorialButton : MonoBehaviour
     }
     void Start()
     {
-        tutorial.onClick.AddListener(() => LoadingSceneManager.LoadScene("TutorialScene"));
-    }
 
+        tutorial.onClick.AddListener(Tutorial);
+    }
+    void Tutorial()
+    {
+        LoadingSceneManager.LoadScene("TutorialScene");
+    }
 }

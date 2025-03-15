@@ -10,17 +10,15 @@ public class DataReset : MonoBehaviour
         Button button = GetComponent<Button>();
         button.onClick.AddListener(() => QuestionDialogUI.Instance.ShowQuestion
         (
-            "Do you want to reset the game data?\nThis action cannot be undone.",
+            LocalizationManager.Instance.GetLocalizedText("question.reset"),
             ()=>ResetData(),
             ()=>{}
         ));
     }
     private void ResetData()
     {
-        PlayerPrefs.DeleteKey("StoryDaySave");
-        PlayerPrefs.DeleteKey("StorySave");
-        PlayerPrefs.DeleteKey("DaySave");
-        PlayerPrefs.DeleteKey("Save");
+        PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
+        LoadingSceneManager.LoadScene("TitleScene");
     }
 }

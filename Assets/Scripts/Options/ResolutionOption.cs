@@ -6,8 +6,8 @@ using TMPro;
 public class ResolutionOption : MonoBehaviour
 {
     FullScreenMode screenMode;
-    [SerializeField] bool is16v9;
-    [SerializeField] bool hasHz;
+    readonly bool is16v9 = true;
+    readonly bool hasHz;
     [SerializeField] TMP_Dropdown resolutionDropdown;
     [SerializeField] Toggle fullScreenToggle;
     List<Resolution> resolutions = new List<Resolution>();
@@ -30,8 +30,9 @@ public class ResolutionOption : MonoBehaviour
         Invoke("SetResolution", 0.1f);
     }
 
-    void SetResolution()
+    public void SetResolution()
     {
+        Debug.Log("SetResolution");
         resolutionDropdown.ClearOptions();
         resolutions.AddRange(Screen.resolutions);
 
@@ -82,11 +83,16 @@ public class ResolutionOption : MonoBehaviour
     public void DropboxOptionChange(int resolutionIndex)
     {
         ResolutionIndex = resolutionIndex;
-        Screen.SetResolution(resolutions[ResolutionIndex].width, resolutions[ResolutionIndex].height, screenMode);
     }
     public void FullScreenButton(bool isFull)
     {
-        fullScreenToggle.isOn = isFull;
-        screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        IsFullScreen = isFull;
+        fullScreenToggle.isOn = IsFullScreen;
+        
+    }
+    public void Apply()
+    {
+        screenMode = IsFullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        Screen.SetResolution(resolutions[ResolutionIndex].width, resolutions[ResolutionIndex].height, screenMode);
     }
 }

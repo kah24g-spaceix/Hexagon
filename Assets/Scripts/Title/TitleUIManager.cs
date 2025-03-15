@@ -22,7 +22,6 @@ public class TitleUIManager : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] private TextMeshProUGUI TotalPlayTime;
-    private int hour;
     private int min;
     private int sec;
 
@@ -48,10 +47,9 @@ public class TitleUIManager : MonoBehaviour
     {
         int playTimeValue = playtimeManager.PlaytimeValue * lastDayManager.LastDay;
         const int timeValue = 60;
-        hour = min / timeValue;
         min = playTimeValue / timeValue;
         sec = playTimeValue % timeValue;
-        TotalPlayTime.SetText($"Total play time\n{min}m : {sec}s");
+        TotalPlayTime.SetText($"{LocalizationManager.Instance.GetLocalizedText("playTime.total")}\n{min}m : {sec}s");
     }
     private void InitializeUI()
     {
@@ -105,8 +103,8 @@ public class TitleUIManager : MonoBehaviour
         if (!isLoad && PlayerPrefs.HasKey("StorySave"))
         {
             QuestionDialogUI.Instance.ShowQuestion(
-                "Warning!!\nStory data remains.\nDo you want to continue?",
-                () => SetupModeSelection(isLoad: false),
+                LocalizationManager.Instance.GetLocalizedText("question.story"),
+                () => OnGameModeSelected(isLoad, isStoryMode: true),
                 () => { }
             );
             return;
@@ -114,9 +112,8 @@ public class TitleUIManager : MonoBehaviour
         if (isLoad && !PlayerPrefs.HasKey("StorySave"))
         {
             WarningDialogUI.Instance.ShowWarning(
-                "Warning!!\nThere is no data to load.",
-                () => { }
-            );
+                LocalizationManager.Instance.GetLocalizedText("warning.noData"),
+                () => { });
             return;
         }
         OnGameModeSelected(isLoad, isStoryMode: true);
@@ -126,15 +123,17 @@ public class TitleUIManager : MonoBehaviour
         if (!isLoad && PlayerPrefs.HasKey("Save"))
         {
             QuestionDialogUI.Instance.ShowQuestion(
-                "Warning!!\nSimulation data remains.\nDo you want to continue?",
-                () => SetupModeSelection(isLoad: false),
+                LocalizationManager.Instance.GetLocalizedText("question.simulation"),
+                () => OnGameModeSelected(isLoad, isStoryMode: false),
                 () => { }
             );
             return;
         }
         if (isLoad && !PlayerPrefs.HasKey("Save"))
         {
-            WarningDialogUI.Instance.ShowWarning("Warning!!\nThere is no data to load.", () => { });
+            WarningDialogUI.Instance.ShowWarning(
+                LocalizationManager.Instance.GetLocalizedText("warning.noData"), 
+                () => { });
             return;
         }
         OnGameModeSelected(isLoad, isStoryMode: false);
@@ -161,7 +160,7 @@ public class TitleUIManager : MonoBehaviour
             if (playtimeManager.PlaytimeValue == 0 || lastDayManager.LastDay == 0)
             {
                 WarningDialogUI.Instance.ShowWarning(
-                    "Warning!!\nPlaytime or Day is 0",
+                    LocalizationManager.Instance.GetLocalizedText("warning.zero"),
                     () => { });
                 return;
             }
