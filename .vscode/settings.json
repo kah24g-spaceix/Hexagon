@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Hexagon - 복사본.sln"
+    "dotnet.defaultSolution": "Hexagon.sln"
 }
