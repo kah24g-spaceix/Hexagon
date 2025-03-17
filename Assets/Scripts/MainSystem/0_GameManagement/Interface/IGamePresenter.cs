@@ -6,6 +6,7 @@ public interface IGamePresenter
     //void BindView(IGameView pView);
     string GetDay();
     string GetMoney();
+    string GetTechPoint();
     void OnDaySkipButton();
     void SystemUpdate();
     void SystemSkipUpdate(float skipTime);

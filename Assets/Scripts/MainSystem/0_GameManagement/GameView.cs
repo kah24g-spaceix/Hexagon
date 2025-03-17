@@ -32,6 +32,7 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI Day;
     [SerializeField] private TextMeshProUGUI CurrentTime;
     [SerializeField] private TextMeshProUGUI Money;
+    [SerializeField] private TextMeshProUGUI TechPoint;
 
     [Header("In Game Button")]
     [SerializeField] private Button DayCycleButton;
@@ -205,6 +206,7 @@ public class GameView : MonoBehaviour, IGameView
     {
         Day.SetText(gamePresenter.GetDay());
         Money.SetText(gamePresenter.GetMoney());
+        TechPoint.SetText(gamePresenter.GetTechPoint());
     }
     public void ClockUpdate(float hour, float minute)
     {

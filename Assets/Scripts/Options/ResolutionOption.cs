@@ -27,7 +27,7 @@ public class ResolutionOption : MonoBehaviour
     {
         resolutionDropdown.onValueChanged.AddListener(DropboxOptionChange);
         fullScreenToggle.onValueChanged.AddListener(FullScreenButton);
-        Invoke("SetResolution", 0.1f);
+        Invoke("SetResolution", 0.001f);
     }
 
     public void SetResolution()

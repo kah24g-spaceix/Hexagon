@@ -63,6 +63,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     }
     public string GetDay() => $"Day {_playerDayModel.Day}";
     public string GetMoney() => $"{_playerSystemModel.Money:N0} $";
+    public string GetTechPoint() => $"Tech Point: {_playerTechModel.TechPoint}";
     public void OnExchangeTechPointButton(int value)
     {
         if (_playerTechModel.TechPoint == 0)

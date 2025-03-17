@@ -47,6 +47,16 @@ public class GameModel : MonoBehaviour, IGameModel
 
     private void ApplySimulationManagerSettings(GameStateManager simulationManager)
     {
+        if (simulationManager == null)
+        {
+            Debug.LogError("simulationManager is null!");
+            _gameSettings.IsLoad = false;
+            _gameSettings.IsStoryMode = false;
+            _gameSettings.DailyPlaytime = 2400;
+            _gameSettings.LastDay = 10;
+            _gameSettings.InitialMoney = 0;
+            return;
+        }
         _gameSettings.IsLoad = simulationManager.IsLoad;
         _gameSettings.IsStoryMode = simulationManager.IsStoryMode;
         _gameSettings.DailyPlaytime = simulationManager.Playtime;
