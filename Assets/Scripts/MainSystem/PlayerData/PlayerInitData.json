@@ -7,8 +7,7 @@
   },
   "P_DayData": {
     "Day": 1,
-    "Hour": 0,
-    "Minute": 0,
+    "CurrentTime": 0,
     "LastDay": 20,
     "DayLength": 2400
   },

@@ -33,17 +33,26 @@ public class GameView : MonoBehaviour, IGameView
     [SerializeField] private TextMeshProUGUI CurrentTime;
     [SerializeField] private TextMeshProUGUI Money;
     [SerializeField] private TextMeshProUGUI TechPoint;
+    [SerializeField] private TextMeshProUGUI R_Value;
+    [SerializeField] private TextMeshProUGUI E_Value;
 
     [Header("In Game Button")]
     [SerializeField] private Button DayCycleButton;
     [SerializeField] private Button DaySkipButton;
+    [SerializeField] private Button ResetPopupLocation;
+    
 
     [Header("In Game Popup")]
     [SerializeField] private GameObject InGameButtonHolder;
     private List<Button> InGameButtons;
     [SerializeField] private GameObject InGamePopupHolder;
     private List<GameObject> InGamePopups;
-
+    
+    [SerializeField] private Button TechPointChangeButton;
+    [SerializeField] private GameObject TechPointChange;
+    [SerializeField] private TechChange techChange;
+    
+    
     [Header("To Day Result UI")]
     [SerializeField] private GameObject ToDayResultUI;
     public GameObject ToDayResult { get; private set; }
@@ -64,6 +73,7 @@ public class GameView : MonoBehaviour, IGameView
     private void Awake()
     {
         gamePresenter = GetComponent<IGamePresenter>();
+        techChange = TechPointChange.GetComponent<TechChange>();
         InitInGameUI();
         ToDayResult = ToDayResultUI;
         LastDayResult = LastDayResultUI;
@@ -75,7 +85,6 @@ public class GameView : MonoBehaviour, IGameView
         foreach (Transform child in InGamePopupHolder.transform)
         {
             InGamePopups.Add(child.gameObject);
-
         }
     }
     private void Start()
@@ -85,8 +94,8 @@ public class GameView : MonoBehaviour, IGameView
         HideUI(OptionPopup);
         HideUI(ToDayResultUI);
         HideUI(LastDayResultUI);
-
-
+        HideUI(TechPointChange);
+        TechChange();
         for (int i = 0; i < InGamePopups.Count; i++)
         {
             int index = i;
@@ -102,6 +111,18 @@ public class GameView : MonoBehaviour, IGameView
 
         DayCycleButton.onClick.AddListener(PauseButton);
         DaySkipButton.onClick.AddListener(gamePresenter.OnDaySkipButton);
+        ResetPopupLocation.onClick.AddListener(() =>
+        {
+            for (int i = 0; i < InGamePopups.Count; i++)
+            {
+                int index = i;
+                RectTransform popupRect = InGamePopups[index].GetComponent<RectTransform>();
+                popupRect.anchoredPosition = Vector2.zero;
+            }
+        });
+
+        TechPointChangeButton.onClick.AddListener(() => PopupTriggerButton(TechPointChange));
+
 
         NextDayButton.onClick.AddListener(() =>
             QuestionDialogUI.Instance.ShowQuestion(
@@ -113,13 +134,27 @@ public class GameView : MonoBehaviour, IGameView
     }
     public void PauseButton()
     {
-        AudioManager.Instance.PlaySFX("Select"); 
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select); 
         PauseTrigger(); 
         isDayCycleButton = !isDayCycleButton;
     }
+    private void TechChange()
+    {
+        
+        techChange.Change.onClick.AddListener(ChangeButton);
+    }
+    private void ChangeButton()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
+
+        techChange.slider.value = Mathf.Clamp(techChange.slider.value, techChange.slider.minValue, techChange.slider.maxValue);
+        
+        gamePresenter.OnChangeTechPoint(techChange.slider.value);
+        techChange.slider.value = techChange.slider.minValue;
+    }
     private void ButtonType(MenuButton buttonType)
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         switch (buttonType)
         {
             case MenuButton.Resume:
@@ -164,9 +199,9 @@ public class GameView : MonoBehaviour, IGameView
     }
     private void Update()
     {
+        if (!MenuPopup.activeSelf) HandleInGameInput();
         ViewUpdate();
         HandlePauseInput();
-        if (!MenuPopup.activeSelf) HandleInGameInput();
     }
     private void HandlePauseInput()
     {
@@ -201,12 +236,17 @@ public class GameView : MonoBehaviour, IGameView
     public void ViewUpdate()
     {
         TextUIUpdate();
+        techChange.slider.maxValue = gamePresenter.MaxTechChange(techChange.slider.maxValue);
     }
     public void TextUIUpdate()
     {
         Day.SetText(gamePresenter.GetDay());
         Money.SetText(gamePresenter.GetMoney());
         TechPoint.SetText(gamePresenter.GetTechPoint());
+        techChange.techPoint.SetText($"{techChange.slider.value:N0}");
+        techChange.price.SetText(gamePresenter.GetTechPointPrice(techChange.slider.value));
+        R_Value.SetText(gamePresenter.GetR_Value());
+        E_Value.SetText(gamePresenter.GetE_Value());
     }
     public void ClockUpdate(float hour, float minute)
     {
@@ -224,13 +264,13 @@ public class GameView : MonoBehaviour, IGameView
     {
         if (Input.GetKeyDown(key))
         {
-            AudioManager.Instance.PlaySFX("Select");
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
             UI.SetActive(!UI.activeSelf);
         }
     }
     public void PopupTriggerButton(GameObject UI)
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         UI.SetActive(!UI.activeSelf);
     }
 

@@ -11,7 +11,7 @@ public class HyperFrameGroup : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<HyperFrameGroup>();
+                _instance = Object.FindFirstObjectByType<HyperFrameGroup>();
                 if (_instance == null)
                 {
                     Debug.LogError("HyperFrameGroup instance is not found in the scene.");
@@ -23,8 +23,6 @@ public class HyperFrameGroup : MonoBehaviour
     [SerializeField] private GameObject hyperFrameValue;
     [SerializeField] private GameObject hyperFrameHolder;
     [SerializeField] private GameObject costHolder;
-
-    public GameObject HyperFrameValue { get; private set; }
     public List<Frame> FrameList { get; private set; }
     public List<ProductValue> CostList { get; private set;}
     public HyperFrameModel Model { get; private set; }
@@ -40,7 +38,6 @@ public class HyperFrameGroup : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        HyperFrameValue = hyperFrameValue; 
     }
     public void InitializeModel(HyperFrameData data)
     {

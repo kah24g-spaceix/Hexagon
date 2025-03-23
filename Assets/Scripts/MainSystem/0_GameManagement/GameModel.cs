@@ -23,11 +23,13 @@ public class GameModel : MonoBehaviour, IGameModel
 
     private void Awake()
     {
+        InitGame();
+    }
+    public void InitGame()
+    {
         _gameSettings = new GameSettings();
-
         var simulationManager = GameStateManager.Instance;
         ApplySimulationManagerSettings(simulationManager);
-
         if (_gameSettings.IsLoad)
         {
             if (!LoadGame(false))
@@ -35,7 +37,6 @@ public class GameModel : MonoBehaviour, IGameModel
                 Debug.LogError("Failed to load the game data. Initializing data instead.");
                 return;
             }
-            IsSimulationMode();
         }
         else
         {
@@ -44,7 +45,6 @@ public class GameModel : MonoBehaviour, IGameModel
             ResetTime();
         }
     }
-
     private void ApplySimulationManagerSettings(GameStateManager simulationManager)
     {
         if (simulationManager == null)
@@ -62,7 +62,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _gameSettings.DailyPlaytime = simulationManager.Playtime;
         _gameSettings.LastDay = simulationManager.LastDay;
         _gameSettings.InitialMoney = simulationManager.InitialMoney;
-
         Debug.Log($"Simulation settings applied: IsStoryMode: {_gameSettings.IsStoryMode}, DailyPlaytime: {_gameSettings.DailyPlaytime}, LastDay: {_gameSettings.LastDay}, InitialMoney: {_gameSettings.InitialMoney}");
     }
     #region GameProgress
@@ -94,7 +93,7 @@ public class GameModel : MonoBehaviour, IGameModel
         }
         if (_gameSettings.DailyPlaytime == 0 && _gameSettings.LastDay == 0 && _gameSettings.InitialMoney == 0)
         {
-            Debug.Log("Simulation Initial Value is 0");
+            Debug.LogWarning("Simulation Initial Value is 0");
             return;
         }
         _playerSystemModel = new PlayerSystemModel(
@@ -106,8 +105,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day,
             _playerDayModel.CurrentTime,
-            _playerDayModel.Hour,
-            _playerDayModel.Minute,
             _gameSettings.LastDay,
             _gameSettings.DailyPlaytime
 
@@ -134,8 +131,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerData.P_DayData = new PlayerDayData(
             _playerDayModel.Day,
             _playerDayModel.CurrentTime,
-            _playerDayModel.Hour,
-            _playerDayModel.Minute,
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
@@ -197,8 +192,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             data.P_DayData.Day,
             data.P_DayData.CurrentTime,
-            data.P_DayData.Hour,
-            data.P_DayData.Minute,
             data.P_DayData.LastDay,
             data.P_DayData.DayLength
         );
@@ -236,10 +229,14 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_TechData.MaxEmployee,
             data.P_TechData.TechLevels
         );
-        Debug.Log(data.P_Setting.DailyPlaytime);
-        _gameSettings.DailyPlaytime = data.P_Setting.DailyPlaytime;
-        _gameSettings.LastDay = data.P_Setting.LastDay;
-        _gameSettings.InitialMoney = data.P_Setting.InitialMoney;
+
+        if (_gameSettings.IsLoad)
+        {
+            _gameSettings.DailyPlaytime = data.P_Setting.DailyPlaytime;
+            _gameSettings.LastDay = data.P_Setting.LastDay;
+            _gameSettings.InitialMoney = data.P_Setting.InitialMoney;
+        }
+
 
         _playerData = data;
     }
@@ -322,8 +319,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day + 1,
             _playerDayModel.CurrentTime,
-            _playerDayModel.Hour,
-            _playerDayModel.Minute,
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
@@ -336,8 +331,6 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerDayModel = new PlayerDayModel(
             _playerDayModel.Day,
             _playerDayModel.DayLength,
-            _playerDayModel.Hour,
-            _playerDayModel.Minute,
             _playerDayModel.LastDay,
             _playerDayModel.DayLength
         );
@@ -367,22 +360,38 @@ public class GameModel : MonoBehaviour, IGameModel
         _playerSystemModel = new PlayerSystemModel(money, _playerSystemModel.Employees, _playerSystemModel.Resistance, _playerSystemModel.CommunityOpinionValue);
         UpdatePlayerSaveData();
     }
-    public void ExchangeTechPoint(int value)
+
+    readonly private int pointPrice = 1000;
+    public void ChangeTechPoint(float value)
     {
+        long money = _playerSystemModel.Money - GetTechPointPrice() * (long)value;
+        if (money <= 0) 
+        {
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Error);
+            return;
+        }
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Buy);
         _playerSystemModel = new PlayerSystemModel(
-            _playerSystemModel.Money + _playerSystemModel.Employees * 100 * value,
+            money,
             _playerSystemModel.Employees,
             _playerSystemModel.Resistance,
             _playerSystemModel.CommunityOpinionValue
         );
 
         _playerTechModel = new PlayerTechModel(
-            _playerTechModel.TechPoint - value,
+            _playerTechModel.TechPoint + (int)value,
             _playerTechModel.RevenueValue,
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
         );
         UpdatePlayerSaveData();
+    }
+    public long GetTechPointPrice()
+    {
+        if (_playerSystemModel.Employees == 0)
+            return pointPrice;
+        else
+            return _playerSystemModel.Employees * pointPrice;
     }
     #endregion
 

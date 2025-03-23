@@ -22,7 +22,6 @@ public class FrameInformation : MonoBehaviour
     }
     private void Start()
     {
-        gameObject.SetActive(false);
         creationButton.onClick.AddListener(Creation);
         sellButton.onClick.AddListener(Sell);
     }
@@ -40,15 +39,15 @@ public class FrameInformation : MonoBehaviour
     }
     private void Creation()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         HyperFrameModel currentModel = HyperFrameGroup.Instance.Model;
         PlayerMaterialModel playerMaterialModel = gameModel.GetPlayerMaterialModel();
         if (IsBuy(playerMaterialModel))
         {
-            AudioManager.Instance.PlaySFX("Error");
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Error);
             return;
         }
-        
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Creation);
         currentModel.Counts[ID]++;
         gameModel.DoMaterialResult(new
         (
@@ -84,13 +83,14 @@ public class FrameInformation : MonoBehaviour
     }
     private void Sell()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         HyperFrameModel currentModel = HyperFrameGroup.Instance.Model;
         PlayerSystemModel playerSystemModel = gameModel.GetPlayerSystemModel();
         if (currentModel.Counts[ID] <= 0)
             Creation();
         if (currentModel.Counts[ID] <= 0) return;
-        Debug.Log(currentModel.Prices[ID]);
+
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Sell);
         currentModel.Counts[ID]--;
         gameModel.DoSystemResult(new
         (

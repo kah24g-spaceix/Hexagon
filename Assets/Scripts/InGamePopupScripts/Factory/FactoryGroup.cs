@@ -12,7 +12,7 @@ public class FactoryGroup : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<FactoryGroup>();
+                _instance = Object.FindAnyObjectByType<FactoryGroup>();
                 if (_instance == null)
                 {
                     Debug.LogError("FactoryGroup instance is not found in the scene.");

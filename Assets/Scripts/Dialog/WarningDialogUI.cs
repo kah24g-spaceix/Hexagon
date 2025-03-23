@@ -23,7 +23,7 @@ public class WarningDialogUI : MonoBehaviour
         {
             Hide();
             okAction();
-            AudioManager.Instance.PlaySFX("Select");
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         });
     }
 

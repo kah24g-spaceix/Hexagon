@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,26 +63,30 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         ReloadData();
     }
     public string GetDay() => $"Day {_playerDayModel.Day}";
-    public string GetMoney() => $"{_playerSystemModel.Money:N0} $";
-    public string GetTechPoint() => $"Tech Point: {_playerTechModel.TechPoint}";
-    public void OnExchangeTechPointButton(int value)
+    public string GetMoney() => $"${_playerSystemModel.Money:N0}";
+    public string GetTechPoint() => $"Tech Point: {_playerTechModel.TechPoint:N0}";
+    public string GetTechPointPrice(float value) => $"{_model.GetTechPointPrice() * value:N0}";
+    public string GetR_Value() => $"{_playerSystemModel.Resistance:N0}";
+    public string GetE_Value() => $"{_playerSystemModel.Employees:N0}";
+    public void OnChangeTechPoint(float value)
     {
-        if (_playerTechModel.TechPoint == 0)
-        {
-            _model.ExchangeTechPoint(value);
-        }
-        else
-        {
-            Debug.Log("Tech points are 0 and cannot be exchanged");
-        }
+        _model.ChangeTechPoint(value);
         ReloadData();
     }
-
+    public float MaxTechChange(float maxValue)
+    {
+        if (_playerSystemModel.Money <= 0)
+        {
+            return 10;
+        }
+        float newMaxValue = _playerSystemModel.Money / _model.GetTechPointPrice();
+        return Mathf.Max(10, Mathf.Floor(newMaxValue));
+    }
     public void DoTodayResult()
     {
         TimerStop();
         _model.TodayResult();
-        _model.NextDay();
+        
         ReloadData();
         Pause();
     }
@@ -99,6 +104,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
         DoSaveGame(true);
         DoSaveGame(false);
         TimerStart();
+        _model.NextDay();
         ReloadData();
         Resume();
     }
@@ -112,7 +118,7 @@ public class GamePresenter : MonoBehaviour, IGamePresenter
     public void DoLoadGame(bool isDayData)
     {
         if (!_model.LoadGame(isDayData))
-            _model.InitData();
+            _model.InitGame();
         ReloadData();
     }
     public void DoSaveGame(bool useDateData)

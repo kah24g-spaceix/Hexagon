@@ -25,6 +25,7 @@ public class GameStateManager : MonoBehaviour
 
     public void SetGameState(bool isLoad, bool isStoryMode, int playtime, int lastDay, int initialMoney)
     {
+        //Debug.Log($"SetGameState called with: isLoad={isLoad}, isStoryMode={isStoryMode}, playtime={playtime}, lastDay={lastDay}, initialMoney={initialMoney}");
         this.isLoad = isLoad;
         this.isStoryMode = isStoryMode;
         this.playtime = playtime;

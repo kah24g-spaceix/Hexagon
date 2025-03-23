@@ -8,6 +8,7 @@ public class GameDateManager : MonoBehaviour
     IGameModel _gameModel;
     PlayerDayModel playerDayModel;
 
+
     public float hour;
     public float minute;
 
@@ -18,6 +19,8 @@ public class GameDateManager : MonoBehaviour
 
     private float timeScale;
 
+    private bool isFirst;
+
     private void Awake()
     {
         _gameView = GetComponent<IGameView>();
@@ -25,37 +28,53 @@ public class GameDateManager : MonoBehaviour
         _gameModel = GetComponent<IGameModel>();
         playerDayModel = _gameModel.GetPlayerDayModel();
         time = playerDayModel.DayLength;
-
+        isFirst = true;
         timeScale = gameDayInHours / time;
 
     }
 
     public IEnumerator DayCycle()
     {
-        currentTime = playerDayModel.CurrentTime;
-        hour = playerDayModel.Hour;
-        minute = playerDayModel.Minute;
-        Debug.Log($"Awake Clock: {hour}:{minute}");
+        playerDayModel = _gameModel.GetPlayerDayModel();
+        if (GameStateManager.Instance.IsLoad && isFirst)
+        {
+            currentTime = playerDayModel.CurrentTime;
+            isFirst = false;
+        }
+        else
+            currentTime = playerDayModel.DayLength;
 
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            hour = (hour + Time.deltaTime * timeScale) % 24f;
-            minute = (hour - Mathf.Floor(hour)) * 60f;
 
-            playerDayModel = _gameModel.GetPlayerDayModel();
+            float totalGameHours = (playerDayModel.DayLength - currentTime) * timeScale;
+            hour = Mathf.Floor(totalGameHours) % 24;
+            minute = Mathf.Floor(totalGameHours * 60 % 60);
+
             _gameView.ClockUpdate(GetHour(), GetMinute());
-            _gameModel.DoDayResult(new (playerDayModel.Day, playerDayModel.DayLength, GetHour(), GetMinute(), playerDayModel.LastDay, playerDayModel.DayLength));
-            //Debug.Log($"{playerDayModel.Hour} : {playerDayModel.Minute}");
-            //Debug.Log($"Updating Clock: {GetHour()}:{GetMinute()}");
+            _gameModel.DoDayResult(new 
+            (
+                playerDayModel.Day, 
+                currentTime,
+                playerDayModel.LastDay, 
+                playerDayModel.DayLength
+            ));
+            
+            playerDayModel = _gameModel.GetPlayerDayModel();
             yield return null;
         }
 
         currentTime = 0;
         _gameModel.SetTimeScale(1);
+        _gameModel.DoDayResult(new 
+        (
+            playerDayModel.Day, 
+            currentTime, 
+            playerDayModel.LastDay, 
+            playerDayModel.DayLength
+        ));
         playerDayModel = _gameModel.GetPlayerDayModel();
-        _gameModel.DoDayResult(new (playerDayModel.Day, currentTime, GetHour(), GetMinute(), playerDayModel.LastDay, playerDayModel.DayLength));
-        Debug.Log($"{playerDayModel.Day} | {playerDayModel.LastDay}:{playerDayModel.Day >= playerDayModel.LastDay}");
         if (playerDayModel.Day >= playerDayModel.LastDay)
         {
             _gameView.ShowUI(_gameView.LastDayResult);

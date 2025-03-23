@@ -18,5 +18,16 @@ public class InitialMoneyManager : MonoBehaviour
     {
         if (text == "") {initialMoney = 0; return;}
         initialMoney = Convert.ToInt32(text);
+
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetGameState(
+                GameStateManager.Instance.IsLoad,
+                GameStateManager.Instance.IsStoryMode,
+                GameStateManager.Instance.Playtime,
+                GameStateManager.Instance.LastDay,
+                initialMoney
+            );
+        }
     }
 }

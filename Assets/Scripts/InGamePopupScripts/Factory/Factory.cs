@@ -15,6 +15,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     [SerializeField] private TextMeshProUGUI contractCostText;
     [SerializeField] private TextMeshProUGUI contractInfo;
     [SerializeField] private TextMeshProUGUI currentContractInfo;
+    [SerializeField] private TextMeshProUGUI construction;
     
     [Header("Button")]
     [SerializeField] private Button constructionButton;
@@ -75,7 +76,8 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
 
     public void Construction()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
+        
         FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
         PlayerSystemModel playerSystemModel = gameModel.GetPlayerSystemModel();
         Debug.Log("Construction method called.");
@@ -84,9 +86,10 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
         {
             if (playerSystemModel.Money - currentFactoryModel.ConstructionCosts[ID] < 0)
             { 
-                AudioManager.Instance.PlaySFX("Error");
+                AudioManager.Instance.PlaySFX(AudioManager.SFXType.Error);
                 return;
             }
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Buy);
             currentFactoryModel.IsContructions[ID] = true;
             cost = currentFactoryModel.ConstructionCosts[ID];
 
@@ -100,9 +103,10 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
             }
             if (playerSystemModel.Money - currentFactoryModel.UpgradeCosts[ID] < 0) 
             {
-                AudioManager.Instance.PlaySFX("Error");
+                AudioManager.Instance.PlaySFX(AudioManager.SFXType.Error);
                 return;
             }
+            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Buy);
             currentFactoryModel.Levels[ID]++;
             currentFactoryModel.UpgradeCosts[ID] += currentFactoryModel.UpgradeCosts[ID] / 2;
             currentFactoryModel.Products[ID] += 2;
@@ -128,7 +132,8 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
 
     public void Contract()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Contract);
         FactoryModel currentFactoryModel = FactoryGroup.Instance.Model;
         if (!currentFactoryModel.IsContracts[ID])
         {

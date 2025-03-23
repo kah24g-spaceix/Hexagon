@@ -19,12 +19,10 @@ public class PlayerDayData
 {
     public int Day { get; set; }
     public float CurrentTime { get; set; }
-    public float Hour { get; set; }
-    public float Minute { get; set; }
     public int LastDay { get; set; }
     public float DayLength { get; set; }
 
-    public PlayerDayData (int day, float currentTime, float hour, float minute, int lastDay, float dayLength)
+    public PlayerDayData (int day, float currentTime, int lastDay, float dayLength)
     {
         Day = day;
         CurrentTime = currentTime;

@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,10 +6,23 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
-    public Sound[]
-        musicSounds, sfxSounds;
-    public AudioSource
-        musicSource, sfxSource;
+    public enum MusicType
+    {
+        Theme,
+    }
+    public enum SFXType
+    {
+        Select,
+        Error,
+        Buy,
+        Sell,
+        Contract,
+        Creation,
+    }
+    
+    public Music[] musicSounds;
+    public SFX[] sfxSounds;
+    public AudioSource musicSource, sfxSource;
 
     private void Awake()
     {
@@ -24,17 +36,19 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     private void Start()
     {
-        PlayMusic("Theme");
+        PlayMusic(MusicType.Theme);
     }
-    public void PlayMusic(string name)
+
+    public void PlayMusic(MusicType type)
     {
-        Sound sound = Array.Find(musicSounds, x => x.name == name);
+        Music sound = Array.Find(musicSounds, x => x.type == type);
 
         if (sound == null)
         {
-            Debug.Log("[ Sound Not Found ] or [ the names are different ]");
+            Debug.Log("[ Sound Not Found ] or [ the types are different ]");
         }
         else
         {
@@ -42,34 +56,49 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
         }
     }
-
-    public void PlaySFX(string name)
+    public void StopMusic(MusicType type)
     {
-        Sound sound = Array.Find(sfxSounds, x => x.name == name);
+        Music sound = Array.Find(musicSounds, x => x.type == type);
+        if (sound == null)
+        {
+            Debug.Log("[ Sound Not Found ] or [ the types are different ]");
+        }
+        else
+        {
+            musicSource.clip = sound.clip;
+            musicSource.Stop();
+        }
+    }
+    public void PlaySFX(SFXType type)
+    {
+        SFX sound = Array.Find(sfxSounds, x => x.type == type);
 
         if (sound == null)
         {
-            Debug.Log("[ Sound Not Found ] or [ the names are different ]");
+            Debug.Log("[ Sound Not Found ] or [ the types are different ]");
         }
         else
         {
             sfxSource.PlayOneShot(sound.clip);
         }
     }
+
     public void ToggleMusic()
     {
         musicSource.mute = !musicSource.mute;
-
     }
+
     public void ToggleSFX()
     {
         sfxSource.mute = !sfxSource.mute;
     }
+
     public void MusicVolume(float volume)
     {
         musicSource.mute = false;
         musicSource.volume = volume;
     }
+
     public void SFXVolume(float volume)
     {
         sfxSource.mute = false;

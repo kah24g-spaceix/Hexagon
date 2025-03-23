@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CloseButton : MonoBehaviour
 {
-    private GameObject closeObject;
-    private Button button;
+    private GameObject targetObject;
+    
+    private Button closeButton;
     void Awake()
     {
-        button = GetComponent<Button>();
-        closeObject = transform.parent.gameObject;
+        closeButton = GetComponent<Button>();
+        targetObject = transform.parent.gameObject;
     }
     void Start()
     {   
-        button.onClick.AddListener(Close);
+        closeButton.onClick.AddListener(Close);
     }
     void Close()
     {
-        closeObject.SetActive(false);
-        AudioManager.Instance.PlaySFX("Select");
+        targetObject.SetActive(false);
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
     }
 }

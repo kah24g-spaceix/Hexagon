@@ -10,6 +10,7 @@ public class TitleTextManager : MonoBehaviour
     [SerializeField] private TextSetting option;
     [SerializeField] private TextSetting exit;
     [SerializeField] private TextSetting tutorial;
+    
     [Header("Select mode")]
     [SerializeField] private TextSetting story;
     [SerializeField] private TextSetting simulation;

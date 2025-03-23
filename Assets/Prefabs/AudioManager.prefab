@@ -47,13 +47,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSounds:
-  - name: Theme
+  - type: 0
     clip: {fileID: 8300000, guid: b8bf44e4fb84c10418b3a82843af17f8, type: 3}
   sfxSounds:
-  - name: Error
-    clip: {fileID: 8300000, guid: bade42480dddc014eac26e5ac44aa5bd, type: 3}
-  - name: Select
+  - type: 0
     clip: {fileID: 8300000, guid: c03872a9c8c702249a0aaeb0248ff758, type: 3}
+  - type: 1
+    clip: {fileID: 8300000, guid: bade42480dddc014eac26e5ac44aa5bd, type: 3}
+  - type: 2
+    clip: {fileID: 8300000, guid: 1be20388ecfac5f438b27a20d2c21fbd, type: 3}
+  - type: 3
+    clip: {fileID: 8300000, guid: 836e96b4f9c7a63479d6dd8ee9efd215, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: 418fdaa0cefda664da86d4fd8df2b1b9, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: 904a9f5394a3cbc4f89890bf5d96fda7, type: 3}
   musicSource: {fileID: 4988023984173901105}
   sfxSource: {fileID: 5038811994616343151}
 --- !u!1 &8307380630532446203
@@ -99,6 +107,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -227,6 +236,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

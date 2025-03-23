@@ -17,7 +17,11 @@
             "exit": "Exit",
             "story": "Story",
             "simulation": "Simulation",
-            
+            "pause": "PAUSE",
+            "resume": "Resume",
+            "save": "Save",
+            "title": "Title",
+
             "playTime.total": "Total play time",
             "playTime.daily": "Daily play time setting",
             "playTime.lastDay": "Last day",
@@ -55,6 +59,10 @@
 
             "warning.noData": "Warning!!\nThere is no data to load.",
             "warning.zero": "Warning!!\nPlaytime or Day is 0",
+            
+            "reStartDay": "Re start day",
+            "nextDay": "Next day",
+            "next": "Next",
 
             "construction": "Construction",
             "upgrade": "Upgrade",
@@ -92,6 +100,10 @@
             "exit": "게임 종료",
             "story": "스토리",
             "simulation": "시뮬레이션",
+            "pause": "일시 정지",
+            "resume": "이어하기",
+            "save": "저장",
+            "title": "타이틀로",
 
             "playTime.total": "총 플레이 시간",
             "playTime.daily": "일일 게임 시간 설정",

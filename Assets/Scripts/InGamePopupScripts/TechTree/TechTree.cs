@@ -12,7 +12,7 @@ public class TechTree : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<TechTree>();
+                _instance = Object.FindFirstObjectByType<TechTree>();
                 if (_instance == null)
                 {
                     Debug.LogError("TechTree instance is not found in the scene.");

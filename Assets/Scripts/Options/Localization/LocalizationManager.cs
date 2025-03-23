@@ -60,15 +60,6 @@ public class LocalizationManager : MonoBehaviour
     {
         return locales;
     }
-
-    private void UpdateAllLocalizedTexts()
-    {
-        LocalizedText[] localizedTexts = FindObjectsOfType<LocalizedText>();
-        foreach (var localizedText in localizedTexts)
-        {
-            localizedText.UpdateText();
-        }
-    }
 }
 
 [System.Serializable]

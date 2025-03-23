@@ -60,18 +60,28 @@ public class LastDayManager : MonoBehaviour
         }
     }
 
-    private void ValueChanged(string text)
-    {
-        if (text == "") 
-        { 
-            InputActive(false); 
-            return; 
-        }
-        lastDay = Convert.ToInt32(text);
-        UpdateDisplay();
-        InputActive(false);
+private void ValueChanged(string text)
+{
+    if (text == "") 
+    { 
+        InputActive(false); 
+        return; 
     }
+    lastDay = Convert.ToInt32(text);
+    UpdateDisplay();
+    InputActive(false);
 
+    if (GameStateManager.Instance != null)
+    {
+        GameStateManager.Instance.SetGameState(
+            GameStateManager.Instance.IsLoad,
+            GameStateManager.Instance.IsStoryMode,
+            GameStateManager.Instance.Playtime,
+            lastDay,
+            GameStateManager.Instance.InitialMoney
+        );
+    }
+}
     private void InputActive(bool isActive)
     {
         upButton.SetActive(!isActive);

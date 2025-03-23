@@ -4,19 +4,13 @@ public class Frame : MonoBehaviour
 {
     [SerializeField] private Image image;
     [SerializeField] private Button informationButton;
-    private IGameModel gameModel;
     private FrameInformation frameInfo;
     public int ID { get; set; }
     public int[] Costs { get; set; }
     readonly string isNotImage = "Sprites/DebugImage/IsNotImage";
     private void Awake()
     {
-        gameModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         informationButton.onClick.AddListener(ShowInformation);
-    }
-    private void Start()
-    {
-        frameInfo = HyperFrameGroup.Instance.HyperFrameValue.GetComponent<FrameInformation>();
     }
     public void Bind(HyperFrameModel model)
     {
@@ -37,9 +31,8 @@ public class Frame : MonoBehaviour
     }
     public void ShowInformation()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         HyperFrameModel currentHyperFrameModel = HyperFrameGroup.Instance.Model;
-        HyperFrameGroup.Instance.HyperFrameValue.SetActive(true);
         FrameInfoBind();
         frameInfo.ID = ID;        
         HyperFrameGroup.Instance.UpdateAllHyperFrameUI(currentHyperFrameModel);

@@ -70,14 +70,14 @@ public class TitleUIManager : MonoBehaviour
 
     private void StartSelectMode()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         SetupModeSelection(isLoad: false);
 
     }
 
     private void LoadSelectMode()
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         SetupModeSelection(isLoad: true);
     }
 
@@ -92,7 +92,7 @@ public class TitleUIManager : MonoBehaviour
         else
             simulationButton.onClick.AddListener(() =>
             {
-                AudioManager.Instance.PlaySFX("Select");
+                AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
                 ShowUI(simulationPopup);
             });
 
@@ -140,7 +140,7 @@ public class TitleUIManager : MonoBehaviour
     }
     private void OnGameModeSelected(bool isLoad, bool isStoryMode)
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         int playtime = playtimeManager.PlaytimeValue;
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
@@ -149,7 +149,7 @@ public class TitleUIManager : MonoBehaviour
     }
     private void PlaySimulationMode(bool isLoad, bool isStoryMode)
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         int playtime = playtimeManager.PlaytimeValue;
         int lastDay = lastDayManager.LastDay;
         int initialMoney = initialMoneyManager.InitialMoney;
@@ -172,7 +172,7 @@ public class TitleUIManager : MonoBehaviour
     private void HideUI(GameObject UI) => UI.SetActive(false);
     private void PopupTrigger(GameObject UI)
     {
-        AudioManager.Instance.PlaySFX("Select");
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         UI.SetActive(!UI.activeSelf);
     }
 

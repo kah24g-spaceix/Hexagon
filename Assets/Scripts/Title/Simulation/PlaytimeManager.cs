@@ -105,6 +105,17 @@ public class PlaytimeManager : MonoBehaviour
         playtimeValue = Convert.ToInt32(text);
         UpdateDisplay();
         InputActive(false);
+
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.SetGameState(
+                GameStateManager.Instance.IsLoad,
+                GameStateManager.Instance.IsStoryMode,
+                playtimeValue,
+                GameStateManager.Instance.LastDay,
+                GameStateManager.Instance.InitialMoney
+            );
+        }
     }
 
     private void InputActive(bool isActive)
