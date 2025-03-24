@@ -6,17 +6,25 @@ using DG.Tweening;
 public class GamblingManager : MonoBehaviour
 {
     public Button blackChoiceButton, colorChoiceButton;
-    public Button cardButton1, cardButton2;
     public Button noneButton, restartButton;
     public TextMeshProUGUI resultText;
 
     public GameObject card1, card2;
+    Button cardButton1, cardButton2;
+    CanvasGroup cardCanvas1, cardCanvas2;
+    
     public Sprite blackCard, colorCard;
     public Sprite cardBackSprite;
 
     private string selectedColor = "";
-    private string card1Color, card2Color; // 카드 색상 정보
-
+    private string card1Color, card2Color;
+    void Awake()
+    {
+        cardButton1 = card1.GetComponent<Button>();
+        cardButton2 = card2.GetComponent<Button>();
+        cardCanvas1 = card1.GetComponent<CanvasGroup>();
+        cardCanvas2 = card2.GetComponent<CanvasGroup>();
+    }
     void Start()
     {
         blackChoiceButton.onClick.AddListener(() => ChooseColor("black"));
@@ -43,25 +51,34 @@ public class GamblingManager : MonoBehaviour
         card1.GetComponent<Image>().sprite = cardBackSprite;
         card2.GetComponent<Image>().sprite = cardBackSprite;
 
-        cardButton1.interactable = true;
-        cardButton2.interactable = true;
+        Block(true);
         noneButton.interactable = true;
+        blackChoiceButton.interactable = true;
+        colorChoiceButton.interactable = true;
     }
 
     void ChooseColor(string color)
     {
         selectedColor = color;
         resultText.text = $"{(color == "black" ? "흑백" : "컬러")} 카드를 선택하세요.";
-
+        blackChoiceButton.interactable = false;
+        colorChoiceButton.interactable = false;
+        
         // 랜덤하게 카드 색상 결정
         bool isCard1Black = Random.Range(0, 2) == 0;
+        bool isCard2Black = Random.Range(0, 2) == 0;
         card1Color = isCard1Black ? "black" : "color";
-        card2Color = isCard1Black ? "color" : "black";
+        card2Color = isCard2Black ? "color" : "black";
 
-        // 버튼 활성화
+        // 버튼 활성화 및 등장 애니메이션
         cardButton1.gameObject.SetActive(true);
         cardButton2.gameObject.SetActive(true);
         noneButton.gameObject.SetActive(true);
+
+        card1.transform.localScale = Vector3.zero;
+        card2.transform.localScale = Vector3.zero;
+        card1.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
+        card2.transform.DOScale(1, 0.5f).SetEase(Ease.OutBack);
     }
 
     void SelectCard(GameObject cardObj, string cardColor)
@@ -106,9 +123,14 @@ public class GamblingManager : MonoBehaviour
 
     void EndGame()
     {
-        cardButton1.interactable = false;
-        cardButton2.interactable = false;
+        Block(false);
         noneButton.interactable = false;
         restartButton.gameObject.SetActive(true);
+    }
+
+    private void Block(bool isAcive)
+    {
+        if (cardCanvas1 != null) cardCanvas1.blocksRaycasts = isAcive;
+        if (cardCanvas2 != null) cardCanvas2.blocksRaycasts = isAcive;
     }
 }

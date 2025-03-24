@@ -23,6 +23,7 @@ public class HyperFrameGroup : MonoBehaviour
     [SerializeField] private GameObject hyperFrameValue;
     [SerializeField] private GameObject hyperFrameHolder;
     [SerializeField] private GameObject costHolder;
+    public GameObject HyperFrameValue { get; private set; }
     public List<Frame> FrameList { get; private set; }
     public List<ProductValue> CostList { get; private set;}
     public HyperFrameModel Model { get; private set; }

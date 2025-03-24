@@ -22,6 +22,7 @@ public class FrameInformation : MonoBehaviour
     }
     private void Start()
     {
+        gameObject.SetActive(false);
         creationButton.onClick.AddListener(Creation);
         sellButton.onClick.AddListener(Sell);
     }

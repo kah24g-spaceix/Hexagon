@@ -12,6 +12,10 @@ public class Frame : MonoBehaviour
     {
         informationButton.onClick.AddListener(ShowInformation);
     }
+    private void Start()
+    {
+        frameInfo = HyperFrameGroup.Instance.HyperFrameValue.GetComponent<FrameInformation>();
+    }
     public void Bind(HyperFrameModel model)
     {
         if (model == null || ID < 0 || ID >= model.Names.Length) return;
@@ -33,6 +37,7 @@ public class Frame : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
         HyperFrameModel currentHyperFrameModel = HyperFrameGroup.Instance.Model;
+        HyperFrameGroup.Instance.HyperFrameValue.SetActive(true);
         FrameInfoBind();
         frameInfo.ID = ID;        
         HyperFrameGroup.Instance.UpdateAllHyperFrameUI(currentHyperFrameModel);
