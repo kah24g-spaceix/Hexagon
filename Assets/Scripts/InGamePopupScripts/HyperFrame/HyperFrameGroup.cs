@@ -39,6 +39,7 @@ public class HyperFrameGroup : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        HyperFrameValue = hyperFrameValue;
     }
     public void InitializeModel(HyperFrameData data)
     {

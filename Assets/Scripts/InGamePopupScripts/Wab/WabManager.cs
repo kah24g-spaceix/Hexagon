@@ -36,14 +36,6 @@ public class WabManager : MonoBehaviour
     {
         UI.SetActive(false);
     }
-    public void PopupTrigger(GameObject UI, KeyCode key)
-    {
-        if (Input.GetKeyDown(key))
-        {
-            AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
-            UI.SetActive(!UI.activeSelf);
-        }
-    }
     public void PopupTriggerButton(GameObject UI)
     {
         AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);

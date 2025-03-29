@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -5,28 +6,40 @@ using DG.Tweening;
 
 public class GamblingManager : MonoBehaviour
 {
-    public Button blackChoiceButton, colorChoiceButton;
-    public Button noneButton, restartButton;
-    public TextMeshProUGUI resultText;
+    [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private Button blackChoiceButton, colorChoiceButton;
+    [SerializeField] private Button noneButton, restartButton, BetButton;
+    [SerializeField] private GameObject BetPopup;
 
-    public GameObject card1, card2;
+    [SerializeField] private GameObject card1, card2;
     Button cardButton1, cardButton2;
     CanvasGroup cardCanvas1, cardCanvas2;
     
-    public Sprite blackCard, colorCard;
-    public Sprite cardBackSprite;
+    [SerializeField] private Sprite blackCard, colorCard;
+    [SerializeField] private Sprite cardBackSprite;
 
+    private Coroutine coroutine1, coroutine2;
+    private Image cardImage;
+    private long betValue;
+    private int multiple;
+    private BetManager betManager;
     private string selectedColor = "";
     private string card1Color, card2Color;
+    private IGameModel gameModel;
+    private PlayerSystemModel playerSystemModel;
     void Awake()
     {
+        gameModel = GameObject.Find("GameManager").GetComponent<IGameModel>();
         cardButton1 = card1.GetComponent<Button>();
         cardButton2 = card2.GetComponent<Button>();
         cardCanvas1 = card1.GetComponent<CanvasGroup>();
         cardCanvas2 = card2.GetComponent<CanvasGroup>();
+        betManager = GetComponent<BetManager>();
+
     }
     void Start()
     {
+        playerSystemModel = gameModel.GetPlayerSystemModel();
         blackChoiceButton.onClick.AddListener(() => ChooseColor("black"));
         colorChoiceButton.onClick.AddListener(() => ChooseColor("color"));
 
@@ -35,13 +48,25 @@ public class GamblingManager : MonoBehaviour
         noneButton.onClick.AddListener(CheckNone);
         restartButton.onClick.AddListener(ResetGame);
 
+        for (int i = 0; i < betManager.amountButtons.Count; i++)
+        {
+            int num = 1000;
+            betManager.amountButtons[i].onClick.AddListener(() => Bet(num));
+            num *= 10;
+        }
         ResetGame();
     }
-
+    private void Bet(int num)
+    {
+        betValue += num;
+        betManager.currentBetText.SetText($"$ {betValue}");
+    }
     void ResetGame()
     {
         selectedColor = "";
-        resultText.text = "흑백 또는 컬러 중 하나를 선택하세요.";
+        if (coroutine1 != null) StopCoroutine(coroutine1);
+        if (coroutine2 != null) StopCoroutine(coroutine2);
+        resultText.SetText("흑백 또는 컬러 중 하나를 선택하세요.");
 
         cardButton1.gameObject.SetActive(false);
         cardButton2.gameObject.SetActive(false);
@@ -60,17 +85,28 @@ public class GamblingManager : MonoBehaviour
     void ChooseColor(string color)
     {
         selectedColor = color;
-        resultText.text = $"{(color == "black" ? "흑백" : "컬러")} 카드를 선택하세요.";
+
+        long money = playerSystemModel.Money - betValue;
+        gameModel.DoSystemResult(new
+        (
+            money, 
+            playerSystemModel.Employees,
+            playerSystemModel.Resistance,
+            playerSystemModel.CommunityOpinionValue
+        ));
+        playerSystemModel = gameModel.GetPlayerSystemModel();
+        
+        resultText.SetText($"{(color == "black" ? "흑백" : "컬러")} 카드를 선택하세요.");
+
+        BetButton.interactable = false;
         blackChoiceButton.interactable = false;
         colorChoiceButton.interactable = false;
         
-        // 랜덤하게 카드 색상 결정
         bool isCard1Black = Random.Range(0, 2) == 0;
         bool isCard2Black = Random.Range(0, 2) == 0;
         card1Color = isCard1Black ? "black" : "color";
-        card2Color = isCard2Black ? "color" : "black";
+        card2Color = isCard2Black ? "black" : "color";
 
-        // 버튼 활성화 및 등장 애니메이션
         cardButton1.gameObject.SetActive(true);
         cardButton2.gameObject.SetActive(true);
         noneButton.gameObject.SetActive(true);
@@ -83,7 +119,7 @@ public class GamblingManager : MonoBehaviour
 
     void SelectCard(GameObject cardObj, string cardColor)
     {
-        Image cardImage = cardObj.GetComponent<Image>();
+        cardImage = cardObj.GetComponent<Image>();
         Sprite selectedSprite = (cardColor == "black") ? blackCard : colorCard;
 
         // 카드 뒤집기 애니메이션
@@ -94,30 +130,21 @@ public class GamblingManager : MonoBehaviour
         });
 
         // 승패 판정
-        if (cardColor == selectedColor)
-        {
-            resultText.text = "같은 색을 선택하여 승리!";
-        }
+        SameColor(cardColor == selectedColor);
+
+        if (cardObj != card1)
+            coroutine1 = StartCoroutine(CardEffect(card1, card1Color));
         else
-        {
-            resultText.text = "다른 색을 선택하여 패배!";
-        }
+            coroutine2 = StartCoroutine(CardEffect(card2, card2Color));
 
         EndGame();
     }
 
     void CheckNone()
     {
-        // 선택한 색이 있는지 검사
-        if (card1Color == selectedColor || card2Color == selectedColor)
-        {
-            resultText.text = "선택한 색이 존재하여 패배!";
-        }
-        else
-        {
-            resultText.text = "선택한 색이 없어서 승리!";
-        }
-
+        NoneColor(card1Color == selectedColor || card2Color == selectedColor);
+        coroutine1 = StartCoroutine(CardEffect(card1, card1Color));
+        coroutine2 = StartCoroutine(CardEffect(card2, card2Color));
         EndGame();
     }
 
@@ -132,5 +159,59 @@ public class GamblingManager : MonoBehaviour
     {
         if (cardCanvas1 != null) cardCanvas1.blocksRaycasts = isAcive;
         if (cardCanvas2 != null) cardCanvas2.blocksRaycasts = isAcive;
+    }
+    IEnumerator CardEffect(GameObject cardObj, string cardColor)
+    {
+        yield return new WaitForSeconds(0.3f);
+        Sprite selectedSprite = (cardColor == "black") ? blackCard : colorCard;
+        cardObj.transform.DOScaleX(0, 0.3f).OnComplete(() =>
+        {
+            cardObj.GetComponent<Image>().sprite = selectedSprite;
+            cardObj.transform.DOScaleX(1, 0.3f);
+        });
+    }
+    private void SameColor(bool IsSame)
+    {
+        if (IsSame)
+        {
+            multiple = 2;
+            resultText.SetText("같은 색을 선택하여 승리!");
+        }
+        else
+        {
+            multiple = 0;
+            resultText.SetText("다른 색을 선택하여 패배!");
+            betManager.currentBetText.SetText("모두 잃었습니다...");
+        }
+        BetResultValue();
+        betManager.multipleText.SetText($"x{multiple}");
+    }
+    private void NoneColor(bool IsExist)
+    {
+        if (!IsExist)
+        {
+            multiple = 5;
+            resultText.SetText("선택한 색이 없어서 승리!");
+        }
+        else
+        {
+            multiple = 0;
+            resultText.SetText("선택한 색이 존재하여 패배!");
+            betManager.currentBetText.SetText($"모두 잃었습니다...");
+        }
+        BetResultValue();
+        betManager.multipleText.SetText($"x{multiple}");
+    }
+    private void BetResultValue()
+    {
+        long money = playerSystemModel.Money + (betValue * multiple);
+        gameModel.DoSystemResult(new
+        (
+            money, 
+            playerSystemModel.Employees,
+            playerSystemModel.Resistance,
+            playerSystemModel.CommunityOpinionValue
+        ));
+        playerSystemModel = gameModel.GetPlayerSystemModel();
     }
 }
