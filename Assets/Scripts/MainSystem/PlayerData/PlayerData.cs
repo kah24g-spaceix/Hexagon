@@ -128,6 +128,23 @@ public class PlayerTechTreeData
         TechLevels = techLevels;
     }
 }
+public class PlayerCurrentInfo
+{
+    public int SalesRevenue {get; set;}
+    public int OtherRevenue {get; set;}
+    public int OtherIncome {get; set;}
+    public int Salary {get; set;}
+    public int CostSpent {get; set;}
+
+    public PlayerCurrentInfo(int salesRevenue,int otherRevenue,int otherIncome,int salary,int costSpent)
+    {
+        SalesRevenue= salesRevenue;
+        OtherRevenue= otherRevenue;
+        OtherIncome= otherIncome;
+        Salary= salary;
+        CostSpent= costSpent;
+    }
+}
 public class PlayerSetting
 {
     public int DailyPlaytime { get; set; }
@@ -151,7 +168,7 @@ public class PlayerData
     public PlayerFactoryData P_FactoryData { get; set; }
     public PlayerFactoryContractData P_FactoryContractData { get; set; }
     public PlayerTechTreeData P_TechData { get; set; }
-
+    public PlayerCurrentInfo P_CurrentInfo {get; set;}
     public PlayerSetting P_Setting {get; set; }
 
     public PlayerData(
@@ -162,6 +179,7 @@ public class PlayerData
         PlayerFactoryData p_plantData,
         PlayerFactoryContractData p_plantContractData,
         PlayerTechTreeData p_techTreeData,
+        PlayerCurrentInfo p_CurrentInfo,
         PlayerSetting p_Setting)
     {
         P_SystemData = p_systemData;
@@ -173,6 +191,8 @@ public class PlayerData
         P_FactoryContractData = p_plantContractData;
 
         P_TechData = p_techTreeData;
+        P_CurrentInfo = p_CurrentInfo;
+
         P_Setting = p_Setting;
     }
 

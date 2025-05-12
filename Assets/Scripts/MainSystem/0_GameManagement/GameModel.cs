@@ -17,6 +17,7 @@ public class GameModel : MonoBehaviour, IGameModel
     private PlayerFactoryContractModel _playerFactoryContractModel;
 
     private PlayerTechModel _playerTechModel;
+    private PlayerCurrentInfoModel _playerCurrentInfoModel;
     private GameSettings _gameSettings;
     private readonly int defaultMoney = 1;
     private readonly float revenueMultiplier = 0.1f;
@@ -170,6 +171,13 @@ public class GameModel : MonoBehaviour, IGameModel
             _playerTechModel.MaxEmployee,
             _playerTechModel.TechLevels
         );
+        _playerData.P_CurrentInfo = new PlayerCurrentInfo(
+            _playerCurrentInfoModel.SalesRevenue,
+            _playerCurrentInfoModel.OtherRevenue,
+            _playerCurrentInfoModel.OtherIncome,
+            _playerCurrentInfoModel.Salary,
+            _playerCurrentInfoModel.CostSpent
+        );
         _playerData.P_Setting = new PlayerSetting(
             _gameSettings.DailyPlaytime,
             _gameSettings.LastDay,
@@ -228,6 +236,13 @@ public class GameModel : MonoBehaviour, IGameModel
             data.P_TechData.RevenueValue,
             data.P_TechData.MaxEmployee,
             data.P_TechData.TechLevels
+        );
+        _playerCurrentInfoModel = new PlayerCurrentInfoModel(
+            data.P_CurrentInfo.SalesRevenue,
+            data.P_CurrentInfo.OtherRevenue,
+            data.P_CurrentInfo.OtherIncome,
+            data.P_CurrentInfo.Salary,
+            data.P_CurrentInfo.CostSpent
         );
 
         if (_gameSettings.IsLoad)
@@ -528,7 +543,14 @@ public class GameModel : MonoBehaviour, IGameModel
         UpdatePlayerSaveData();
     }
     #endregion
-
-
+    
+    #region PlayerCurrentInfoModel
+    public PlayerCurrentInfoModel GetPlayerCurrentInfoModel() => _playerCurrentInfoModel;
+    public void DoCurrentInfoResult(PlayerCurrentInfoModel model)
+    {
+        _playerCurrentInfoModel = model;
+        UpdatePlayerSaveData();
+    }
+    #endregion
 
 }

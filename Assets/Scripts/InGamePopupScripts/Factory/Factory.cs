@@ -21,7 +21,7 @@ public class Factory : MonoBehaviour, IView<FactoryModel>
     [SerializeField] private Button constructionButton;
     [SerializeField] private Button contractButton;
     private IGameModel gameModel;
-    readonly string isNotImage = "Sprites/DebugImage/IsNotImage";
+    readonly string isNotImage = "Sprites/Factorys/Factory_0";
     public int ID { get; set; }
 
     private void Awake()

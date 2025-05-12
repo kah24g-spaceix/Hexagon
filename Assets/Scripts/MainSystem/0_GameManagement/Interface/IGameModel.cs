@@ -152,7 +152,23 @@ public class PlayerTechModel
         TechLevels = techLevels;
     }
 }
+public class PlayerCurrentInfoModel
+{
+    public int SalesRevenue { get; }
+    public int OtherRevenue { get; }
+    public int OtherIncome { get; }
+    public int Salary { get; }
+    public int CostSpent { get; }
 
+    public PlayerCurrentInfoModel(int salesRevenue, int otherRevenue, int otherIncome, int salary, int costSpent)
+    {
+        SalesRevenue = salesRevenue;
+        OtherRevenue = otherRevenue;
+        OtherIncome = otherIncome;
+        Salary = salary;
+        CostSpent = costSpent;
+    }
+}
 public class GameSettings
 {
     public bool IsLoad { get; set; }
@@ -211,12 +227,17 @@ public interface IPlayerTechModelHandler
     void DoTechResult(PlayerTechModel model);
 }
 
-
+public interface IPlayerCurrentInfoModelHandler
+{
+    PlayerCurrentInfoModel GetPlayerCurrentInfoModel();
+    void DoCurrentInfoResult(PlayerCurrentInfoModel model);
+}
 public interface IGameModel :
     IGameProgressHandler,
     IPlayerSystemModelHandler,
     IPlayerMaterialModelHandler,
     IPlayerFactoryModelHandler,
     IPlayerHyperFrameModelHandler,
+    IPlayerCurrentInfoModelHandler,
     IPlayerTechModelHandler
 { }

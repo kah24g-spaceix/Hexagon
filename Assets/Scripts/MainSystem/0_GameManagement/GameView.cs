@@ -50,7 +50,7 @@ public class GameView : MonoBehaviour, IGameView
     
     [SerializeField] private Button TechPointChangeButton;
     [SerializeField] private GameObject TechPointChange;
-    [SerializeField] private TechChange techChange;
+    private TechChange techChange;
     
     
     [Header("To Day Result UI")]

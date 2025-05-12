@@ -3,18 +3,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class GamblingManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI resultText;
     [SerializeField] private Button blackChoiceButton, colorChoiceButton;
-    [SerializeField] private Button noneButton, restartButton, BetButton;
+    [SerializeField] private Button noneButton, restartButton;
+    [SerializeField] private Button betButton, resetButton;
     [SerializeField] private GameObject BetPopup;
 
     [SerializeField] private GameObject card1, card2;
     Button cardButton1, cardButton2;
     CanvasGroup cardCanvas1, cardCanvas2;
-    
+
     [SerializeField] private Sprite blackCard, colorCard;
     [SerializeField] private Sprite cardBackSprite;
 
@@ -48,24 +50,32 @@ public class GamblingManager : MonoBehaviour
         noneButton.onClick.AddListener(CheckNone);
         restartButton.onClick.AddListener(ResetGame);
 
+        betButton.onClick.AddListener(() => PopupTriggerButton(BetPopup));
+        BetPopup.SetActive(false);
+
+        int num = 1000;
         for (int i = 0; i < betManager.amountButtons.Count; i++)
         {
-            int num = 1000;
             betManager.amountButtons[i].onClick.AddListener(() => Bet(num));
             num *= 10;
         }
+
         ResetGame();
     }
     private void Bet(int num)
     {
         betValue += num;
-        betManager.currentBetText.SetText($"$ {betValue}");
+        betManager.currentBetText.SetText($"$ {betValue:N0}");
     }
     void ResetGame()
     {
         selectedColor = "";
+        betValue = 0;
+        betManager.currentBetText.SetText($"$ {betValue:N0}");
+
         if (coroutine1 != null) StopCoroutine(coroutine1);
         if (coroutine2 != null) StopCoroutine(coroutine2);
+
         resultText.SetText("흑백 또는 컬러 중 하나를 선택하세요.");
 
         cardButton1.gameObject.SetActive(false);
@@ -75,8 +85,8 @@ public class GamblingManager : MonoBehaviour
 
         card1.GetComponent<Image>().sprite = cardBackSprite;
         card2.GetComponent<Image>().sprite = cardBackSprite;
-
         Block(true);
+        betButton.interactable = true;
         noneButton.interactable = true;
         blackChoiceButton.interactable = true;
         colorChoiceButton.interactable = true;
@@ -89,27 +99,30 @@ public class GamblingManager : MonoBehaviour
         long money = playerSystemModel.Money - betValue;
         gameModel.DoSystemResult(new
         (
-            money, 
+            money,
             playerSystemModel.Employees,
             playerSystemModel.Resistance,
             playerSystemModel.CommunityOpinionValue
         ));
         playerSystemModel = gameModel.GetPlayerSystemModel();
-        
-        resultText.SetText($"{(color == "black" ? "흑백" : "컬러")} 카드를 선택하세요.");
 
-        BetButton.interactable = false;
+        resultText.SetText("카드를 선택하세요.");
+
+        betButton.interactable = false;
         blackChoiceButton.interactable = false;
         colorChoiceButton.interactable = false;
-        
+
         bool isCard1Black = Random.Range(0, 2) == 0;
         bool isCard2Black = Random.Range(0, 2) == 0;
+
         card1Color = isCard1Black ? "black" : "color";
         card2Color = isCard2Black ? "black" : "color";
 
         cardButton1.gameObject.SetActive(true);
         cardButton2.gameObject.SetActive(true);
         noneButton.gameObject.SetActive(true);
+
+        BetPopup.SetActive(false);
 
         card1.transform.localScale = Vector3.zero;
         card2.transform.localScale = Vector3.zero;
@@ -207,11 +220,17 @@ public class GamblingManager : MonoBehaviour
         long money = playerSystemModel.Money + (betValue * multiple);
         gameModel.DoSystemResult(new
         (
-            money, 
+            money,
             playerSystemModel.Employees,
             playerSystemModel.Resistance,
             playerSystemModel.CommunityOpinionValue
         ));
         playerSystemModel = gameModel.GetPlayerSystemModel();
+    }
+
+    public void PopupTriggerButton(GameObject UI)
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.SFXType.Select);
+        UI.SetActive(!UI.activeSelf);
     }
 }

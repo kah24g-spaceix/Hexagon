@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tailImage: {fileID: 329594700853350190}
+  text: {fileID: 7058704612561226645}
 --- !u!114 &5452654241819313099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,8 +214,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4493706250136764004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -354,8 +355,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 21.435001, y: -22.505}
-  m_SizeDelta: {x: 42.870003, y: 0}
+  m_AnchoredPosition: {x: 21.485, y: -22.505}
+  m_SizeDelta: {x: 42.97, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5700282899857415606
 CanvasRenderer:

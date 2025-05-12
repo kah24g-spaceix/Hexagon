@@ -73,6 +73,14 @@
     "MaxEmployee": 100,
     "TechLevels": []
   },
+  "P_CurrentInfo": 
+  {
+    "SalesRevenue":0,
+    "OtherRevenue":0,
+    "OtherIncome":0,
+    "Salary":0,
+    "CostSpent":0
+  },
   "P_Setting": {
     "DailyPlaytime":0,
     "LastDay":0,

@@ -6,7 +6,7 @@ public class DialogueBox : MonoBehaviour
 {
     [SerializeField] private CanvasGroup tailImage;
     public Transform target { get; set; }
-    public TextMeshProUGUI text { get; set; }
+    public TextMeshProUGUI text;
     private RectTransform boxContainer;
     private Camera mainCamera;
     private Vector3 screenPos;
@@ -68,7 +68,6 @@ public class DialogueBox : MonoBehaviour
             Vector2 spriteSize = spriteRenderer.bounds.size;  // 스프라이트 크기 (가로, 세로)
             
             float targetHeight = spriteSize.y;  // 스프라이트 높이
-            Debug.Log(targetHeight);
             // 화면 좌표를 로컬 좌표로 변환
             Vector2 anchoredPos;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
