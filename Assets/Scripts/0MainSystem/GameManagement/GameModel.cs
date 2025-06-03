@@ -63,7 +63,11 @@ public class GameModel : MonoBehaviour, IGameModel
         _gameSettings.DailyPlaytime = simulationManager.Playtime;
         _gameSettings.LastDay = simulationManager.LastDay;
         _gameSettings.InitialMoney = simulationManager.InitialMoney;
-        Debug.Log($"Simulation settings applied: IsStoryMode: {_gameSettings.IsStoryMode}, DailyPlaytime: {_gameSettings.DailyPlaytime}, LastDay: {_gameSettings.LastDay}, InitialMoney: {_gameSettings.InitialMoney}");
+        Debug.Log(
+            $"Simulation settings applied: IsStoryMode: {_gameSettings.IsStoryMode}, " +
+            $"DailyPlaytime: {_gameSettings.DailyPlaytime}, " +
+            $"LastDay: {_gameSettings.LastDay}, " +
+            $"InitialMoney: {_gameSettings.InitialMoney}");
     }
     #region GameProgress
     public void InitData()

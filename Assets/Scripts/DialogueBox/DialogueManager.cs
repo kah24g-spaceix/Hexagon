@@ -33,7 +33,6 @@ public class DialogueManager : MonoBehaviour
             SpaceBar.SetActive(false);
             if (isTyping)
             {
-                // 즉시 전체 텍스트 출력
                 StopCoroutine(typingCoroutine);
                 dialogueBox.text.SetText(fullText);
                 isTyping = false;
@@ -56,8 +55,7 @@ public class DialogueManager : MonoBehaviour
         dialogueBoxObject.SetActive(true);
 
         fullText = LocalizationManager.Instance.GetLocalizedText($"intro.{index}");
-        
-        // 한 글자씩 출력
+
         typingCoroutine = StartCoroutine(TypeText(fullText));
     }
 
@@ -69,7 +67,7 @@ public class DialogueManager : MonoBehaviour
         foreach (char letter in text)
         {
             dialogueBox.text.text += letter;
-            yield return new WaitForSeconds(0.05f); // 타이핑 속도 조절
+            yield return new WaitForSeconds(0.05f);
         }
         
         isTyping = false;
